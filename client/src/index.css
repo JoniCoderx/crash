@@ -1,0 +1,53 @@
+@import 'tailwindcss';
+
+/*
+ * QuantumCrash design tokens — dark "trading terminal" theme.
+ * Accent palette validated for CVD separation (worst adjacent ΔE ≈ 45)
+ * and ≥3:1 contrast against the panel surface (#0d131c).
+ */
+@theme {
+  --color-terminal-950: #070b12; /* page plane */
+  --color-terminal-900: #0d131c; /* panel / chart surface */
+  --color-terminal-800: #131c29; /* raised surface */
+  --color-terminal-700: #1c2836; /* borders */
+  --color-terminal-600: #2a3a4f; /* strong borders / hover */
+
+  --color-ink-100: #eef4fb; /* primary text */
+  --color-ink-300: #9fb0c3; /* secondary text */
+  --color-ink-500: #64748b; /* muted / axis labels */
+
+  --color-neon-green: #25d377; /* profit / live curve */
+  --color-neon-blue: #38a9f5; /* info / AI accents */
+  --color-neon-red: #f4536b; /* crash / loss */
+  --color-neon-amber: #e3a512; /* warnings */
+
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-terminal-950 text-ink-100 antialiased;
+}
+
+/* Numeric readouts align vertically (multiplier, log timestamps, tiles). */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Soft neon glow used sparingly on hero text and the live multiplier. */
+.glow-green {
+  text-shadow: 0 0 24px rgba(37, 211, 119, 0.45);
+}
+.glow-red {
+  text-shadow: 0 0 24px rgba(244, 83, 107, 0.45);
+}
+
+/* Thin scrollbars for the live log. */
+.scroll-slim {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-terminal-600) transparent;
+}
