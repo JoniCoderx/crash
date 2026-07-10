@@ -47,6 +47,12 @@ npm start            # Express serves the API, the socket feed, AND the built fr
   its target multiplier, and logs every decision. The exit target is either the manual auto
   cash-out or — with **Enable AI logic** on — the analysis service's per-round suggestion. A
   session stop-loss halts the bot automatically.
+- **The backtester** (`client/src/lib/backtest.js`, **Backtest** tab): runs a strategy (fixed exit
+  or Martingale) across up to hundreds of thousands of rounds of the *same* crash distribution,
+  using a seeded PRNG so runs reproduce. It plots the resulting balance curve with break-even and
+  expected-value reference lines, plus final/peak/drawdown/bust stats. Because the rounds are
+  independent and carry a house edge, expected balance drifts downward — the backtester exists to
+  make that visible, not to find an edge (there isn't one).
 
 ## Analysis API
 
