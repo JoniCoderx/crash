@@ -645,11 +645,11 @@ nav.tabs{mask-image:linear-gradient(to left,#000 calc(100% - 28px),transparent);
 }
 
 /* WhatsApp support */
-.wafab{position:fixed;bottom:calc(18px + env(safe-area-inset-bottom,0px));left:18px;z-index:12;display:flex;align-items:center;gap:8px;height:52px;min-width:52px;padding:0 13px;border-radius:999px;background:#1fae55;color:#fff;text-decoration:none;box-shadow:0 8px 22px rgb(0 0 0/.22);font:600 .92rem var(--display);transition:transform .15s var(--ease),box-shadow .2s}
+.wafab{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));left:16px;z-index:12;display:flex;align-items:center;gap:8px;height:48px;padding:0 16px 0 12px;border-radius:999px;background:#1fae55;color:#fff;text-decoration:none;box-shadow:0 8px 22px rgb(0 0 0/.22);font:600 .92rem var(--display);transition:transform .15s var(--ease),box-shadow .2s}
 .wafab svg{width:26px;height:26px;flex:none;color:#fff}
-.wafab .walabel{max-width:0;overflow:hidden;white-space:nowrap;transition:max-width .25s var(--ease)}
+.wafab .walabel{white-space:nowrap;font-weight:500}.wafab .walabel b{font-weight:700}
 .wafab:hover,.wafab:focus-visible{transform:translateY(-2px);box-shadow:0 12px 28px rgb(0 0 0/.26)}
-@media (hover:hover){.wafab:hover .walabel,.wafab:focus-visible .walabel{max-width:180px}}
+
 .wafab[hidden]{display:none}
 @media print{.wafab{display:none}}
 .wabtn{background:#1fae55;border-color:#1fae55;color:#fff;justify-content:center;gap:8px}.wabtn:hover{background:#1a9a4b}
@@ -672,7 +672,7 @@ main{padding-bottom:96px}
   <nav class="tabs" id="tabs" aria-label="ניווט בקורס"></nav>
 </div></header>
 <main id="main"></main>
-<a id="wa" class="wafab" href="https://wa.me/35795904439" target="_blank" rel="noopener" aria-label="תמיכה בוואטסאפ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2a9.8 9.8 0 0 0-8.4 14.8L2.3 21.7l4.8-1.3A9.8 9.8 0 1 0 12 2.2z" fill="currentColor"/><path d="M9 7.6c.2-.4.4-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.6l-.6.7c-.1.1-.2.3 0 .5.5.9 1.2 1.7 2.1 2.3.7.4 1 .5 1.2.3l.8-.9c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.3.4.4 0 .4-.1 1.1-.6 1.6-.5.5-1.4.9-2.4.7-1.5-.3-3.3-1.3-4.6-2.6-1.3-1.3-2.2-2.9-2.4-4.2-.1-.9.5-1.7 1-2.2z" fill="#25d366"/></svg><span class="walabel">שאלה? דברו איתנו</span></a>
+<a id="wa" class="wafab" href="https://wa.me/35795904439" target="_blank" rel="noopener" aria-label="שמעון מהתמיכה, בוואטסאפ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2a9.8 9.8 0 0 0-8.4 14.8L2.3 21.7l4.8-1.3A9.8 9.8 0 1 0 12 2.2z" fill="currentColor"/><path d="M9 7.6c.2-.4.4-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.6l-.6.7c-.1.1-.2.3 0 .5.5.9 1.2 1.7 2.1 2.3.7.4 1 .5 1.2.3l.8-.9c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.3.4.4 0 .4-.1 1.1-.6 1.6-.5.5-1.4.9-2.4.7-1.5-.3-3.3-1.3-4.6-2.6-1.3-1.3-2.2-2.9-2.4-4.2-.1-.9.5-1.7 1-2.2z" fill="#25d366"/></svg><span class="walabel"><b>שמעון</b> מהתמיכה</span></a>
 <footer class="site"><div><span>© Silas Academy · אקדמיית סיילס</span><a class="flink" href="https://wa.me/35795904439?text=%D7%94%D7%99%D7%99%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%90%D7%AA%D7%A8%20Silas%20Academy" target="_blank" rel="noopener">תמיכה בוואטסאפ</a><span id="fcourse" hidden>קורס סטטיסטיקה ומימון הוא חומר עזר ללימוד, ואינו קשור לרשות ניירות ערך.</span></div></footer>
 <script>
 const TOPICS = [
@@ -5297,21 +5297,13 @@ const WA_ICON = `<svg class="waic" viewBox="0 0 24 24" aria-hidden="true"><path 
 // The WhatsApp message to support carries its own context: who is writing, where they are, and a link
 // to that exact screen, so the conversation starts from the problem instead of "who are you?".
 function waMessage(kind) {
-  const u = ACC.user(), site = location.origin + location.pathname;
-  const where = {home: 'דף הקורסים', dash: 'דף הבית של הקורס', learn: 'לימוד', practice: 'תרגול', exam: 'מבחנים', formulas: 'נוסחאות', tools: 'מחשבונים', videos: 'סרטונים', mistakes: 'הטעויות שלי', account: 'החשבון שלי', login: 'מסך הכניסה'}[view] || view;
-  const lines = ['היי שמעון 👋', 'הגעתי מאתר Silas Academy ואשמח לעזרה.', ''];
-  if (u) lines.push(`👤 ${u.name} · ${u.email}`);
-  if (kind === 'blocked') lines.push('🔒 החשבון שלי חסום, ואשמח להבין איך מחדשים את הגישה.');
-  else {
-    let place = `📍 ${where}`;
-    const topic = view === 'learn' && document.querySelector('article.lesson h2');
-    if (topic) place += `: ${topic.textContent.trim()}`;
-    if (view === 'practice' && P && P.q) place += `: ${T[P.q.t] ? T[P.q.t].title : ''}${P.q.id ? ` (שאלה ${P.q.id})` : ''}`;
-    if (!ACADEMY_VIEWS.includes(view)) lines.push('📚 קורס סטטיסטיקה ומימון');
-    lines.push(place);
-  }
-  lines.push(`🔗 ${site}${location.hash}`, '', '✏️ השאלה שלי:', '');
-  return `https://wa.me/${SUPPORT.wa}?text=${encodeURIComponent(lines.join('\n'))}`;
+  const u = ACC.user();
+  const where = {dash: 'דף הבית של הקורס', learn: 'לימוד', practice: 'תרגול', exam: 'מבחנים', formulas: 'נוסחאות', tools: 'מחשבונים', videos: 'סרטונים', mistakes: 'הטעויות שלי'}[view];
+  const topic = view === 'learn' && document.querySelector('article.lesson h2');
+  const place = kind === 'blocked' ? 'החשבון שלי חסום' : topic ? topic.textContent.trim() : view === 'practice' && P && P.q && T[P.q.t] ? `תרגול, ${T[P.q.t].short}` : where;
+  const who = [u && u.name, place].filter(Boolean).join(' · ');
+  const text = `היי שמעון, הגעתי מ־Silas Academy 👋${who ? `\n${who}` : ''}\n\n`;
+  return `https://wa.me/${SUPPORT.wa}?text=${encodeURIComponent(text)}`;
 }
 // a blocked account sees only this screen, with the admin's message and how to reach the academy
 function vBlocked(m, u) {
