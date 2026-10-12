@@ -1,32 +1,38 @@
 <!doctype html>
 <html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Silas Academy · אקדמיית סיילס: קורסי הכנה למבחנים. שיעורים מאפס, סרטוני הסבר, תרגול עם פתרון מלא ומבחנים אמיתיים.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='2' y='2' width='60' height='60' rx='17' fill='%230b4350'/%3E%3Cpath d='M40.5 21.5c-1.9-3-5.1-4.6-8.9-4.6-5.4 0-9.2 3-9.2 7.3 0 4.6 3.9 6.3 9 7.6 5.6 1.4 9.9 3.2 9.9 8.6 0 4.9-4.3 8.4-10.3 8.4-4.7 0-8.6-2-10.7-5.6' fill='none' stroke='%23e7c37a' stroke-width='4.6' stroke-linecap='round'/%3E%3Ccircle cx='44.5' cy='15.5' r='2.6' fill='%23fff'/%3E%3C/svg%3E">
-<meta name="theme-color" content="#0b4350">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='2' y='2' width='60' height='60' rx='18' fill='%232337b4'/%3E%3Cpath d='M39.5 21.5 A9.6 9.6 0 1 0 31 32 A9.6 9.6 0 1 1 22.5 42.8' fill='none' stroke='%23fff' stroke-width='7.4' stroke-linecap='round'/%3E%3Ccircle cx='46' cy='16.5' r='4.9' fill='%23f5d547'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#2337b4">
 </head><body>
 <title>Silas Academy · אקדמיית סיילס</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bellefair&family=Heebo:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* Sigma. Calm study app: one reading column, five tabs, petrol + brass. Display: Bellefair. Text: Heebo. Numbers: Plex Mono. */
+/* Silas Academy. Modern study product: ink-blue structure, one highlighter-yellow signal (the marked answer), soft elevated cards on a cool paper ground. Display: Rubik. Text: IBM Plex Sans Hebrew. Numbers: Plex Mono. */
 :root{
-  --bg:#f3f5f4; --surface:#ffffff; --sunk:#e9eeec; --ink:#0f2a33; --muted:#5a6d73; --line:#d7e0dd;
-  --accent:#0c5463; --accent-ink:#ffffff; --accent-soft:#e1eef1; --gold:#9c6b1c; --gold-soft:#f6ecd8;
-  --good:#1b7a3d; --good-soft:#e0f1e6; --bad:#b3261e; --bad-soft:#fae3e0;
-  --display:"Bellefair", "Frank Ruhl Libre", "David", Georgia, serif;
-  --body:"Heebo", "Segoe UI", "Arial Hebrew", Arial, sans-serif;
+  --bg:#f3f5fa; --surface:#ffffff; --sunk:#eceff7; --ink:#0f1430; --muted:#5d6482; --line:#e1e5f0;
+  --accent:#2337b4; --accent-ink:#ffffff; --accent-soft:#e8ebfc; --gold:#8a6a00; --gold-soft:#fdf3c8;
+  --hl:#f5d547; --hl-ink:#1a1a05; --deep:#0c1234; --deep-2:#1a2580;
+  --good:#16794a; --good-soft:#e1f3e9; --bad:#c0352b; --bad-soft:#fde6e3;
+  --shadow:0 1px 2px rgb(15 20 48/.06),0 8px 24px rgb(15 20 48/.06);
+  --display:"Rubik", "Heebo", "Segoe UI", Arial, sans-serif;
+  --body:"IBM Plex Sans Hebrew", "Rubik", "Segoe UI", "Arial Hebrew", Arial, sans-serif;
   --mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
-  --r:14px;
+  --r:18px;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0b1619; --surface:#112025; --sunk:#0a1417; --ink:#e3ecee; --muted:#95a8ad; --line:#21363c;
-  --accent:#62bccb; --accent-ink:#04222a; --accent-soft:#12323b; --gold:#d9ab5a; --gold-soft:#372a13;
-  --good:#5cc483; --good-soft:#123222; --bad:#f07b70; --bad-soft:#3a1714; color-scheme:dark}}
+  --bg:#0a0e22; --surface:#121834; --sunk:#0d1229; --ink:#eceffa; --muted:#a0a7c6; --line:#232b52;
+  --accent:#8e9cff; --accent-ink:#0a0e22; --accent-soft:#1c2452; --gold:#f5d547; --gold-soft:#2c2812;
+  --hl:#f5d547; --hl-ink:#1a1a05; --deep:#070a1c; --deep-2:#18206a;
+  --good:#5bd08f; --good-soft:#10301f; --bad:#ff8a7e; --bad-soft:#3a1714;
+  --shadow:0 1px 2px rgb(0 0 0/.3),0 10px 30px rgb(0 0 0/.25); color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0b1619; --surface:#112025; --sunk:#0a1417; --ink:#e3ecee; --muted:#95a8ad; --line:#21363c;
-  --accent:#62bccb; --accent-ink:#04222a; --accent-soft:#12323b; --gold:#d9ab5a; --gold-soft:#372a13;
-  --good:#5cc483; --good-soft:#123222; --bad:#f07b70; --bad-soft:#3a1714; color-scheme:dark}
+  --bg:#0a0e22; --surface:#121834; --sunk:#0d1229; --ink:#eceffa; --muted:#a0a7c6; --line:#232b52;
+  --accent:#8e9cff; --accent-ink:#0a0e22; --accent-soft:#1c2452; --gold:#f5d547; --gold-soft:#2c2812;
+  --hl:#f5d547; --hl-ink:#1a1a05; --deep:#070a1c; --deep-2:#18206a;
+  --good:#5bd08f; --good-soft:#10301f; --bad:#ff8a7e; --bad-soft:#3a1714;
+  --shadow:0 1px 2px rgb(0 0 0/.3),0 10px 30px rgb(0 0 0/.25); color-scheme:dark}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.75;direction:rtl;text-align:right;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
@@ -352,19 +358,95 @@ footer.site div{max-width:960px;margin:0 auto;padding:18px 16px;display:flex;gap
 .auth-err{color:var(--bad);margin:0;min-height:1.2em;font-size:.9rem}
 .auth-switch{text-align:center;margin:4px 0 0}.auth-local{font-size:.8rem;text-align:center}
 .btn.danger{color:var(--bad)}
+
+/* ===== modern layer ===== */
+body{font-family:var(--body);background:var(--bg)}
+h1,h2{font-family:var(--display);font-weight:800;letter-spacing:-.015em;line-height:1.15}
+h3,h4{font-family:var(--display);font-weight:700;letter-spacing:-.005em}
+mark.hl{background:linear-gradient(transparent 55%,var(--hl) 55%,var(--hl) 92%,transparent 92%);color:inherit;padding:0 .08em}
+.top{background:color-mix(in srgb,var(--surface) 82%,transparent);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line)}
+.top-in{padding:10px 16px 0;gap:4px}
+.brand .logo{width:38px;height:38px;filter:drop-shadow(0 4px 10px rgb(35 55 180/.25))}
+.brand h1{font-family:var(--display);font-size:1.4rem;font-weight:400;letter-spacing:-.03em;direction:ltr;white-space:nowrap;color:var(--muted)}
+.brand h1 b{font-weight:800;color:var(--ink)}
+.brand .sub{font-size:.72rem;letter-spacing:.02em;margin-top:1px}
+.brand .cd{background:var(--hl);color:var(--hl-ink);font-weight:700;border-radius:10px}
+nav.tabs{gap:6px;padding:6px 0 10px}
+nav.tabs button{flex:0 0 auto;border:0;border-radius:999px;padding:7px 14px;font-family:var(--display);font-weight:500;font-size:.95rem;color:var(--muted);transition:background .15s,color .15s}
+nav.tabs button:hover{background:var(--sunk);color:var(--ink)}
+nav.tabs button[aria-current="true"]{background:var(--ink);color:var(--bg);font-weight:600}
+.cbar{font-size:.8rem}
+.btn{border-radius:12px;font-family:var(--display);font-weight:600;transition:transform .12s,box-shadow .15s,background .15s}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);box-shadow:0 6px 16px -6px color-mix(in srgb,var(--accent) 70%,transparent)}
+.btn.primary:hover{transform:translateY(-1px)}
+.btn:focus-visible,nav.tabs button:focus-visible,a:focus-visible{outline:3px solid var(--hl);outline-offset:2px}
+.panel,.qcard,.course,.today,.stats>div{border-radius:var(--r);box-shadow:var(--shadow);border-color:transparent}
+.chip{border-radius:8px;font-family:var(--display);font-weight:600}
+/* dark ink stage used by home hero, login, course welcome */
+.stage{position:relative;overflow:hidden;color:#fff;background:radial-gradient(120% 90% at 85% 0%,#2b3fd0 0%,transparent 55%),radial-gradient(60% 50% at 0% 100%,rgb(142 156 255/.18) 0%,transparent 60%),linear-gradient(160deg,var(--deep-2),var(--deep));border-radius:28px}
+.stage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgb(255 255 255/.05) 1px,transparent 1px),linear-gradient(90deg,rgb(255 255 255/.05) 1px,transparent 1px);background-size:28px 28px;mask-image:linear-gradient(180deg,#000 10%,transparent 85%);pointer-events:none}
+.stage>*{position:relative}
+.stage .eyebrow{color:rgb(255 255 255/.7);text-transform:none;letter-spacing:.02em}
+.stage p{color:rgb(255 255 255/.82)}
+.stage mark.hl{color:#fff;background:linear-gradient(transparent 58%,rgb(245 213 71/.85) 58%,rgb(245 213 71/.85) 90%,transparent 90%)}
+/* home */
+.ahero{padding:clamp(24px,5vw,44px);margin:6px 0 22px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
+.ahero h2{font-size:clamp(2rem,5.6vw,3.1rem);color:#fff;max-width:16ch}
+.ahero .hx{display:flex;flex-direction:column;gap:12px;min-width:0}
+.sheet{width:190px;background:rgb(255 255 255/.08);border:1px solid rgb(255 255 255/.16);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:9px;backdrop-filter:blur(6px);transform:rotate(-4deg)}
+.sheet .r{display:flex;align-items:center;gap:7px;font:500 .72rem var(--mono);color:rgb(255 255 255/.6)}
+.sheet .r i{width:17px;height:17px;border-radius:50%;border:1.5px solid rgb(255 255 255/.45);display:inline-block}
+.sheet .r i.on{background:var(--hl);border-color:var(--hl);box-shadow:0 0 0 4px rgb(245 213 71/.18)}
+.sheet .r span{width:16px}
+@media (max-width:640px){.ahero{grid-template-columns:1fr}.sheet{display:none}}
+.courses{gap:18px;align-items:start}
+.course{padding:0;overflow:hidden;gap:0;background:var(--surface)}
+.course .cover{height:112px;position:relative;background:linear-gradient(135deg,var(--deep-2),var(--deep))}
+.course .cover svg{position:absolute;inset:0;width:100%;height:100%}
+.course .cbody{padding:18px 20px 20px;display:flex;flex-direction:column;gap:10px}
+.course h3{font-size:1.4rem}
+.course.soon{background:transparent;box-shadow:none;border:2px dashed var(--line);padding:20px;gap:8px;justify-content:center}
+.c-facts li{background:var(--sunk);border-radius:8px;font-weight:500}
+.ring{--p:0;width:52px;height:52px;border-radius:50%;background:conic-gradient(var(--accent) calc(var(--p)*1%),var(--sunk) 0);display:grid;place-items:center;flex:none}
+.ring b{width:40px;height:40px;border-radius:50%;background:var(--surface);display:grid;place-items:center;font:600 .78rem var(--mono)}
+/* login */
+.authwrap{display:grid;grid-template-columns:1.05fr 1fr;gap:0;max-width:960px;margin:12px auto;border-radius:28px;overflow:hidden;box-shadow:var(--shadow);background:var(--surface)}
+.authwrap .stage{border-radius:0;padding:40px;display:flex;flex-direction:column;justify-content:space-between;gap:28px;min-height:520px}
+.authwrap .stage h2{font-size:clamp(1.9rem,4vw,2.6rem);color:#fff}
+.alist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.alist li{display:flex;gap:10px;align-items:flex-start;color:rgb(255 255 255/.85)}
+.alist li::before{content:"";width:18px;height:18px;margin-top:3px;border-radius:50%;background:var(--hl);box-shadow:0 0 0 4px rgb(245 213 71/.18);flex:none}
+.auth{margin:0;border:0;border-radius:0;box-shadow:none;max-width:none;padding:40px;justify-content:center}
+.auth h2{font-size:1.8rem}
+.authf input{border-radius:12px;padding:12px 14px;background:var(--sunk);border:1.5px solid transparent;font-size:1rem}
+.authf input:focus{outline:none;border-color:var(--accent);background:var(--surface)}
+@media (max-width:760px){.authwrap{grid-template-columns:1fr;border-radius:24px}.authwrap .stage{min-height:0;padding:26px}.authwrap .stage .alist{display:none}.auth{padding:24px}}
+.auth-brand{margin-bottom:0}.auth-brand b{font-family:var(--display);font-weight:800;font-size:1.35rem;letter-spacing:-.03em}
+.alogo{width:46px;height:46px}
+/* course welcome */
+.welcome.stage{padding:clamp(22px,5vw,40px)}
+.welcome h2{color:#fff}
+.wl-feats li{background:rgb(255 255 255/.07);border:1px solid rgb(255 255 255/.14);border-radius:16px}
+.wl-feats b{color:var(--hl)}
+.wl-facts span{background:rgb(245 213 71/.16);color:#fbe9a6;border-radius:8px}
+.wl-level label:has(input:checked){border-color:var(--hl);background:rgb(245 213 71/.12)}
+.wl-level input{accent-color:var(--hl)}
+.onb input{background:#fff;color:#0f1430;border-radius:12px}
+.onb .btn{background:var(--hl);border-color:var(--hl);color:var(--hl-ink);padding:11px 28px}
+.uav{background:linear-gradient(135deg,#2a3cc2,#121a66)}
+.ubtn{border-radius:12px}
+@media (max-width:520px){.brand h1{font-size:1.12rem}.brand .sub{display:none}.brand .logo{width:32px;height:32px}.brandlink{gap:8px}.brand .cd{font-size:.7rem;padding:3px 8px}}
 </style>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-  <linearGradient id="bm-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0f6575"/><stop offset="1" stop-color="#061f26"/></linearGradient>
-  <linearGradient id="bm-au" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6dc9f"/><stop offset="1" stop-color="#b3801f"/></linearGradient>
-  <symbol id="brandmark" viewBox="0 0 64 64"><rect x="2" y="2" width="60" height="60" rx="17" fill="url(#bm-bg)"/>
-    <rect x="6.5" y="6.5" width="51" height="51" rx="13" fill="none" stroke="url(#bm-au)" stroke-opacity=".55" stroke-width="1"/>
-    <path d="M40.5 21.5c-1.9-3-5.1-4.6-8.9-4.6-5.4 0-9.2 3-9.2 7.3 0 4.6 3.9 6.3 9 7.6 5.6 1.4 9.9 3.2 9.9 8.6 0 4.9-4.3 8.4-10.3 8.4-4.7 0-8.6-2-10.7-5.6" fill="none" stroke="url(#bm-au)" stroke-width="4.2" stroke-linecap="round"/>
-    <circle cx="44.5" cy="15.5" r="2.4" fill="#fff"/></symbol>
+  <linearGradient id="bm-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a3cc2"/><stop offset="1" stop-color="#121a66"/></linearGradient>
+  <symbol id="brandmark" viewBox="0 0 64 64"><rect x="2" y="2" width="60" height="60" rx="18" fill="url(#bm-bg)"/>
+    <path d="M39.5 21.5 A9.6 9.6 0 1 0 31 32 A9.6 9.6 0 1 1 22.5 42.8" fill="none" stroke="#fff" stroke-width="7.4" stroke-linecap="round"/>
+    <circle cx="46" cy="16.5" r="4.9" fill="#f5d547"/></symbol>
 </defs></svg>
 <header class="top"><div class="top-in">
   <div class="brand">
     <a href="#home" class="brandlink" data-go="home" aria-label="Silas Academy, לדף הקורסים"><svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><use href="#brandmark"/></svg>
-    <div class="names"><h1>Silas Academy</h1><span class="sub">אקדמיית סיילס</span></div></a>
+    <div class="names"><h1><b>silas</b> academy</h1><span class="sub">אקדמיית סיילס</span></div></a>
     <span class="cd" id="cd"></span><div id="user" class="user"></div></div>
   <div class="cbar" id="cbar"><a href="#home" data-go="home">כל הקורסים</a><span>›</span><b>סטטיסטיקה ומימון</b></div>
   <nav class="tabs" id="tabs" aria-label="ניווט בקורס"></nav>
@@ -4427,29 +4509,45 @@ const chipOf = t => `<span class="chip ${t.area === 'fin' ? 'fin' : ''}">${t.are
 
 // ---------- academy: catalog, sign-in, account ----------
 const LOGO_S = `<svg class="alogo" viewBox="0 0 64 64" aria-hidden="true"><use href="#brandmark"/></svg>`;
+// course cover art: a bell curve over an answer-sheet row, the marked bubble in highlighter yellow
+const COVER = {'stats-finance': `<svg viewBox="0 0 400 112" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <g stroke="rgb(255 255 255 / .07)">${[...Array(15)].map((_, k) => `<line x1="${k * 28}" y1="0" x2="${k * 28}" y2="112"/>`).join('')}${[...Array(5)].map((_, k) => `<line x1="0" y1="${k * 28}" x2="400" y2="${k * 28}"/>`).join('')}</g>
+  <path d="M40 92 C120 92 150 22 200 22 C250 22 280 92 360 92" fill="none" stroke="#8e9cff" stroke-width="3" stroke-linecap="round"/>
+  <path d="M232 40 C256 70 290 92 360 92 L232 92 Z" fill="#f5d547" fill-opacity=".4"/>
+  <line x1="200" y1="22" x2="200" y2="92" stroke="rgb(255 255 255 / .35)" stroke-dasharray="3 4"/>
+  <g transform="translate(262 20)">${[0, 1, 2, 3, 4].map(k => `<circle cx="${k * 16}" cy="0" r="5.5" fill="${k === 2 ? '#f5d547' : 'none'}" stroke="${k === 2 ? '#f5d547' : 'rgb(255 255 255 / .45)'}" stroke-width="1.5"/>`).join('')}</g></svg>`};
 function vHome(m) {
   const u = ACC.user(), r = S.started ? readiness() : null;
-  const facts = {'stats-finance': [`${TOPICS.length} שיעורים`, `${VIDEOS.length} סרטונים`, `${QB.length + EXAM_2025.length} שאלות, ועוד שאלות חדשות בכל תרגול`, 'המבחן האמיתי 09/2025']};
-  m.innerHTML = `<section class="ahero">
-    <div class="eyebrow">${BRAND.en} · ${BRAND.he}</div>
-    <h2>שלום ${esc(u.name)}, מה לומדים היום?</h2>
-    <p>קורסים שבנויים כדי שתבינו באמת: הסבר מאפס, למה כל נוסחה עובדת, ותרגול עם פתרון מלא לכל טעות.</p></section>
+  const facts = {'stats-finance': [`${TOPICS.length} שיעורים`, `${VIDEOS.length} סרטונים`, `${QB.length + EXAM_2025.length} שאלות`, 'המבחן האמיתי 09/2025']};
+  const sheet = ['א', 'ב', 'ג', 'ד', 'ה'].map((_, q) => `<div class="r"><span>${q + 1}</span>${[0, 1, 2, 3, 4].map(k => `<i class="${k === [2, 0, 3, 1, 4][q] ? 'on' : ''}"></i>`).join('')}</div>`).join('');
+  m.innerHTML = `<section class="ahero stage">
+    <div class="hx"><div class="eyebrow">${BRAND.he} · ${BRAND.en}</div>
+    <h2>שלום ${esc(u.name)}, בואו נגיע למבחן <mark class="hl">מוכנים</mark>.</h2>
+    <p>מבינים כל נוסחה מאפס, ומתרגלים עם הסבר מלא לכל טעות.</p></div>
+    <div class="sheet" aria-hidden="true">${sheet}</div></section>
   <section class="courses">${COURSES.map(c => c.open ? `
     <article class="course">
-      <div class="c-top"><span class="chip">${c.tag}</span>${c.id === COURSE && S.started ? `<span class="note">${r !== null ? `מוכנות למבחן: ${Math.round(r * 100)}%` : ''}</span>` : ''}</div>
-      <h3>${c.title}</h3><p>${c.blurb}</p>
-      <ul class="c-facts">${(facts[c.id] || c.facts).map(f => `<li>${f}</li>`).join('')}</ul>
-      ${c.id === COURSE && S.started && r !== null ? `<div class="bar big"><i style="width:${Math.max(3, Math.round(r * 100))}%"></i></div>` : ''}
-      <button class="btn primary" data-go="dash">${S.started ? 'להמשיך בקורס' : 'להתחיל את הקורס'}</button>
+      <div class="cover">${COVER[c.id] || ''}</div>
+      <div class="cbody">
+        <div class="c-top"><span class="chip">${c.tag}</span>${c.id === COURSE && S.started && r !== null ? `<div class="ring" style="--p:${Math.round(r * 100)}" title="מוכנות למבחן"><b>${Math.round(r * 100)}%</b></div>` : ''}</div>
+        <h3>${c.title}</h3><p>${c.blurb}</p>
+        <ul class="c-facts">${(facts[c.id] || c.facts).map(f => `<li>${f}</li>`).join('')}</ul>
+        <button class="btn primary" data-go="dash">${S.started ? 'להמשיך בקורס' : 'להתחיל את הקורס'}</button>
+      </div>
     </article>` : `
-    <article class="course soon"><div class="c-top"><span class="chip fin">${c.tag}</span></div><h3>${c.title}</h3><p>${c.blurb}</p></article>`).join('')}
+    <article class="course soon"><span class="chip fin" style="align-self:flex-start">${c.tag}</span><h3>${c.title}</h3><p>${c.blurb}</p></article>`).join('')}
   </section>`;
 }
 function vLogin(m) {
   const signup = !ACC.count() || vLogin.mode === 'signup';
-  m.innerHTML = `<section class="auth">
-    <div class="auth-brand">${LOGO_S}<div><b>${BRAND.en}</b><span>${BRAND.he}</span></div></div>
-    <h2>${signup ? 'פותחים חשבון' : 'כניסה לחשבון'}</h2>
+  m.innerHTML = `<div class="authwrap">
+  <section class="stage">
+    <div class="auth-brand">${LOGO_S}<div><b dir="ltr">silas academy</b><span style="color:rgb(255 255 255 / .7)">${BRAND.he}</span></div></div>
+    <h2>לומדים להבין, <mark class="hl">לא לשנן</mark>.</h2>
+    <ul class="alist"><li>שיעורים שמתחילים מאפס, עם דוגמה פתורה לכל נוסחה</li><li>על כל תשובה שגויה: מאיפה היא הגיעה, ואיך פותרים נכון</li><li>מבחנים אמיתיים ומבחני תאום עם מספרים חדשים</li></ul>
+  </section>
+  <section class="auth">
+    <h2>${signup ? 'פותחים חשבון' : 'ברוכים השבים'}</h2>
     <p class="note">${signup ? 'חשבון אחד לכל הקורסים. ההתקדמות, הטעויות והציונים נשמרים בו.' : 'נכנסים עם האימייל והסיסמה שבחרתם בהרשמה.'}</p>
     <form id="authf" class="authf" novalidate>
       ${signup ? '<label class="field">שם<input id="au_name" autocomplete="name" maxlength="30" required></label>' : ''}
@@ -4460,7 +4558,7 @@ function vLogin(m) {
     </form>
     <p class="auth-switch">${signup ? (ACC.count() ? 'כבר יש לכם חשבון? <a href="#" id="au_sw">כניסה</a>' : '') : 'אין לכם חשבון? <a href="#" id="au_sw">הרשמה</a>'}</p>
     <p class="note auth-local">כרגע החשבון נשמר בדפדפן ובמכשיר האלה. במסך החשבון אפשר לגבות את ההתקדמות לקובץ ולשחזר אותה במכשיר אחר.</p>
-  </section>`;
+  </section></div>`;
   const sw = $('#au_sw'); if (sw) sw.onclick = e => { e.preventDefault(); vLogin.mode = signup ? 'login' : 'signup'; vLogin(m); };
   $('#authf').onsubmit = async e => {
     e.preventDefault(); const err = $('#au_err'); err.textContent = '';
@@ -4500,8 +4598,8 @@ function mrow(t) {
 }
 function vDash(m) {
   if (!S.started) {
-    m.innerHTML = `<section class="welcome">
-      <div class="wl-top"><svg class="wl-logo" viewBox="0 0 64 64" aria-hidden="true"><path d="M10 46 C19 46 22 18 32 18 C42 18 45 46 54 46" fill="none" stroke="#f0cd87" stroke-width="3.2" stroke-linecap="round"/><path d="M10 46 H54" stroke="#fff" stroke-opacity=".5" stroke-width="1.3"/><circle cx="32" cy="18" r="3.3" fill="#fff"/></svg>
+    m.innerHTML = `<section class="welcome stage">
+      <div class="wl-top">${LOGO_S}
       <div class="eyebrow">${BRAND.en} · קורס סטטיסטיקה ומימון</div></div>
       <h2>${esc(S.name)}, מתכוננים למבחן צעד אחר צעד</h2>
       <p>כאן לומדים מאפס, מבינים למה כל נוסחה עובדת, ומתרגלים בדיוק כמו במבחן של רשות ניירות ערך.</p>
@@ -4526,7 +4624,7 @@ function vDash(m) {
       e.preventDefault(); S.started = true;
       if ($('#onbDate').value) S.examDate = $('#onbDate').value;
       S.level = (m.querySelector('input[name=lvl]:checked') || {}).value || 'zero'; save();
-      if (S.level === 'exam') go('exam'); else if (S.level === 'zero') go('learn', {topic: 'f0'}); else { nav(); render(); }
+      if (S.level === 'exam') go('exam'); else if (S.level === 'zero') go('learn', {topic: 'f0'}); else go('dash');
     };
     return;
   }
@@ -4624,8 +4722,10 @@ function qBlock(q, chosen, reveal, num) {
     let c = ''; if (reveal) { if (isRight(q, i)) c = 'right'; else if (i === chosen) c = 'wrong'; } else if (i === chosen) c = 'sel';
     return `<button class="opt ${c}" data-opt="${i}" ${reveal ? 'disabled' : ''}><span class="k">${HEB[i]}</span><span>${o}</span></button>`;
   }).join('')}</div>
-  ${reveal ? `<div class="expl">${verdict(q, chosen, right)}${q.e}</div>` : ''}`;
+  ${reveal ? `<div class="expl">${brk(verdict(q, chosen, right) + q.e)}</div>` : ''}`;
 }
+// long products may wrap after a multiplication dot (a zero-width space marks the break opportunity)
+const brk = h => String(h).replace(/·(?=[\d(])/g, '·\u200b');
 // the opening of the explanation: right / wrong, and if wrong, what mistake leads to the option that was chosen
 function verdict(q, chosen, right) {
   if (chosen == null) return `<p class="vd"><b class="no">לא נבחרה תשובה.</b> התשובה הנכונה היא ${right}. הנה הפתרון המלא:</p>`;
