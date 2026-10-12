@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="מערכת לימוד למבחן סטטיסטיקה ומימון של רשות ניירות ערך: שיעורים מאפס, סרטוני הסבר, תרגול עם פתרון מלא והמבחן האמיתי 09/2025.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='2' y='2' width='60' height='60' rx='18' fill='%230b4350'/%3E%3Cpath d='M10 46 C19 46 22 18 32 18 C42 18 45 46 54 46' fill='none' stroke='%23e7c37a' stroke-width='3.6' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='18' r='3.6' fill='%23fff'/%3E%3C/svg%3E">
+<meta name="description" content="Silas Academy · אקדמיית סיילס: קורסי הכנה למבחנים. שיעורים מאפס, סרטוני הסבר, תרגול עם פתרון מלא ומבחנים אמיתיים.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='2' y='2' width='60' height='60' rx='17' fill='%230b4350'/%3E%3Cpath d='M40.5 21.5c-1.9-3-5.1-4.6-8.9-4.6-5.4 0-9.2 3-9.2 7.3 0 4.6 3.9 6.3 9 7.6 5.6 1.4 9.9 3.2 9.9 8.6 0 4.9-4.3 8.4-10.3 8.4-4.7 0-8.6-2-10.7-5.6' fill='none' stroke='%23e7c37a' stroke-width='4.6' stroke-linecap='round'/%3E%3Ccircle cx='44.5' cy='15.5' r='2.6' fill='%23fff'/%3E%3C/svg%3E">
 <meta name="theme-color" content="#0b4350">
 </head><body>
-<title>המרכז להצלחה על שם אריאל סיילס</title>
+<title>Silas Academy · אקדמיית סיילס</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bellefair&family=Heebo:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -327,16 +327,50 @@ details.more .fgrid{margin-top:4px}
 footer.site{border-top:1px solid var(--line)}
 footer.site div{max-width:960px;margin:0 auto;padding:18px 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:.84rem}
 @media (max-width:480px){body{font-size:16.5px}.brand h1{font-size:1.5rem}.brand .sub{font-size:.74rem}nav.tabs button{padding-inline:6px;font-size:.95rem}}
+
+/* academy */
+.brandlink{display:flex;align-items:center;gap:12px;color:inherit;text-decoration:none;min-width:0}
+.brand h1{font-family:var(--display);letter-spacing:.01em;direction:ltr;white-space:nowrap}
+@media (max-width:520px){.brand h1{font-size:1.35rem}.brand .logo{width:36px;height:36px}.brand .cd{font-size:.72rem;padding:3px 9px}}
+.user{margin-inline-start:8px}.brand .cd+.user{margin-inline-start:8px}.brand .cd[hidden]+.user{margin-inline-start:auto}
+.ubtn{display:flex;align-items:center;gap:8px;background:none;border:1px solid var(--line);border-radius:999px;padding:3px 10px 3px 4px;cursor:pointer;color:var(--ink);font:inherit;font-size:.88rem}
+.uav{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#fff;font-weight:700}
+@media (max-width:520px){.uname{display:none}.ubtn{padding:3px}}
+.cbar{display:flex;gap:8px;align-items:center;font-size:.85rem;color:var(--muted);padding-top:2px}.cbar a{color:var(--accent);text-decoration:none}.cbar[hidden],nav.tabs[hidden]{display:none}
+.ahero{display:flex;flex-direction:column;gap:8px;margin:8px 0 18px}.ahero h2{font-size:clamp(1.9rem,5.5vw,2.6rem)}.ahero p{color:var(--muted);max-width:56ch}
+.courses{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.course{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:10px;box-shadow:0 1px 0 rgb(0 0 0/.02)}
+.course h3{font-size:1.35rem}.course p{color:var(--muted);margin:0}.course .btn{align-self:flex-start;margin-top:4px}
+.course.soon{background:transparent;border-style:dashed}
+.c-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.c-facts{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:6px}.c-facts li{font-size:.8rem;background:var(--sunk);border-radius:999px;padding:3px 10px}
+.bar.big{height:8px;background:var(--sunk);border-radius:4px;overflow:hidden}.bar.big i{display:block;height:100%;background:var(--accent);border-radius:4px}
+.auth{max-width:420px;margin:24px auto;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:clamp(20px,5vw,32px);display:flex;flex-direction:column;gap:10px}
+.auth-brand{display:flex;align-items:center;gap:12px;margin-bottom:6px}.alogo{width:52px;height:52px}.auth-brand div{display:flex;flex-direction:column}.auth-brand b{font-family:var(--display);font-size:1.5rem;font-weight:400;direction:ltr;text-align:right}.auth-brand span{color:var(--muted);font-size:.85rem}
+.authf{display:flex;flex-direction:column;gap:12px;margin-top:6px}.authf .btn{width:100%;justify-content:center;padding:12px}
+.authf input[dir="ltr"]{text-align:left}
+.auth-err{color:var(--bad);margin:0;min-height:1.2em;font-size:.9rem}
+.auth-switch{text-align:center;margin:4px 0 0}.auth-local{font-size:.8rem;text-align:center}
+.btn.danger{color:var(--bad)}
 </style>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="bm-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0f6575"/><stop offset="1" stop-color="#061f26"/></linearGradient>
+  <linearGradient id="bm-au" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6dc9f"/><stop offset="1" stop-color="#b3801f"/></linearGradient>
+  <symbol id="brandmark" viewBox="0 0 64 64"><rect x="2" y="2" width="60" height="60" rx="17" fill="url(#bm-bg)"/>
+    <rect x="6.5" y="6.5" width="51" height="51" rx="13" fill="none" stroke="url(#bm-au)" stroke-opacity=".55" stroke-width="1"/>
+    <path d="M40.5 21.5c-1.9-3-5.1-4.6-8.9-4.6-5.4 0-9.2 3-9.2 7.3 0 4.6 3.9 6.3 9 7.6 5.6 1.4 9.9 3.2 9.9 8.6 0 4.9-4.3 8.4-10.3 8.4-4.7 0-8.6-2-10.7-5.6" fill="none" stroke="url(#bm-au)" stroke-width="4.2" stroke-linecap="round"/>
+    <circle cx="44.5" cy="15.5" r="2.4" fill="#fff"/></symbol>
+</defs></svg>
 <header class="top"><div class="top-in">
   <div class="brand">
-    <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0f6575"/><stop offset="1" stop-color="#061f26"/></linearGradient><linearGradient id="lau" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4d593"/><stop offset="1" stop-color="#b3801f"/></linearGradient></defs><rect x="2" y="2" width="60" height="60" rx="18" fill="url(#lg)"/><path d="M41 32 C44 40 47 46 54 46 H41 Z" fill="url(#lau)" opacity=".28"/><path d="M10 46 C19 46 22 18 32 18 C42 18 45 46 54 46" fill="none" stroke="url(#lau)" stroke-width="3.2" stroke-linecap="round"/><path d="M32 22 V46" stroke="#fff" stroke-opacity=".35" stroke-width="1.2" stroke-dasharray="2 2.5"/><path d="M10 46 H54" stroke="#fff" stroke-opacity=".45" stroke-width="1.3"/><circle cx="32" cy="18" r="5.6" fill="#f4d593" opacity=".25"/><circle cx="32" cy="18" r="3.3" fill="#fff"/></svg>
-    <div class="names"><h1>המרכז להצלחה</h1><span class="sub">על שם אריאל סיילס</span></div>
-    <span class="cd" id="cd"></span></div>
-  <nav class="tabs" id="tabs" aria-label="ניווט ראשי"></nav>
+    <a href="#home" class="brandlink" data-go="home" aria-label="Silas Academy, לדף הקורסים"><svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><use href="#brandmark"/></svg>
+    <div class="names"><h1>Silas Academy</h1><span class="sub">אקדמיית סיילס</span></div></a>
+    <span class="cd" id="cd"></span><div id="user" class="user"></div></div>
+  <div class="cbar" id="cbar"><a href="#home" data-go="home">כל הקורסים</a><span>›</span><b>סטטיסטיקה ומימון</b></div>
+  <nav class="tabs" id="tabs" aria-label="ניווט בקורס"></nav>
 </div></header>
 <main id="main"></main>
-<footer class="site"><div><span>המרכז להצלחה על שם אריאל סיילס · חומר עזר ללימוד.</span><span>הבחינה מתקיימת מטעם רשות ניירות ערך. האתר אינו קשור לרשות.</span></div></footer>
+<footer class="site"><div><span>Silas Academy · אקדמיית סיילס</span><span>חומר עזר ללימוד. הבחינה מתקיימת מטעם רשות ניירות ערך, והאתר אינו קשור לרשות.</span></div></footer>
 <script>
 const TOPICS = [
 {id:'s1', area:'stat', title:'סטטיסטיקה תיאורית', short:'תיאורית',
@@ -761,6 +795,56 @@ lesson:`
 <li>לבלבל בין CML, שמבוסס על σ, לבין SML, שמבוסס על β.</li>
 </ul></div>`}
 ];
+// ---------- Silas Academy: brand, course catalog, accounts ----------
+const BRAND = {en: 'Silas Academy', he: 'אקדמיית סיילס'};
+// Every course is one entry. A course with `open: true` has its own views (the stats & finance course is the app below).
+const COURSES = [
+  {id: 'stats-finance', open: true, title: 'סטטיסטיקה ומימון', tag: 'רשות ניירות ערך',
+   blurb: 'הכנה מלאה למבחן: שיעורים מאפס, סרטוני הסבר, תרגול עם פתרון מלא, והמבחן האמיתי 09/2025.',
+   facts: ['16 שיעורים', '8 סרטונים', '222 שאלות', 'מבחן אמיתי + תאום']},
+  {id: 'next', open: false, title: 'קורסים נוספים', tag: 'בקרוב', blurb: 'קורסים חדשים יעלו כאן בקרוב.', facts: []}
+];
+
+// Accounts live on this device (localStorage). The interface is written so a cloud backend can replace it later
+// without touching the views: ACC.signup / ACC.login / ACC.logout / ACC.user / ACC.key.
+const ACC = (() => {
+  const K = 'silas-accounts-v1', LEGACY = 'fs-prep-v1';
+  let db = {users: {}, current: null};
+  try { const s = JSON.parse(localStorage.getItem(K)); if (s && s.users) db = s; } catch (e) {}
+  const store = () => { try { localStorage.setItem(K, JSON.stringify(db)); } catch (e) {} };
+  const norm = e => String(e || '').trim().toLowerCase();
+  async function hash(pw, salt) {
+    const txt = salt + ':' + pw;
+    try { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(txt)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join(''); }
+    catch (e) { let h = 5381; for (const c of txt) h = (h * 33 ^ c.charCodeAt(0)) >>> 0; return 'x' + h.toString(16); }
+  }
+  const idOf = email => 'u' + [...norm(email)].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7).toString(36);
+  return {
+    user: () => db.current && db.users[db.current] ? {id: db.current, ...db.users[db.current]} : null,
+    key: course => `silas:${db.current}:${course}`,
+    count: () => Object.keys(db.users).length,
+    async signup(name, email, pw) {
+      name = String(name || '').trim(); email = norm(email);
+      if (!name) throw new Error('צריך למלא שם.');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error('כתובת האימייל לא תקינה.');
+      if (String(pw || '').length < 6) throw new Error('הסיסמה צריכה להיות באורך 6 תווים לפחות.');
+      const id = idOf(email); if (db.users[id]) throw new Error('כבר יש חשבון עם האימייל הזה. אפשר להתחבר.');
+      const salt = Math.random().toString(36).slice(2, 10);
+      db.users[id] = {name, email, salt, pw: await hash(pw, salt), created: Date.now()};
+      // the first account on a device inherits progress saved before accounts existed
+      try { const old = localStorage.getItem(LEGACY); if (old && Object.keys(db.users).length === 1) { const s = JSON.parse(old); s.started = !!s.name; localStorage.setItem(`silas:${id}:stats-finance`, JSON.stringify(s)); } } catch (e) {}
+      db.current = id; store(); return this.user();
+    },
+    async login(email, pw) {
+      const id = idOf(email), u = db.users[id];
+      if (!u || u.pw !== await hash(String(pw || ''), u.salt)) throw new Error('האימייל או הסיסמה לא נכונים.');
+      db.current = id; store(); return this.user();
+    },
+    logout() { db.current = null; store(); },
+    rename(name) { const u = db.users[db.current]; if (u && name.trim()) { u.name = name.trim(); store(); } },
+    remove() { const id = db.current; if (!id) return; Object.keys(localStorage).filter(k => k.startsWith(`silas:${id}:`)).forEach(k => localStorage.removeItem(k)); delete db.users[id]; db.current = null; store(); }
+  };
+})();
 // o[0] is always the correct answer; options are shuffled on display.
 const QB_RAW = {
 s1:[
@@ -4173,14 +4257,20 @@ VIDEOS.forEach(v => v.scenes.forEach((sc, i) => { const t = TALK[v.id] && TALK[v
 VIDEO_OF.f8 = VIDEO_OF.f8 || VIDEOS.find(v => v.id === 'v4');
 document.documentElement.setAttribute('dir', 'rtl'); document.documentElement.setAttribute('lang', 'he');
 // ---------- state ----------
-const KEY = 'fs-prep-v1';
+const COURSE = 'stats-finance';
 const iso = d => d.toISOString().slice(0, 10);
 const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
 const todayISO = () => iso(new Date());
-let S = {name: '', examDate: iso(addDays(new Date(), 14)), hist: {}, seen: {}, mistakes: [], lessons: {}, plan: {}, exams: [], days: [], answered: 0, book: {}};
-try { const s = JSON.parse(localStorage.getItem(KEY)); if (s) S = Object.assign(S, s); } catch (e) {}
-S.book = S.book || {};
-function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+// S = the signed-in learner's progress in this course (one record per account per course)
+const blankS = () => ({name: '', started: false, examDate: iso(addDays(new Date(), 14)), hist: {}, seen: {}, mistakes: [], lessons: {}, plan: {}, exams: [], days: [], answered: 0, book: {}});
+let S = blankS();
+function loadCourse() {
+  S = blankS(); const u = ACC.user(); if (!u) return;
+  try { const s = JSON.parse(localStorage.getItem(ACC.key(COURSE))); if (s) S = Object.assign(S, s); } catch (e) {}
+  S.book = S.book || {}; S.name = u.name;
+}
+function save() { if (!ACC.user()) return; try { localStorage.setItem(ACC.key(COURSE), JSON.stringify(S)); } catch (e) {} }
+loadCourse();
 
 const T = Object.fromEntries(TOPICS.map(t => [t.id, t]));
 const $ = s => document.querySelector(s);
@@ -4308,27 +4398,100 @@ const fmtDate = d => d.toLocaleDateString('he-IL', {weekday: 'short', day: 'nume
 // Five tabs. Secondary pages live under a tab: videos → learn, mistakes → practice, tools → formulas.
 const VIEWS = [['dash', 'בית'], ['learn', 'לימוד'], ['practice', 'תרגול'], ['exam', 'מבחנים'], ['formulas', 'נוסחאות']];
 const PARENT = {videos: 'learn', mistakes: 'practice', tools: 'formulas', plan: 'dash'};
-const ROUTES = ['dash', 'learn', 'practice', 'exam', 'formulas', 'videos', 'mistakes', 'tools'];
-let view = 'dash', P = null, X = null, timerId = null;
+const ROUTES = ['home', 'login', 'account', 'dash', 'learn', 'practice', 'exam', 'formulas', 'videos', 'mistakes', 'tools'];
+const ACADEMY_VIEWS = ['home', 'login', 'account'];
+let view = 'home', P = null, X = null, timerId = null;
 try { const h = location.hash.slice(1); if (ROUTES.includes(h)) view = h; } catch (e) {}
+if (!ACC.user()) view = 'login';
 
 function nav() {
-  const active = PARENT[view] || view;
+  const active = PARENT[view] || view, inCourse = !ACADEMY_VIEWS.includes(view), u = ACC.user();
+  $('#tabs').hidden = !inCourse; $('#cbar').hidden = !inCourse;
   $('#tabs').innerHTML = VIEWS.map(([k, l]) => `<button data-go="${k}" aria-current="${active === k}">${l}</button>`).join('');
+  $('#user').innerHTML = u ? `<button class="ubtn" data-go="account" aria-label="החשבון שלי"><span class="uav">${esc(u.name[0] || '?')}</span><span class="uname">${esc(u.name)}</span></button>` : '';
   const dl = daysLeft();
   $('#cd').textContent = dl > 1 ? `${dl} ימים למבחן` : dl === 1 ? 'המבחן מחר' : dl === 0 ? 'המבחן היום. בהצלחה!' : 'מועד המבחן עבר';
-  $('#cd').hidden = !S.name;
+  $('#cd').hidden = !inCourse || !S.started;
 }
 function go(v, opts) {
   if (v !== 'videos' && typeof stopVideo === 'function') stopVideo();
+  if (!ACC.user() && v !== 'login') v = 'login';
   view = v; nav(); render(opts); window.scrollTo(0, 0);
   try { if (location.hash.slice(1) !== v) history.replaceState(null, '', '#' + v); } catch (e) {}
 }
 function render(opts = {}) {
   const m = $('#main');
-  ({dash: vDash, learn: vLearn, practice: vPractice, exam: vExam, mistakes: vMistakes, formulas: vFormulas, tools: vTools, videos: vVideos})[view](m, opts);
+  ({home: vHome, login: vLogin, account: vAccount, dash: vDash, learn: vLearn, practice: vPractice, exam: vExam, mistakes: vMistakes, formulas: vFormulas, tools: vTools, videos: vVideos})[view](m, opts);
 }
 const chipOf = t => `<span class="chip ${t.area === 'fin' ? 'fin' : ''}">${t.area === 'fin' ? 'מימון' : t.area === 'base' ? 'יסודות' : 'סטטיסטיקה'}</span>`;
+
+// ---------- academy: catalog, sign-in, account ----------
+const LOGO_S = `<svg class="alogo" viewBox="0 0 64 64" aria-hidden="true"><use href="#brandmark"/></svg>`;
+function vHome(m) {
+  const u = ACC.user(), r = S.started ? readiness() : null;
+  const facts = {'stats-finance': [`${TOPICS.length} שיעורים`, `${VIDEOS.length} סרטונים`, `${QB.length + EXAM_2025.length} שאלות, ועוד שאלות חדשות בכל תרגול`, 'המבחן האמיתי 09/2025']};
+  m.innerHTML = `<section class="ahero">
+    <div class="eyebrow">${BRAND.en} · ${BRAND.he}</div>
+    <h2>שלום ${esc(u.name)}, מה לומדים היום?</h2>
+    <p>קורסים שבנויים כדי שתבינו באמת: הסבר מאפס, למה כל נוסחה עובדת, ותרגול עם פתרון מלא לכל טעות.</p></section>
+  <section class="courses">${COURSES.map(c => c.open ? `
+    <article class="course">
+      <div class="c-top"><span class="chip">${c.tag}</span>${c.id === COURSE && S.started ? `<span class="note">${r !== null ? `מוכנות למבחן: ${Math.round(r * 100)}%` : ''}</span>` : ''}</div>
+      <h3>${c.title}</h3><p>${c.blurb}</p>
+      <ul class="c-facts">${(facts[c.id] || c.facts).map(f => `<li>${f}</li>`).join('')}</ul>
+      ${c.id === COURSE && S.started && r !== null ? `<div class="bar big"><i style="width:${Math.max(3, Math.round(r * 100))}%"></i></div>` : ''}
+      <button class="btn primary" data-go="dash">${S.started ? 'להמשיך בקורס' : 'להתחיל את הקורס'}</button>
+    </article>` : `
+    <article class="course soon"><div class="c-top"><span class="chip fin">${c.tag}</span></div><h3>${c.title}</h3><p>${c.blurb}</p></article>`).join('')}
+  </section>`;
+}
+function vLogin(m) {
+  const signup = !ACC.count() || vLogin.mode === 'signup';
+  m.innerHTML = `<section class="auth">
+    <div class="auth-brand">${LOGO_S}<div><b>${BRAND.en}</b><span>${BRAND.he}</span></div></div>
+    <h2>${signup ? 'פותחים חשבון' : 'כניסה לחשבון'}</h2>
+    <p class="note">${signup ? 'חשבון אחד לכל הקורסים. ההתקדמות, הטעויות והציונים נשמרים בו.' : 'נכנסים עם האימייל והסיסמה שבחרתם בהרשמה.'}</p>
+    <form id="authf" class="authf" novalidate>
+      ${signup ? '<label class="field">שם<input id="au_name" autocomplete="name" maxlength="30" required></label>' : ''}
+      <label class="field">אימייל<input id="au_email" type="email" dir="ltr" autocomplete="email" required></label>
+      <label class="field">סיסמה<input id="au_pw" type="password" dir="ltr" autocomplete="${signup ? 'new-password' : 'current-password'}" minlength="6" required></label>
+      <p class="auth-err" id="au_err" role="alert"></p>
+      <button class="btn primary">${signup ? 'יצירת חשבון' : 'כניסה'}</button>
+    </form>
+    <p class="auth-switch">${signup ? (ACC.count() ? 'כבר יש לכם חשבון? <a href="#" id="au_sw">כניסה</a>' : '') : 'אין לכם חשבון? <a href="#" id="au_sw">הרשמה</a>'}</p>
+    <p class="note auth-local">כרגע החשבון נשמר בדפדפן ובמכשיר האלה. במסך החשבון אפשר לגבות את ההתקדמות לקובץ ולשחזר אותה במכשיר אחר.</p>
+  </section>`;
+  const sw = $('#au_sw'); if (sw) sw.onclick = e => { e.preventDefault(); vLogin.mode = signup ? 'login' : 'signup'; vLogin(m); };
+  $('#authf').onsubmit = async e => {
+    e.preventDefault(); const err = $('#au_err'); err.textContent = '';
+    try {
+      if (signup) await ACC.signup($('#au_name').value, $('#au_email').value, $('#au_pw').value);
+      else await ACC.login($('#au_email').value, $('#au_pw').value);
+      loadCourse(); vLogin.mode = null; go('home');
+    } catch (x) { err.textContent = x.message; }
+  };
+}
+function vAccount(m) {
+  const u = ACC.user();
+  m.innerHTML = `<div class="crumbs"><a href="#" data-go="home">הקורסים</a><span>›</span><span>החשבון שלי</span></div>
+  <header class="page"><h2>החשבון שלי</h2><p dir="ltr" class="note" style="text-align:right">${esc(u.email)}</p></header>
+  <section class="panel"><h4>פרטים</h4><div class="fields" style="margin-top:10px"><label class="field">שם<input id="ac_name" value="${esc(u.name)}" maxlength="30"></label></div></section>
+  <section class="panel"><h4>גיבוי ההתקדמות</h4><p class="note">כדי להמשיך ממכשיר אחר: מורידים קובץ גיבוי, ובמכשיר השני נכנסים לחשבון וטוענים אותו.</p>
+    <div class="row"><button class="btn" id="ac_exp">הורדת קובץ גיבוי</button><label class="btn">טעינת קובץ גיבוי<input type="file" id="ac_imp" accept="application/json,.json" hidden></label></div><p class="note" id="ac_msg"></p></section>
+  <section class="panel"><div class="row"><button class="btn" id="ac_out">יציאה מהחשבון</button><button class="btn ghost danger" id="ac_del">מחיקת החשבון מהמכשיר</button></div></section>`;
+  $('#ac_name').onchange = e => { if (e.target.value.trim()) { ACC.rename(e.target.value); S.name = e.target.value.trim(); save(); nav(); } };
+  $('#ac_exp').onclick = () => {
+    const blob = new Blob([JSON.stringify({brand: BRAND.en, v: 1, course: COURSE, data: S})], {type: 'application/json'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `silas-academy-${todayISO()}.json`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  };
+  $('#ac_imp').onchange = e => {
+    const f = e.target.files[0]; if (!f) return; const rd = new FileReader();
+    rd.onload = () => { try { const j = JSON.parse(rd.result); if (!j || j.course !== COURSE || !j.data) throw 0; S = Object.assign(blankS(), j.data, {name: u.name}); save(); $('#ac_msg').textContent = 'ההתקדמות נטענה.'; } catch (x) { $('#ac_msg').textContent = 'הקובץ לא נראה כמו קובץ גיבוי של האקדמיה.'; } };
+    rd.readAsText(f);
+  };
+  $('#ac_out').onclick = () => { ACC.logout(); S = blankS(); go('login'); };
+  $('#ac_del').onclick = () => { if (confirm('למחוק את החשבון ואת כל ההתקדמות שלו מהמכשיר הזה? אי אפשר לבטל.')) { ACC.remove(); S = blankS(); go('login'); } };
+}
 
 // ---------- home ----------
 function mrow(t) {
@@ -4336,11 +4499,11 @@ function mrow(t) {
   return `<button class="mrow" data-lesson="${t.id}"><span class="mname" title="${t.title}">${t.short}</span><span class="bar"><i class="${cls}" style="width:${m ? Math.max(3, m.score * 100) : 0}%"></i></span><span class="mpct">${p === null ? '–' : p + '%'}</span></button>`;
 }
 function vDash(m) {
-  if (!S.name) {
+  if (!S.started) {
     m.innerHTML = `<section class="welcome">
       <div class="wl-top"><svg class="wl-logo" viewBox="0 0 64 64" aria-hidden="true"><path d="M10 46 C19 46 22 18 32 18 C42 18 45 46 54 46" fill="none" stroke="#f0cd87" stroke-width="3.2" stroke-linecap="round"/><path d="M10 46 H54" stroke="#fff" stroke-opacity=".5" stroke-width="1.3"/><circle cx="32" cy="18" r="3.3" fill="#fff"/></svg>
-      <div class="eyebrow">המרכז להצלחה על שם אריאל סיילס</div></div>
-      <h2>מתכוננים למבחן סטטיסטיקה ומימון, צעד אחר צעד</h2>
+      <div class="eyebrow">${BRAND.en} · קורס סטטיסטיקה ומימון</div></div>
+      <h2>${esc(S.name)}, מתכוננים למבחן צעד אחר צעד</h2>
       <p>כאן לומדים מאפס, מבינים למה כל נוסחה עובדת, ומתרגלים בדיוק כמו במבחן של רשות ניירות ערך.</p>
       <ul class="wl-feats">
         <li><b>שיעורים מאפס</b><span>לפי פרקי ספר הלימוד: הסבר פשוט, נוסחה, דוגמה פתורה והטעויות הנפוצות.</span></li>
@@ -4350,7 +4513,6 @@ function vDash(m) {
       </ul>
       <div class="wl-facts"><span>20 שאלות</span><span>120 דקות</span><span>5 תשובות לכל שאלה</span><span>מחשבון רגיל ודף נוסחאות</span></div>
       <form id="onb" class="onb">
-        <label class="field">איך לקרוא לך?<input id="onbName" required maxlength="30" autocomplete="given-name" placeholder="השם הפרטי"></label>
         <label class="field">מתי המבחן?<input type="date" id="onbDate" value="${S.examDate}"></label>
         <fieldset class="wl-level"><legend>מאיפה מתחילים?</legend>
           <label><input type="radio" name="lvl" value="zero" checked><span><b>מאפס</b>לא למדתי עדיין את החומר</span></label>
@@ -4359,9 +4521,9 @@ function vDash(m) {
         </fieldset>
         <button class="btn">בואו נתחיל</button>
       </form>
-      <p class="wl-note">ההתקדמות נשמרת בדפדפן הזה בלבד. לא צריך הרשמה או סיסמה.</p></section>`;
+      <p class="wl-note">שתי שאלות קצרות, ונבנה לכם תוכנית לימוד עד יום המבחן.</p></section>`;
     $('#onb').onsubmit = e => {
-      e.preventDefault(); S.name = $('#onbName').value.trim(); if (!S.name) return;
+      e.preventDefault(); S.started = true;
       if ($('#onbDate').value) S.examDate = $('#onbDate').value;
       S.level = (m.querySelector('input[name=lvl]:checked') || {}).value || 'zero'; save();
       if (S.level === 'exam') go('exam'); else if (S.level === 'zero') go('learn', {topic: 'f0'}); else { nav(); render(); }
@@ -4407,10 +4569,10 @@ function vDash(m) {
   vBook($('#bookWrap'));
   $('#dayDone').onchange = e => { S.plan[pi] = e.target.checked; save(); render(); };
   $('#examDate').onchange = e => { if (e.target.value) { S.examDate = e.target.value; save(); nav(); render(); } };
-  $('#setName').onchange = e => { if (e.target.value.trim()) { S.name = e.target.value.trim(); save(); render(); } };
+  $('#setName').onchange = e => { if (e.target.value.trim()) { ACC.rename(e.target.value); S.name = e.target.value.trim(); save(); nav(); render(); } };
   $('#resetBtn').onclick = () => {
     $('#resetWrap').innerHTML = `<div class="confirm">למחוק את כל ההתקדמות? <button class="btn danger sm" id="resetYes">למחוק</button><button class="btn sm" id="resetNo">ביטול</button></div>`;
-    $('#resetYes').onclick = () => { const keep = {name: S.name, examDate: S.examDate}; S = Object.assign({hist: {}, seen: {}, mistakes: [], lessons: {}, plan: {}, exams: [], days: [], answered: 0, book: {}}, keep); save(); nav(); render(); };
+    $('#resetYes').onclick = () => { const keep = {name: S.name, examDate: S.examDate, started: true}; S = Object.assign({hist: {}, seen: {}, mistakes: [], lessons: {}, plan: {}, exams: [], days: [], answered: 0, book: {}}, keep); save(); nav(); render(); };
     $('#resetNo').onclick = () => render();
   };
 }
