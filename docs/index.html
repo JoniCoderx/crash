@@ -656,6 +656,13 @@ nav.tabs{mask-image:linear-gradient(to left,#000 calc(100% - 28px),transparent);
 .waic{width:20px;height:20px}
 .flink{color:inherit;text-decoration:underline;text-underline-offset:3px}
 main{padding-bottom:96px}
+
+/* the brand lockup is one fixed LTR unit (icon, then "silas academy"), wherever it sits in the RTL header */
+.brandlink{direction:ltr;flex-direction:row}
+.brandlink .names{text-align:left;align-items:flex-start}
+.brand .sub{direction:rtl;text-align:left}
+.auth-brand{direction:ltr;justify-content:flex-end}
+.auth-brand div{text-align:left;align-items:flex-start}.auth-brand b{text-align:left}
 </style>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
   <linearGradient id="bm-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a3cc2"/><stop offset="1" stop-color="#121a66"/></linearGradient>
