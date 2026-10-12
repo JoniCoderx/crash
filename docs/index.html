@@ -543,8 +543,8 @@ footer.site div{justify-content:center;text-align:center;font-size:.76rem;opacit
 
 /* QA round 2 */
 bdi.mnw{white-space:nowrap}
-.nobr{white-space:nowrap}
-bdi.mlong{display:inline-block;max-width:100%;overflow-x:auto;white-space:nowrap;vertical-align:bottom;scrollbar-width:thin;padding-bottom:1px}
+.nobr{white-space:nowrap}.nobr>bdi.mlong{white-space:normal}
+bdi.mlong{display:inline-block;max-width:100%;white-space:normal;text-align:left;vertical-align:bottom;overflow-wrap:anywhere}
 .examgrid .panel{display:flex;flex-direction:column;gap:10px}.examgrid .panel .btn.primary{width:100%;justify-content:center;margin-top:auto}.examgrid .panel .btn.ghost{align-self:center}
 .vrow{mask-image:linear-gradient(to left,#000 calc(100% - 40px),transparent);-webkit-mask-image:linear-gradient(to left,#000 calc(100% - 40px),transparent);padding-inline-end:40px;margin-top:12px}
 .vplayico{inset:auto;bottom:8px;inset-inline-start:8px;margin:0;width:34px;height:34px;font-size:.8rem;box-shadow:0 4px 12px rgb(0 0 0/.2)}
@@ -619,6 +619,30 @@ nav.tabs{mask-image:linear-gradient(to left,#000 calc(100% - 28px),transparent);
 .blockbox.on{border-color:var(--bad);background:var(--bad-soft)}
 .blockbox textarea{width:100%;border-radius:10px;padding:10px 12px;background:var(--surface);border:1.5px solid var(--line);font:inherit;color:var(--ink);resize:vertical}
 .btn.danger{background:var(--bad);border-color:var(--bad);color:#fff}
+
+/* polish round 3: password eye off the text, admin on phones */
+.pw input{padding-inline-end:12px;padding-left:48px}
+.eye{inset-inline-end:auto;left:4px}
+.dpwrap input{padding-inline-end:12px;padding-left:48px}
+.dpbtn{inset-inline-end:auto;left:4px}
+.bars{display:flex;flex-direction:row-reverse;align-items:flex-end;gap:3px;height:140px;margin-top:12px;padding:0 2px;border-bottom:1px solid var(--line);background:repeating-linear-gradient(to top,transparent 0,transparent 34px,var(--line) 34px,var(--line) 35px)}
+.bcol{flex:1;height:100%;display:flex;flex-direction:row-reverse;align-items:flex-end;justify-content:center;gap:1px}
+.bcol .ba{display:block;flex:1;max-width:14px;border-radius:3px 3px 0 0;background:color-mix(in srgb,var(--accent) 60%,transparent)}
+.bcol .bs{display:block;flex:1;max-width:14px;border-radius:3px 3px 0 0;background:var(--hl)}
+.bax{display:flex;justify-content:space-between;font-size:.74rem;color:var(--muted);margin-top:4px}
+.bsum{margin:8px 0 0}
+.page.row.between{flex-wrap:nowrap;align-items:center}
+@media (max-width:640px){
+  .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}.chipbtn{flex:none}
+  .adtools{flex-direction:column;align-items:stretch}.adtools .row{justify-content:space-between}#ad_q{flex:none;width:100%}
+  .admwrap{overflow:visible;background:none}
+  table.users,table.users tbody{display:block}table.users thead{display:none}
+  table.users tr{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:10px}
+  table.users td{border:0;padding:0;white-space:normal;font-size:.86rem}
+  table.users td.c-name{grid-column:1/-1;font-size:1rem}
+  table.users td.c-mail{grid-column:1/-1;text-align:right;color:var(--muted);margin-bottom:4px}
+  table.users td[data-l]::before{content:attr(data-l) ": ";color:var(--muted);font-size:.78rem}
+}
 </style>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
   <linearGradient id="bm-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a3cc2"/><stop offset="1" stop-color="#121a66"/></linearGradient>
@@ -1072,7 +1096,7 @@ const CLOUD = {url: 'https://tsgbbmsqxxhggsmxjqpm.supabase.co', key: 'sb_publish
 // Every course is one entry. A course with `open: true` has its own views (the stats & finance course is the app below).
 const COURSES = [
   {id: 'stats-finance', open: true, title: 'סטטיסטיקה ומימון', tag: 'רשות ניירות ערך',
-   blurb: 'הכנה מלאה למבחן: שיעורים מאפס, סרטוני הסבר, תרגול עם פתרון מלא, והמבחן האמיתי 09/2025.', facts: []},
+   blurb: 'הכנה מלאה למבחן: שיעורים מאפס, סרטוני הסבר, ותרגול עם פתרון מלא לכל שאלה.', facts: []},
   {id: 'next', open: false, title: 'קורסים נוספים', tag: 'בקרוב', blurb: 'קורסים חדשים יעלו כאן בקרוב.', facts: []}
 ];
 
@@ -4948,7 +4972,8 @@ function isoEl(el) {
     if (run.length && run[0].nodeType === 3 && (txt.split('(').length > txt.split(')').length) && /^\s*\(/.test(run[0].nodeValue)) {
       const m = run[0].nodeValue.match(/^\s*\(\s*/)[0]; if (m.length < run[0].nodeValue.length) { run[0].before(document.createTextNode(m)); run[0].nodeValue = run[0].nodeValue.slice(m.length); }
     }
-    if (run.length && !plain && /\d/.test(core) && /[\d][^\s]*\s*[^\s(]|[−\-+]\d|\d\s*%|[=·×÷±≈<>]/.test(core) && core.length > 1) {
+    const latinBr = /[A-Za-z]/.test(core) && /[()[\]{}|=√<>≤≥]/.test(core) && core.length > 2;
+    if (run.length && (latinBr || !plain && /\d/.test(core) && /[\d][^\s]*\s*[^\s(]|[−\-+]\d|\d\s*%|[=·×÷±≈<>]/.test(core) && core.length > 1)) {
       // keep surrounding spaces/punctuation and unbalanced parens outside the isolate
       const first = run[0], last = run[run.length - 1];
       if (first.nodeType === 3) { const m = first.nodeValue.match(/^[\s,.:;)·•–—]*/)[0]; if (m && m.length < first.nodeValue.length) { first.before(document.createTextNode(m)); first.nodeValue = first.nodeValue.slice(m.length); } }
@@ -5133,8 +5158,8 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') document.que
 
 // ---------- academy: catalog, sign-in, account ----------
 // password input with a show/hide toggle (the eye button flips the input type; it never sends anything)
-const pwField = (id, label, ac, hint = '') => `<label class="field" for="${id}">${label}${hint ? ` <span class="hint">${hint}</span>` : ''}</label>
-  <div class="pw"><input id="${id}" type="password" dir="ltr" autocomplete="${ac}" minlength="6" required><button type="button" class="eye" data-eye="${id}" aria-label="הצגת הסיסמה" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path class="slash" d="M4 4l16 16"/></svg></button></div>`;
+const pwField = (id, label, ac, hint = '') => `<label class="field" for="${id}">${label}</label>
+  <div class="pw"><input id="${id}" type="password" dir="ltr" autocomplete="${ac}" minlength="6" required${hint ? ` placeholder="${hint.replace(/[()]/g, '')}"` : ''}><button type="button" class="eye" data-eye="${id}" aria-label="הצגת הסיסמה" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path class="slash" d="M4 4l16 16"/></svg></button></div>`;
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-eye]'); if (!b) return;
   const i = document.getElementById(b.dataset.eye), show = i.type === 'password';
@@ -5150,7 +5175,7 @@ const COVER = {'stats-finance': `<svg viewBox="0 0 400 112" preserveAspectRatio=
   <g transform="translate(262 20)">${[0, 1, 2, 3, 4].map(k => `<circle cx="${k * 16}" cy="0" r="5.5" fill="${k === 2 ? '#f5d547' : 'none'}" stroke="${k === 2 ? '#f5d547' : 'rgb(255 255 255 / .45)'}" stroke-width="1.5"/>`).join('')}</g></svg>`};
 function vHome(m) {
   const u = ACC.user(), r = S.started ? readiness() : null;
-  const facts = {'stats-finance': [`${TOPICS.length} שיעורים`, `${VIDEOS.length} סרטונים`, `${QB.length + EXAM_2025.length} שאלות`, 'המבחן האמיתי 09/2025']};
+  const facts = {'stats-finance': [`${TOPICS.length} שיעורים`, `${VIDEOS.length} סרטונים`, `${QB.length + EXAM_2025.length} שאלות`, 'מבחנים לדוגמה']};
   const sheet = ['א', 'ב', 'ג', 'ד', 'ה'].map((_, q) => `<div class="r"><span>${q + 1}</span>${[0, 1, 2, 3, 4].map(k => `<i class="${k === [2, 0, 3, 1, 4][q] ? 'on' : ''}"></i>`).join('')}</div>`).join('');
   m.innerHTML = `<section class="ahero stage">
     <div class="hx"><div class="eyebrow">${BRAND.he} · ${BRAND.en}</div>
@@ -5324,12 +5349,9 @@ async function vAdmin(m) {
   const adminIds = new Set(rows.filter(r => r.is_admin).map(r => r.id));
   visits.forEach(v => { const d = dkey(v.started_at); if (d in act && !adminIds.has(v.user_id)) act[d].add(v.user_id); });
   const maxY = Math.max(1, ...days.map(d => Math.max(su[d], act[d].size)));
-  const W = 600, H = 150, bw = W / 30;
-  const chart = `<svg viewBox="0 0 ${W} ${H + 22}" class="adchart" role="img" aria-label="הרשמות ופעילות ב־30 הימים האחרונים">
-    ${[0.5, 1].map(f => `<line x1="0" x2="${W}" y1="${H - f * H}" y2="${H - f * H}" class="grid"/><text x="${W - 2}" y="${H - f * H - 3}" class="ax" text-anchor="end">${Math.round(f * maxY)}</text>`).join('')}
-    ${days.map((d, i) => { const a = act[d].size / maxY * H, s2 = su[d] / maxY * H, x = (29 - i) * bw; return `<rect x="${x + 2}" y="${H - a}" width="${bw - 4}" height="${a}" rx="2" class="b-act"><title>${d}: ${act[d].size} פעילים</title></rect>${su[d] ? `<rect x="${x + bw / 2 - 2}" y="${H - s2}" width="4" height="${s2}" rx="2" class="b-su"><title>${d}: ${su[d]} נרשמו</title></rect>` : ''}`; }).join('')}
-    <line x1="0" x2="${W}" y1="${H}" y2="${H}" class="base"/>
-    <text x="${W - 2}" y="${H + 16}" class="ax" text-anchor="end">לפני 30 יום</text><text x="2" y="${H + 16}" class="ax">היום</text></svg>`;
+  const chart = `<div class="bars" role="img" aria-label="הרשמות ולומדים פעילים בכל אחד מ־30 הימים האחרונים">${days.map(d => { const a = act[d].size, n2 = su[d]; return `<div class="bcol" title="${d.split('-').reverse().join('.')}: ${a} פעילים, ${n2} נרשמו"><i class="ba" style="height:${a / maxY * 100}%"></i>${n2 ? `<i class="bs" style="height:${n2 / maxY * 100}%"></i>` : ''}</div>`; }).join('')}</div>
+    <div class="bax"><span>היום</span><span>לפני 15 יום</span><span>לפני 30 יום</span></div>
+    <p class="note bsum">ב־30 הימים האחרונים: ${learners.filter(r => now - Date.parse(r.created_at) < 30 * day).length} נרשמו, ${new Set(visits.filter(v => !adminIds.has(v.user_id)).map(v => v.user_id)).size} למדו לפחות פעם אחת.</p>`;
   const F = {all: ['הכל', () => true], today: ['פעילים היום', r => r._last && dkey(r._last) === today], week: ['פעילים השבוע', r => r._last && now - Date.parse(r._last) < 7 * day], gone: ['לא חזרו 7+ ימים', r => !r._last || now - Date.parse(r._last) >= 7 * day], fresh: ['חדשים השבוע', r => now - Date.parse(r.created_at) < 7 * day]};
   const state = {q: '', sort: 'last', f: 'all'};
   m.innerHTML = head + `
@@ -5347,7 +5369,7 @@ async function vAdmin(m) {
     <div class="row between adtools"><input id="ad_q" type="search" placeholder="חיפוש לפי שם או אימייל" aria-label="חיפוש משתמשים">
       <div class="row"><select id="ad_sort" aria-label="מיון"><option value="last">פעילות אחרונה</option><option value="created_at">הרשמה</option><option value="total_seconds">זמן באתר</option><option value="answered">שאלות שנפתרו</option><option value="ready">מוכנות</option></select>
       <button class="btn sm" id="ad_csv">ייצוא ל־CSV</button></div></div>
-    <div class="tbl-wrap"><table class="adm"><thead><tr><th>שם</th><th>אימייל</th><th>נרשם</th><th>פעילות אחרונה</th><th>כניסות</th><th>זמן באתר</th><th>שאלות</th><th>מוכנות</th><th>מבחן אחרון</th></tr></thead><tbody id="ad_rows"></tbody></table></div>
+    <div class="tbl-wrap admwrap"><table class="adm users"><thead><tr><th>שם</th><th>אימייל</th><th>נרשם</th><th>פעילות אחרונה</th><th>כניסות</th><th>זמן באתר</th><th>שאלות</th><th>מוכנות</th><th>מבחן אחרון</th></tr></thead><tbody id="ad_rows"></tbody></table></div>
   </section>
   <section class="panel" id="ad_one" hidden></section>`;
   const draw = () => {
@@ -5359,7 +5381,7 @@ async function vAdmin(m) {
       if (state.sort === 'last') return Date.parse(b._last || 0) - Date.parse(a._last || 0);
       return Date.parse(b[state.sort] || 0) - Date.parse(a[state.sort] || 0);
     });
-    $('#ad_rows').innerHTML = list.map(r => { const ex = r._exams[r._exams.length - 1], on = r._last && now - Date.parse(r._last) < 10 * 60000; return `<tr data-uid="${r.id}" tabindex="0"><td><span class="dotst ${on ? 'on' : ''}" title="${on ? 'מחובר עכשיו' : ''}"></span><b>${esc(r.name || '—')}</b>${r.is_admin ? ' <span class="chip">מנהל</span>' : ''}${r.blocked ? ' <span class="chip blk">חסום</span>' : ''}</td><td dir="ltr">${esc(r.email)}</td><td>${when(r.created_at)}</td><td>${ago(r._last)}</td><td class="num">${r.logins || 0}</td><td>${dur(r.total_seconds)}</td><td class="num">${r._ans}</td><td>${r._ready === null ? '—' : `<span class="minibar"><i style="width:${Math.round(r._ready * 100)}%"></i></span> ${Math.round(r._ready * 100)}%`}</td><td>${ex ? `${Math.round(ex.score * 100)}%` : '—'}</td></tr>`; }).join('') || '<tr><td colspan="9" class="note">אין משתמשים שמתאימים לסינון.</td></tr>';
+    $('#ad_rows').innerHTML = list.map(r => { const ex = r._exams[r._exams.length - 1], on = r._last && now - Date.parse(r._last) < 10 * 60000; return `<tr data-uid="${r.id}" tabindex="0"><td class="c-name"><span class="dotst ${on ? 'on' : ''}" title="${on ? 'מחובר עכשיו' : ''}"></span><b>${esc(r.name || '—')}</b>${r.is_admin ? ' <span class="chip">מנהל</span>' : ''}${r.blocked ? ' <span class="chip blk">חסום</span>' : ''}</td><td class="c-mail" dir="ltr">${esc(r.email)}</td><td data-l="נרשם">${when(r.created_at)}</td><td data-l="פעילות אחרונה">${ago(r._last)}</td><td data-l="כניסות" class="num">${r.logins || 0}</td><td data-l="זמן באתר">${dur(r.total_seconds)}</td><td data-l="שאלות" class="num">${r._ans}</td><td data-l="מוכנות">${r._ready === null ? '—' : `<span class="minibar"><i style="width:${Math.round(r._ready * 100)}%"></i></span> ${Math.round(r._ready * 100)}%`}</td><td data-l="מבחן אחרון">${ex ? `${Math.round(ex.score * 100)}%` : '—'}</td></tr>`; }).join('') || '<tr><td colspan="9" class="note">אין משתמשים שמתאימים לסינון.</td></tr>';
   };
   draw();
   m.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { state.f = b.dataset.f; m.querySelectorAll('[data-f]').forEach(x => x.setAttribute('aria-pressed', x === b)); draw(); });
@@ -5590,10 +5612,10 @@ const brk = h => String(h).replace(/·(?=[\d(])/g, '·\u200b');
 function verdict(q, chosen, right) {
   if (Array.isArray(q.a) && q.a.length >= q.o.length) return `<p class="vd"><b class="ok">השאלה נפסלה במבחן,</b> ולכן כל תשובה התקבלה. הנה הפתרון הנכון:</p>`;
   if (chosen == null) return `<p class="vd"><b class="no">לא נבחרה תשובה.</b> התשובה הנכונה היא ${right}. הנה הפתרון המלא:</p>`;
-  if (isRight(q, chosen)) return `<p class="vd"><b class="ok">נכון!</b> כדי לוודא שזה לא היה ניחוש, עברו על הדרך:</p>`;
+  if (isRight(q, chosen)) return `<p class="vd"><b class="ok">יפה, נכון!</b> הנה הדרך, כדי שתדעו לשחזר אותה גם במבחן:</p>`;
   const why = q.w && q.w[chosen];
-  return `<p class="vd"><b class="no">לא נכון.</b> בחרתם ${HEB[chosen]}, והתשובה הנכונה היא ${right}.</p>` +
-    (why ? `<div class="whywrong"><b>מאיפה הגיעה התשובה ${HEB[chosen]}?</b> ${why}</div>` : `<div class="whywrong"><b>על התשובה ${HEB[chosen]}:</b> היא לא מתקבלת מהדרך הנכונה. השוו את החישוב שלכם לשלבים שבפתרון וחפשו איפה הדרכים נפרדות.</div>`);
+  return `<p class="vd"><b class="no">לא הפעם.</b> בחרתם ${HEB[chosen]}, והתשובה הנכונה היא ${right}. זה בסדר, בשביל זה מתרגלים.</p>` +
+    (why ? `<div class="whywrong"><b>למה ${HEB[chosen]} לא נכונה?</b> ${why}</div>` : `<div class="whywrong"><b>למה ${HEB[chosen]} לא נכונה?</b> היא לא יוצאת מהדרך הנכונה. השוו את החישוב שלכם לשלבים שבפתרון, ותמצאו איפה הדרכים נפרדות.</div>`);
 }
 function selLabel(sel) {
   if (sel === 'mix') return 'כל הנושאים'; if (sel === 'weak') return 'נקודות חלשות'; if (sel === 'mistakes') return 'הטעויות שלי';
