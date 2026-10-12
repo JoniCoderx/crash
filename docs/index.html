@@ -436,6 +436,108 @@ nav.tabs button[aria-current="true"]{background:var(--ink);color:var(--bg);font-
 .uav{background:linear-gradient(135deg,#2a3cc2,#121a66)}
 .ubtn{border-radius:12px}
 @media (max-width:520px){.brand h1{font-size:1.12rem}.brand .sub{display:none}.brand .logo{width:32px;height:32px}.brandlink{gap:8px}.brand .cd{font-size:.7rem;padding:3px 8px}}
+
+/* admin */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}.kpis.sm{grid-template-columns:repeat(4,1fr);margin-top:10px}
+.kpi{background:var(--surface);border-radius:16px;box-shadow:var(--shadow);padding:14px 16px;display:flex;flex-direction:column;gap:2px}.kpis.sm .kpi{box-shadow:none;background:var(--sunk)}
+.kpi b{font-family:var(--display);font-size:1.5rem;font-weight:700}.kpi span{font-size:.82rem;color:var(--muted)}
+@media (max-width:640px){.kpis,.kpis.sm{grid-template-columns:repeat(2,1fr)}}
+table.adm{width:100%;border-collapse:collapse;font-size:.9rem;margin-top:12px}table.adm th{text-align:start;font-weight:600;color:var(--muted);font-size:.8rem;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+table.adm td{padding:10px;border-bottom:1px solid var(--line);white-space:nowrap}table.adm tbody tr[data-uid]{cursor:pointer}table.adm tbody tr[data-uid]:hover{background:var(--sunk)}
+#ad_q{flex:1 1 220px;border-radius:12px;padding:10px 12px;background:var(--sunk);border:1.5px solid transparent}
+
+/* ===== UX polish layer: entry, course card, practice, explanations, lessons, footer ===== */
+:root{--ease:cubic-bezier(.2,.7,.2,1);--lift:0 2px 4px rgb(15 20 48/.06),0 14px 34px rgb(15 20 48/.1)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--lift:0 2px 4px rgb(0 0 0/.35),0 16px 40px rgb(0 0 0/.35)}}
+:root[data-theme="dark"]{--lift:0 2px 4px rgb(0 0 0/.35),0 16px 40px rgb(0 0 0/.35)}
+.btn{transition:transform .15s var(--ease),box-shadow .2s var(--ease),background .15s,border-color .15s,color .15s}
+.btn:hover:not([disabled]){transform:translateY(-1px)}
+.btn:active:not([disabled]){transform:translateY(0) scale(.98)}
+.btn.primary:hover{box-shadow:0 10px 22px -8px color-mix(in srgb,var(--accent) 75%,transparent)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.btn.big{padding:14px 18px;font-size:1.06rem}
+/* entry */
+.auth-value{margin:0;font-family:var(--display);font-weight:600;font-size:.95rem;color:var(--accent);background:var(--accent-soft);border-radius:12px;padding:10px 14px;line-height:1.55}
+.auth h2{margin-top:4px}
+.auth .hint{color:var(--muted);font-weight:400;font-size:.82rem}
+.auth-pitch{display:flex;flex-direction:column;gap:12px}
+.stage .lead{font-size:1.08rem;line-height:1.75;color:rgb(255 255 255/.9);max-width:34ch;margin:0}
+.authf .field{gap:6px}
+@media (max-width:760px){.authwrap .stage{gap:16px}.stage .lead{font-size:1rem}}
+/* course card */
+.course.open{cursor:pointer;transition:transform .2s var(--ease),box-shadow .25s var(--ease)}
+.course.open:hover{transform:translateY(-3px);box-shadow:var(--lift)}
+.course.open:focus-visible{outline:3px solid var(--hl);outline-offset:3px}
+.course.open:hover .cover svg path:first-of-type{stroke:#b9c3ff}
+.myprog{display:flex;flex-direction:column;gap:7px;background:var(--sunk);border-radius:12px;padding:11px 13px}
+.myprog b{font-family:var(--display);font-weight:600;font-size:.88rem}.myprog .cnt{font-size:.84rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.pbar2{height:8px;border-radius:99px;background:color-mix(in srgb,var(--line) 80%,transparent);overflow:hidden}
+.pbar2 i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 70%,var(--hl)));transition:width .5s var(--ease)}
+/* practice */
+.qprog{background:var(--surface);border-radius:16px;box-shadow:var(--shadow);padding:12px 16px;display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.qprog b{font-family:var(--display);font-weight:600}
+.qprog .note{font-size:.84rem}
+.opts{gap:10px}
+.opt{align-items:center;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:13px 14px;min-height:54px;cursor:pointer;transition:border-color .15s,background .15s,transform .15s var(--ease),box-shadow .2s var(--ease);font-size:1.02rem}
+.opt .k{display:grid;place-items:center;width:30px;height:30px;min-width:30px;border-radius:50%;background:var(--sunk);color:var(--ink);font-family:var(--display);font-weight:700;font-size:.9rem;transition:background .15s,color .15s}
+.opt:hover:not([disabled]){border-color:var(--accent);box-shadow:0 6px 18px -10px color-mix(in srgb,var(--accent) 60%,transparent);transform:translateY(-1px)}
+.opt:hover:not([disabled]) .k{background:var(--accent);color:var(--accent-ink)}
+.opt.sel .k{background:var(--accent);color:var(--accent-ink)}
+.opt.right{border-color:var(--good)}.opt.right .k{background:var(--good);color:#fff}
+.opt.wrong{border-color:var(--bad)}.opt.wrong .k{background:var(--bad);color:#fff}
+.opt[disabled]:not(.right):not(.wrong){opacity:.6}
+/* explanation */
+.expl{background:transparent;padding:0;display:flex;flex-direction:column;gap:12px;line-height:1.85}
+.expl .vd{margin:0;background:var(--sunk);border-radius:14px;padding:12px 16px;font-size:1.02rem}
+.whywrong{margin:0;border-radius:14px;padding:14px 16px;border-inline-start:4px solid var(--bad)}
+.whywrong b:first-child{display:block;color:var(--bad);font-family:var(--display);margin-bottom:2px}
+.sol{display:flex;flex-direction:column;gap:10px}
+.sb{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:13px 16px;display:flex;flex-direction:column;gap:6px}
+.sb h5{margin:0;font-family:var(--display);font-size:.8rem;font-weight:700;letter-spacing:.01em;display:inline-flex;align-items:center;gap:8px;color:var(--muted)}
+.sb h5::before{content:"";width:9px;height:9px;border-radius:50%;background:currentColor}
+.sb p{margin:0}
+.s-ask h5{color:var(--accent)}
+.s-way{background:var(--sunk);border-color:transparent}.s-way h5{color:var(--ink)}
+.s-way .sf{background:var(--surface);border-radius:10px;padding:8px 12px;font-family:var(--mono);font-size:.92rem;overflow-x:auto}
+.s-right h5{color:var(--good)}
+.s-right .sres{background:var(--good-soft);border-radius:10px;padding:8px 12px;font-weight:600}
+.s-tip{background:var(--gold-soft);border-color:transparent}.s-tip h5{color:var(--gold)}
+.ssteps{margin:2px 0 0;padding-inline-start:1.5em;display:flex;flex-direction:column;gap:8px;counter-reset:st}
+.ssteps li{padding-inline-start:4px}
+.ssteps li::marker{font-family:var(--display);font-weight:700;color:var(--accent)}
+/* lessons: learning blocks */
+article.lesson{background:transparent;border:0;box-shadow:none;padding:0;gap:16px}
+article.lesson>h2{padding-inline:4px}
+.lbody{display:flex;flex-direction:column;gap:14px}
+.lsec{background:var(--surface);border-radius:var(--r);box-shadow:var(--shadow);padding:18px clamp(16px,3vw,24px);display:flex;flex-direction:column;gap:10px}
+.lsec h4{font-size:1.12rem;margin:0}
+.lsec p{margin:0;line-height:1.9}
+.lsec .fx{margin:4px 0}
+.lcall{border-radius:var(--r);padding:16px clamp(16px,3vw,22px);line-height:1.9;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.lcall>*{max-width:66ch}
+.ltag{display:inline-flex;align-items:center;gap:6px;font-family:var(--display);font-size:.78rem;font-weight:700;border-radius:999px;padding:3px 11px;margin-bottom:2px}
+.ltag::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.t-short{background:var(--surface);color:var(--accent)}
+.t-ex{background:var(--surface);color:var(--ink)}
+.t-trap{background:var(--surface);color:var(--bad)}
+.t-tip{background:var(--surface);color:var(--gold)}
+.zero{border-radius:var(--r);padding:18px clamp(16px,3vw,24px)}
+.lesson-nav{border-top:0;padding-top:4px}
+.fx.fxd{display:flex;flex-direction:column;gap:6px;direction:ltr;text-align:left}
+.fxr{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:flex-start;gap:4px 10px;overflow-x:auto}
+.fxlab{direction:rtl;font-family:var(--body);font-size:.84rem;color:var(--muted);order:2;white-space:nowrap}
+.fxf{white-space:nowrap;order:1}
+/* footer: quiet */
+footer.site{border-top:1px solid var(--line);margin-top:28px}
+footer.site div{justify-content:center;text-align:center;font-size:.76rem;opacity:.8;padding:16px;gap:6px 14px}
+/* mobile spacing */
+@media (max-width:520px){
+  .qprog,.lsec,.sb{border-radius:14px}
+  .opt{padding:12px;font-size:1rem}
+  .course .cbody{padding:16px}
+  .ahero{padding:22px;border-radius:22px}
+}
+@media (prefers-reduced-motion:reduce){.btn,.opt,.course.open,.pbar2 i{transition:none}.btn:hover,.opt:hover,.course.open:hover{transform:none}}
 </style>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
   <linearGradient id="bm-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a3cc2"/><stop offset="1" stop-color="#121a66"/></linearGradient>
@@ -448,11 +550,11 @@ nav.tabs button[aria-current="true"]{background:var(--ink);color:var(--bg);font-
     <a href="#home" class="brandlink" data-go="home" aria-label="Silas Academy, לדף הקורסים"><svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><use href="#brandmark"/></svg>
     <div class="names"><h1><b>silas</b> academy</h1><span class="sub">אקדמיית סיילס</span></div></a>
     <span class="cd" id="cd"></span><div id="user" class="user"></div></div>
-  <div class="cbar" id="cbar"><a href="#home" data-go="home">כל הקורסים</a><span>›</span><b>סטטיסטיקה ומימון</b></div>
+  <div class="cbar" id="cbar"><a href="#home" data-go="home">כל הקורסים</a><span aria-hidden="true">‹</span><b>סטטיסטיקה ומימון</b></div>
   <nav class="tabs" id="tabs" aria-label="ניווט בקורס"></nav>
 </div></header>
 <main id="main"></main>
-<footer class="site"><div><span>Silas Academy · אקדמיית סיילס</span><span>חומר עזר ללימוד. הבחינה מתקיימת מטעם רשות ניירות ערך, והאתר אינו קשור לרשות.</span></div></footer>
+<footer class="site"><div><span>© Silas Academy · אקדמיית סיילס</span><span>האתר הוא חומר עזר ללימוד, ואינו קשור לרשות ניירות ערך.</span></div></footer>
 <script>
 const TOPICS = [
 {id:'s1', area:'stat', title:'סטטיסטיקה תיאורית', short:'תיאורית',
@@ -879,52 +981,150 @@ lesson:`
 ];
 // ---------- Silas Academy: brand, course catalog, accounts ----------
 const BRAND = {en: 'Silas Academy', he: 'אקדמיית סיילס'};
+// Cloud backend (Supabase, free tier). Empty url → accounts live on this device only.
+// The key here is Supabase's public "anon" key: it is meant to be in the page; the database's access rules protect the data.
+const CLOUD = {url: '', key: '', adminEmail: '', adminUser: 'Admin'};
 // Every course is one entry. A course with `open: true` has its own views (the stats & finance course is the app below).
 const COURSES = [
   {id: 'stats-finance', open: true, title: 'סטטיסטיקה ומימון', tag: 'רשות ניירות ערך',
-   blurb: 'הכנה מלאה למבחן: שיעורים מאפס, סרטוני הסבר, תרגול עם פתרון מלא, והמבחן האמיתי 09/2025.',
-   facts: ['16 שיעורים', '8 סרטונים', '222 שאלות', 'מבחן אמיתי + תאום']},
+   blurb: 'הכנה מלאה למבחן: שיעורים מאפס, סרטוני הסבר, תרגול עם פתרון מלא, והמבחן האמיתי 09/2025.', facts: []},
   {id: 'next', open: false, title: 'קורסים נוספים', tag: 'בקרוב', blurb: 'קורסים חדשים יעלו כאן בקרוב.', facts: []}
 ];
 
-// Accounts live on this device (localStorage). The interface is written so a cloud backend can replace it later
-// without touching the views: ACC.signup / ACC.login / ACC.logout / ACC.user / ACC.key.
+// One interface, two backends. Views only use: ready, user, mode, signup, login, logout, rename, remove,
+// key, pullProgress, pushProgress, admin.users, admin.sessions.
 const ACC = (() => {
-  const K = 'silas-accounts-v1', LEGACY = 'fs-prep-v1';
+  const LEGACY = 'fs-prep-v1', idOf = email => 'u' + [...norm(email)].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7).toString(36);
+  function norm(e) { return String(e || '').trim().toLowerCase(); }
+  const asEmail = ident => { const v = String(ident || '').trim(); return CLOUD.adminEmail && v.toLowerCase() === CLOUD.adminUser.toLowerCase() ? CLOUD.adminEmail : v; };
+  const check = (name, email, pw, signup) => {
+    if (signup && !String(name || '').trim()) throw new Error('צריך למלא שם.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(norm(email))) throw new Error('כתובת האימייל לא תקינה.');
+    if (String(pw || '').length < 6) throw new Error('הסיסמה צריכה להיות באורך 6 תווים לפחות.');
+  };
+
+  // ----- local backend: accounts on this device -----
+  const K = 'silas-accounts-v1';
   let db = {users: {}, current: null};
   try { const s = JSON.parse(localStorage.getItem(K)); if (s && s.users) db = s; } catch (e) {}
   const store = () => { try { localStorage.setItem(K, JSON.stringify(db)); } catch (e) {} };
-  const norm = e => String(e || '').trim().toLowerCase();
   async function hash(pw, salt) {
     const txt = salt + ':' + pw;
     try { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(txt)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join(''); }
     catch (e) { let h = 5381; for (const c of txt) h = (h * 33 ^ c.charCodeAt(0)) >>> 0; return 'x' + h.toString(16); }
   }
-  const idOf = email => 'u' + [...norm(email)].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7).toString(36);
-  return {
-    user: () => db.current && db.users[db.current] ? {id: db.current, ...db.users[db.current]} : null,
-    key: course => `silas:${db.current}:${course}`,
-    count: () => Object.keys(db.users).length,
+  const local = {
+    async ready() {},
+    user: () => db.current && db.users[db.current] ? {id: db.current, name: db.users[db.current].name, email: db.users[db.current].email, isAdmin: false} : null,
     async signup(name, email, pw) {
-      name = String(name || '').trim(); email = norm(email);
-      if (!name) throw new Error('צריך למלא שם.');
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error('כתובת האימייל לא תקינה.');
-      if (String(pw || '').length < 6) throw new Error('הסיסמה צריכה להיות באורך 6 תווים לפחות.');
+      check(name, email, pw, true); email = norm(email);
       const id = idOf(email); if (db.users[id]) throw new Error('כבר יש חשבון עם האימייל הזה. אפשר להתחבר.');
       const salt = Math.random().toString(36).slice(2, 10);
-      db.users[id] = {name, email, salt, pw: await hash(pw, salt), created: Date.now()};
+      db.users[id] = {name: name.trim(), email, salt, pw: await hash(pw, salt), created: Date.now()};
       // the first account on a device inherits progress saved before accounts existed
       try { const old = localStorage.getItem(LEGACY); if (old && Object.keys(db.users).length === 1) { const s = JSON.parse(old); s.started = !!s.name; localStorage.setItem(`silas:${id}:stats-finance`, JSON.stringify(s)); } } catch (e) {}
-      db.current = id; store(); return this.user();
+      db.current = id; store();
     },
     async login(email, pw) {
       const id = idOf(email), u = db.users[id];
       if (!u || u.pw !== await hash(String(pw || ''), u.salt)) throw new Error('האימייל או הסיסמה לא נכונים.');
-      db.current = id; store(); return this.user();
+      db.current = id; store();
     },
-    logout() { db.current = null; store(); },
-    rename(name) { const u = db.users[db.current]; if (u && name.trim()) { u.name = name.trim(); store(); } },
-    remove() { const id = db.current; if (!id) return; Object.keys(localStorage).filter(k => k.startsWith(`silas:${id}:`)).forEach(k => localStorage.removeItem(k)); delete db.users[id]; db.current = null; store(); }
+    async logout() { db.current = null; store(); },
+    async rename(name) { const u = db.users[db.current]; if (u && name.trim()) { u.name = name.trim(); store(); } },
+    async remove() { const id = db.current; if (!id) return; Object.keys(localStorage).filter(k => k.startsWith(`silas:${id}:`)).forEach(k => localStorage.removeItem(k)); delete db.users[id]; db.current = null; store(); },
+    async pullProgress() { return null; }, pushProgress() {},
+    admin: null
+  };
+
+  // ----- cloud backend: Supabase Auth + tables (see supabase-setup.sql) -----
+  let sb = null, me = null, sid = null, beat = null, lastBeat = 0, pushT = null;
+  const loadLib = () => window.supabase ? Promise.resolve() : new Promise((ok, no) => {
+    const sc = document.createElement('script'); sc.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
+    sc.onload = ok; sc.onerror = () => no(new Error('lib')); document.head.appendChild(sc);
+  });
+  const he = e => { // Supabase errors → plain Hebrew
+    const m = String(e && e.message || e);
+    if (/Invalid login credentials/i.test(m)) return 'האימייל או הסיסמה לא נכונים.';
+    if (/already registered|already exists/i.test(m)) return 'כבר יש חשבון עם האימייל הזה. אפשר להתחבר.';
+    if (/Email not confirmed/i.test(m)) return 'צריך לאשר את האימייל לפני הכניסה (בדקו את תיבת הדואר).';
+    if (/rate limit|too many/i.test(m)) return 'יותר מדי ניסיונות. נסו שוב בעוד כמה דקות.';
+    if (/fetch|network|Failed/i.test(m)) return 'אין חיבור לשרת. בדקו את האינטרנט ונסו שוב.';
+    return 'משהו השתבש: ' + m;
+  };
+  async function loadMe(user) {
+    if (!user) { me = null; return; }
+    const {data} = await sb.from('profiles').select('name,email,is_admin').eq('id', user.id).maybeSingle();
+    me = {id: user.id, name: (data && data.name) || (user.user_metadata && user.user_metadata.name) || user.email.split('@')[0], email: user.email, isAdmin: !!(data && data.is_admin)};
+  }
+  async function track() { // one session per visit; heartbeats add the visible, active time
+    stopTrack(); if (!me) return;
+    try { const {data} = await sb.rpc('start_session', {p_device: navigator.userAgent}); sid = data; } catch (e) { sid = null; }
+    lastBeat = Date.now();
+    const send = () => { if (!sid || document.hidden) { lastBeat = Date.now(); return; } const s = Math.round((Date.now() - lastBeat) / 1000); lastBeat = Date.now(); if (s > 0) sb.rpc('heartbeat', {p_session: sid, p_seconds: s}).then(() => {}, () => {}); };
+    beat = setInterval(send, 60000);
+    track.vis = () => { if (document.hidden) send(); else lastBeat = Date.now(); };
+    document.addEventListener('visibilitychange', track.vis);
+    window.addEventListener('pagehide', send);
+  }
+  function stopTrack() { clearInterval(beat); beat = null; sid = null; if (track.vis) document.removeEventListener('visibilitychange', track.vis); }
+  const cloud = {
+    async ready() {
+      await loadLib(); sb = window.supabase.createClient(CLOUD.url, CLOUD.key, {auth: {persistSession: true, autoRefreshToken: true}});
+      const {data} = await sb.auth.getSession(); await loadMe(data.session && data.session.user); if (me) track();
+    },
+    user: () => me,
+    async signup(name, email, pw) {
+      check(name, email, pw, true);
+      const {data, error} = await sb.auth.signUp({email: norm(email), password: pw, options: {data: {name: name.trim()}}});
+      if (error) throw new Error(he(error));
+      if (!data.session) throw new Error('נשלח אליכם אימייל לאישור החשבון. אחרי האישור אפשר להתחבר.');
+      await loadMe(data.user); track();
+    },
+    async login(ident, pw) {
+      const email = asEmail(ident);
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(norm(email))) throw new Error('כתובת האימייל לא תקינה.');
+      const {data, error} = await sb.auth.signInWithPassword({email: norm(email), password: pw});
+      if (error) throw new Error(he(error));
+      await loadMe(data.user); track();
+    },
+    async logout() { stopTrack(); await sb.auth.signOut(); me = null; },
+    async rename(name) { if (!me || !name.trim()) return; me.name = name.trim(); await sb.from('profiles').update({name: me.name}).eq('id', me.id); },
+    async remove() { await cloud.logout(); },
+    async pullProgress(course) {
+      if (!me) return null;
+      const {data} = await sb.from('progress').select('data,updated_at').eq('user_id', me.id).eq('course', course).maybeSingle();
+      return data ? {data: data.data, at: Date.parse(data.updated_at)} : null;
+    },
+    pushProgress(course, data) { // debounced, so a burst of answers is one write
+      if (!me) return; clearTimeout(pushT);
+      pushT = setTimeout(() => sb.from('progress').upsert({user_id: me.id, course, data, updated_at: new Date().toISOString()}).then(() => {}, () => {}), 1500);
+    },
+    admin: {
+      async users() {
+        const [p, g] = await Promise.all([sb.from('profiles').select('*').order('created_at', {ascending: false}), sb.from('progress').select('user_id,course,data,updated_at')]);
+        if (p.error) throw new Error(he(p.error));
+        const prog = {}; (g.data || []).forEach(r => { prog[r.user_id] = r; });
+        return p.data.map(u => ({...u, progress: prog[u.id] || null}));
+      },
+      async sessions(uid) {
+        const {data, error} = await sb.from('sessions').select('started_at,last_ping,seconds,device').eq('user_id', uid).order('started_at', {ascending: false}).limit(50);
+        if (error) throw new Error(he(error)); return data;
+      }
+    }
+  };
+
+  const B = CLOUD.url && CLOUD.key ? cloud : local;
+  return {
+    mode: B === cloud ? 'cloud' : 'local',
+    ready: () => B.ready(),
+    user: () => B.user(),
+    key: course => `silas:${(B.user() || {}).id}:${course}`,
+    count: () => B === local ? Object.keys(db.users).length : 1,
+    signup: (n, e, p) => B.signup(n, e, p), login: (e, p) => B.login(e, p), logout: () => B.logout(),
+    rename: n => B.rename(n), remove: () => B.remove(),
+    pullProgress: c => B.pullProgress(c), pushProgress: (c, d) => B.pushProgress(c, d),
+    get admin() { return B.admin; }
   };
 })();
 // o[0] is always the correct answer; options are shuffled on display.
@@ -1427,7 +1627,8 @@ const G = (t, q, correct, cands, f, e, w) => {
 // ask: what the question really asks · f: the formula (pure math → wrap in <bdi dir="ltr">) · why: why this formula fits
 // steps: substitution and calculation, one step per item · res: the answer in words · tip: what to remember for the exam
 function SOL({ask, f, why, steps = [], res, tip}) {
-  return `<div class="sol">${ask ? `<p><b>מה שואלים?</b> ${ask}</p>` : ''}${f ? `<p><b>הנוסחה:</b> ${f}</p>` : ''}${why ? `<p><b>למה הנוסחה הזאת?</b> ${why}</p>` : ''}${steps.length ? `<ol class="ssteps">${steps.map(x => `<li>${x}</li>`).join('')}</ol>` : ''}${res ? `<p class="sres"><b>התשובה:</b> ${res}</p>` : ''}${tip ? `<p class="stip"><b>לזכור למבחן:</b> ${tip}</p>` : ''}</div>`;
+  const sec = (cls, h, body) => body ? `<section class="sb ${cls}"><h5>${h}</h5>${body}</section>` : '';
+  return `<div class="sol">${sec('s-ask', 'מה שואלים?', ask && `<p>${ask}</p>`)}${sec('s-way', 'הדרך לפתרון', (f ? `<p class="sf">${f}</p>` : '') + (steps.length ? `<ol class="ssteps">${steps.map(x => `<li>${x}</li>`).join('')}</ol>` : ''))}${sec('s-right', 'למה התשובה נכונה?', (why ? `<p>${why}</p>` : '') + (res ? `<p class="sres">${res}</p>` : ''))}${sec('s-tip', 'לזכור למבחן', tip && `<p>${tip}</p>`)}</div>`;
 }
 
 // finance question bank (o[0] is the correct answer)
@@ -4351,7 +4552,15 @@ function loadCourse() {
   try { const s = JSON.parse(localStorage.getItem(ACC.key(COURSE))); if (s) S = Object.assign(S, s); } catch (e) {}
   S.book = S.book || {}; S.name = u.name;
 }
-function save() { if (!ACC.user()) return; try { localStorage.setItem(ACC.key(COURSE), JSON.stringify(S)); } catch (e) {} }
+function save() {
+  if (!ACC.user()) return; S._at = Date.now();
+  try { localStorage.setItem(ACC.key(COURSE), JSON.stringify(S)); } catch (e) {}
+  ACC.pushProgress(COURSE, S);
+}
+// cloud mode: take the newer of the device copy and the cloud copy
+async function syncCourse() {
+  try { const c = await ACC.pullProgress(COURSE); if (c && c.data && (c.data._at || c.at) > (S._at || 0)) { const name = S.name; S = Object.assign(blankS(), c.data, {name}); try { localStorage.setItem(ACC.key(COURSE), JSON.stringify(S)); } catch (e) {} } } catch (e) {}
+}
 loadCourse();
 
 const T = Object.fromEntries(TOPICS.map(t => [t.id, t]));
@@ -4403,6 +4612,9 @@ function fixBidi(root) {
 }
 new MutationObserver(ms => { for (const m of ms) for (const nd of m.addedNodes) if (nd.nodeType === 1 || nd.nodeType === 3) fixBidi(nd); }).observe(document.getElementById('main'), {childList: true, subtree: true, characterData: false});
 
+// personal progress against the question bank (fixed questions + the real exam)
+const BANK = () => QB.length + EXAM_2025.length;
+const solved = () => Math.min(S.answered || 0, BANK());
 function record(t, ok) {
   (S.hist[t] = S.hist[t] || []).push(ok ? 1 : 0);
   if (S.hist[t].length > 40) S.hist[t].shift();
@@ -4480,8 +4692,8 @@ const fmtDate = d => d.toLocaleDateString('he-IL', {weekday: 'short', day: 'nume
 // Five tabs. Secondary pages live under a tab: videos → learn, mistakes → practice, tools → formulas.
 const VIEWS = [['dash', 'בית'], ['learn', 'לימוד'], ['practice', 'תרגול'], ['exam', 'מבחנים'], ['formulas', 'נוסחאות']];
 const PARENT = {videos: 'learn', mistakes: 'practice', tools: 'formulas', plan: 'dash'};
-const ROUTES = ['home', 'login', 'account', 'dash', 'learn', 'practice', 'exam', 'formulas', 'videos', 'mistakes', 'tools'];
-const ACADEMY_VIEWS = ['home', 'login', 'account'];
+const ROUTES = ['home', 'login', 'account', 'admin', 'dash', 'learn', 'practice', 'exam', 'formulas', 'videos', 'mistakes', 'tools'];
+const ACADEMY_VIEWS = ['home', 'login', 'account', 'admin'];
 let view = 'home', P = null, X = null, timerId = null;
 try { const h = location.hash.slice(1); if (ROUTES.includes(h)) view = h; } catch (e) {}
 if (!ACC.user()) view = 'login';
@@ -4503,7 +4715,7 @@ function go(v, opts) {
 }
 function render(opts = {}) {
   const m = $('#main');
-  ({home: vHome, login: vLogin, account: vAccount, dash: vDash, learn: vLearn, practice: vPractice, exam: vExam, mistakes: vMistakes, formulas: vFormulas, tools: vTools, videos: vVideos})[view](m, opts);
+  ({home: vHome, login: vLogin, account: vAccount, admin: vAdmin, dash: vDash, learn: vLearn, practice: vPractice, exam: vExam, mistakes: vMistakes, formulas: vFormulas, tools: vTools, videos: vVideos})[view](m, opts);
 }
 const chipOf = t => `<span class="chip ${t.area === 'fin' ? 'fin' : ''}">${t.area === 'fin' ? 'מימון' : t.area === 'base' ? 'יסודות' : 'סטטיסטיקה'}</span>`;
 
@@ -4526,12 +4738,13 @@ function vHome(m) {
     <p>מבינים כל נוסחה מאפס, ומתרגלים עם הסבר מלא לכל טעות.</p></div>
     <div class="sheet" aria-hidden="true">${sheet}</div></section>
   <section class="courses">${COURSES.map(c => c.open ? `
-    <article class="course">
+    <article class="course open" data-go="dash" tabindex="0" role="link" aria-label="${c.title}: ${S.started ? 'להמשיך בקורס' : 'להתחיל את הקורס'}">
       <div class="cover">${COVER[c.id] || ''}</div>
       <div class="cbody">
         <div class="c-top"><span class="chip">${c.tag}</span>${c.id === COURSE && S.started && r !== null ? `<div class="ring" style="--p:${Math.round(r * 100)}" title="מוכנות למבחן"><b>${Math.round(r * 100)}%</b></div>` : ''}</div>
         <h3>${c.title}</h3><p>${c.blurb}</p>
         <ul class="c-facts">${(facts[c.id] || c.facts).map(f => `<li>${f}</li>`).join('')}</ul>
+        ${c.id === COURSE ? `<div class="myprog"><div class="row between"><b>התקדמות אישית</b><span class="cnt">${solved()} מתוך ${BANK()} שאלות</span></div><div class="pbar2"><i style="width:${Math.max(2, solved() / BANK() * 100)}%"></i></div></div>` : ''}
         <button class="btn primary" data-go="dash">${S.started ? 'להמשיך בקורס' : 'להתחיל את הקורס'}</button>
       </div>
     </article>` : `
@@ -4539,25 +4752,27 @@ function vHome(m) {
   </section>`;
 }
 function vLogin(m) {
-  const signup = !ACC.count() || vLogin.mode === 'signup';
+  const signup = vLogin.mode !== 'login' && (ACC.mode === 'cloud' || !ACC.count() || vLogin.mode === 'signup');
   m.innerHTML = `<div class="authwrap">
   <section class="stage">
     <div class="auth-brand">${LOGO_S}<div><b dir="ltr">silas academy</b><span style="color:rgb(255 255 255 / .7)">${BRAND.he}</span></div></div>
-    <h2>לומדים להבין, <mark class="hl">לא לשנן</mark>.</h2>
-    <ul class="alist"><li>שיעורים שמתחילים מאפס, עם דוגמה פתורה לכל נוסחה</li><li>על כל תשובה שגויה: מאיפה היא הגיעה, ואיך פותרים נכון</li><li>מבחנים אמיתיים ומבחני תאום עם מספרים חדשים</li></ul>
+    <div class="auth-pitch"><h2>לומדים להבין, <mark class="hl">לא לשנן</mark>.</h2>
+    <p class="lead">שיעורים קצרים, תרגול אמיתי, והסבר ברור לכל טעות עד שאתה באמת מבין את החומר.</p></div>
+    <ul class="alist"><li>שיעורים שמתחילים מאפס, עם דוגמה פתורה לכל נוסחה</li><li>על כל תשובה שגויה: מאיפה היא הגיעה, ואיך פותרים נכון</li><li>המבחן האמיתי 09/2025, ומבחני תאום עם מספרים חדשים</li></ul>
   </section>
   <section class="auth">
-    <h2>${signup ? 'פותחים חשבון' : 'ברוכים השבים'}</h2>
-    <p class="note">${signup ? 'חשבון אחד לכל הקורסים. ההתקדמות, הטעויות והציונים נשמרים בו.' : 'נכנסים עם האימייל והסיסמה שבחרתם בהרשמה.'}</p>
+    ${signup ? `<p class="auth-value">הכנה מלאה למבחן סטטיסטיקה ומימון של רשות ניירות ערך, עם הסברים מלאים לכל טעות.</p>
+    <h2>התחל ללמוד בחינם</h2>
+    <p class="note">שלושה פרטים ומתחילים. החשבון שומר את ההתקדמות שלך, כדי שתמשיך בדיוק מאיפה שעצרת.</p>` : `<h2>ברוכים השבים</h2><p class="note">נכנסים עם האימייל והסיסמה שבחרתם בהרשמה.</p>`}
     <form id="authf" class="authf" novalidate>
-      ${signup ? '<label class="field">שם<input id="au_name" autocomplete="name" maxlength="30" required></label>' : ''}
-      <label class="field">אימייל<input id="au_email" type="email" dir="ltr" autocomplete="email" required></label>
-      <label class="field">סיסמה<input id="au_pw" type="password" dir="ltr" autocomplete="${signup ? 'new-password' : 'current-password'}" minlength="6" required></label>
+      ${signup ? '<label class="field">איך לקרוא לך?<input id="au_name" autocomplete="name" maxlength="30" placeholder="השם הפרטי" required></label>' : ''}
+      <label class="field">אימייל<input id="au_email" type="text" inputmode="email" dir="ltr" autocomplete="username" autocapitalize="off" spellcheck="false" placeholder="name@example.com" required></label>
+      <label class="field">סיסמה${signup ? ' <span class="hint">(6 תווים לפחות)</span>' : ''}<input id="au_pw" type="password" dir="ltr" autocomplete="${signup ? 'new-password' : 'current-password'}" minlength="6" required></label>
       <p class="auth-err" id="au_err" role="alert"></p>
-      <button class="btn primary">${signup ? 'יצירת חשבון' : 'כניסה'}</button>
+      <button class="btn primary big">${signup ? 'התחל ללמוד בחינם' : 'כניסה'}</button>
     </form>
-    <p class="auth-switch">${signup ? (ACC.count() ? 'כבר יש לכם חשבון? <a href="#" id="au_sw">כניסה</a>' : '') : 'אין לכם חשבון? <a href="#" id="au_sw">הרשמה</a>'}</p>
-    <p class="note auth-local">כרגע החשבון נשמר בדפדפן ובמכשיר האלה. במסך החשבון אפשר לגבות את ההתקדמות לקובץ ולשחזר אותה במכשיר אחר.</p>
+    <p class="auth-switch">${signup ? (ACC.count() || ACC.mode === 'cloud' ? 'כבר יש לך חשבון? <a href="#" id="au_sw">כניסה</a>' : '') : 'עוד אין לך חשבון? <a href="#" id="au_sw">התחל ללמוד בחינם</a>'}</p>
+    ${ACC.mode === 'local' ? '<p class="note auth-local">ההתקדמות נשמרת בדפדפן הזה. במסך החשבון אפשר לגבות אותה לקובץ ולהמשיך ממכשיר אחר.</p>' : ''}
   </section></div>`;
   const sw = $('#au_sw'); if (sw) sw.onclick = e => { e.preventDefault(); vLogin.mode = signup ? 'login' : 'signup'; vLogin(m); };
   $('#authf').onsubmit = async e => {
@@ -4565,17 +4780,18 @@ function vLogin(m) {
     try {
       if (signup) await ACC.signup($('#au_name').value, $('#au_email').value, $('#au_pw').value);
       else await ACC.login($('#au_email').value, $('#au_pw').value);
-      loadCourse(); vLogin.mode = null; go('home');
+      loadCourse(); await syncCourse(); vLogin.mode = null; go('home');
     } catch (x) { err.textContent = x.message; }
   };
 }
 function vAccount(m) {
   const u = ACC.user();
-  m.innerHTML = `<div class="crumbs"><a href="#" data-go="home">הקורסים</a><span>›</span><span>החשבון שלי</span></div>
+  m.innerHTML = `<div class="crumbs"><a href="#" data-go="home">הקורסים</a><span aria-hidden="true">‹</span><span>החשבון שלי</span></div>
   <header class="page"><h2>החשבון שלי</h2><p dir="ltr" class="note" style="text-align:right">${esc(u.email)}</p></header>
   <section class="panel"><h4>פרטים</h4><div class="fields" style="margin-top:10px"><label class="field">שם<input id="ac_name" value="${esc(u.name)}" maxlength="30"></label></div></section>
   <section class="panel"><h4>גיבוי ההתקדמות</h4><p class="note">כדי להמשיך ממכשיר אחר: מורידים קובץ גיבוי, ובמכשיר השני נכנסים לחשבון וטוענים אותו.</p>
     <div class="row"><button class="btn" id="ac_exp">הורדת קובץ גיבוי</button><label class="btn">טעינת קובץ גיבוי<input type="file" id="ac_imp" accept="application/json,.json" hidden></label></div><p class="note" id="ac_msg"></p></section>
+  ${u.isAdmin ? '<section class="panel adminlink"><h4>ניהול</h4><p class="note">משתמשים, כניסות וזמן באתר.</p><button class="btn primary" data-go="admin">לוח הניהול</button></section>' : ''}
   <section class="panel"><div class="row"><button class="btn" id="ac_out">יציאה מהחשבון</button><button class="btn ghost danger" id="ac_del">מחיקת החשבון מהמכשיר</button></div></section>`;
   $('#ac_name').onchange = e => { if (e.target.value.trim()) { ACC.rename(e.target.value); S.name = e.target.value.trim(); save(); nav(); } };
   $('#ac_exp').onclick = () => {
@@ -4587,8 +4803,73 @@ function vAccount(m) {
     rd.onload = () => { try { const j = JSON.parse(rd.result); if (!j || j.course !== COURSE || !j.data) throw 0; S = Object.assign(blankS(), j.data, {name: u.name}); save(); $('#ac_msg').textContent = 'ההתקדמות נטענה.'; } catch (x) { $('#ac_msg').textContent = 'הקובץ לא נראה כמו קובץ גיבוי של האקדמיה.'; } };
     rd.readAsText(f);
   };
-  $('#ac_out').onclick = () => { ACC.logout(); S = blankS(); go('login'); };
+  $('#ac_out').onclick = async () => { await ACC.logout(); S = blankS(); vLogin.mode = 'login'; go('login'); };
   $('#ac_del').onclick = () => { if (confirm('למחוק את החשבון ואת כל ההתקדמות שלו מהמכשיר הזה? אי אפשר לבטל.')) { ACC.remove(); S = blankS(); go('login'); } };
+}
+
+// ---------- admin ----------
+const dur = sec => { sec = Math.round(sec || 0); const h = Math.floor(sec / 3600), m = Math.round(sec % 3600 / 60); return h ? `${h} ש׳ ${m} ד׳` : `${m} ד׳`; };
+const when = t => t ? new Date(t).toLocaleString('he-IL', {day: 'numeric', month: 'numeric', year: '2-digit', hour: '2-digit', minute: '2-digit'}) : '—';
+async function vAdmin(m) {
+  const u = ACC.user();
+  const head = `<div class="crumbs"><a href="#" data-go="home">הקורסים</a><span aria-hidden="true">‹</span><span>לוח הניהול</span></div><header class="page"><h2>לוח הניהול</h2></header>`;
+  if (!ACC.admin) { m.innerHTML = head + `<section class="panel"><h4>צריך לחבר שרת</h4><p>כרגע החשבונות נשמרים רק במכשיר של כל משתמש, ולכן אין מקום אחד שבו רואים את כולם. אחרי חיבור Supabase (חינם) הלוח הזה יציג את כל הנרשמים.</p></section>`; return; }
+  if (!u || !u.isAdmin) { m.innerHTML = head + '<section class="panel"><p>הדף הזה פתוח רק למנהלים.</p></section>'; return; }
+  m.innerHTML = head + '<p class="note">טוען נתונים…</p>';
+  let rows;
+  try { rows = await ACC.admin.users(); } catch (x) { m.innerHTML = head + `<section class="panel"><p>${esc(x.message)}</p></section>`; return; }
+  const day = 864e5, now = Date.now();
+  const k = {
+    all: rows.length,
+    week: rows.filter(r => now - Date.parse(r.created_at) < 7 * day).length,
+    today: rows.filter(r => r.last_seen && new Date(r.last_seen).toDateString() === new Date().toDateString()).length,
+    hours: rows.reduce((a, r) => a + (r.total_seconds || 0), 0)
+  };
+  const ans = r => (r.progress && r.progress.data && r.progress.data.answered) || 0;
+  const state = {q: '', sort: 'created_at'};
+  m.innerHTML = head + `
+  <section class="kpis">
+    <div class="kpi"><b class="num">${k.all}</b><span>נרשמו</span></div>
+    <div class="kpi"><b class="num">${k.week}</b><span>חדשים השבוע</span></div>
+    <div class="kpi"><b class="num">${k.today}</b><span>פעילים היום</span></div>
+    <div class="kpi"><b>${dur(k.hours)}</b><span>זמן למידה כולל</span></div>
+  </section>
+  <section class="panel">
+    <div class="row between"><input id="ad_q" type="search" placeholder="חיפוש לפי שם או אימייל" aria-label="חיפוש משתמשים">
+      <div class="row"><select id="ad_sort" aria-label="מיון"><option value="created_at">לפי הרשמה</option><option value="last_seen">לפי פעילות אחרונה</option><option value="total_seconds">לפי זמן באתר</option><option value="answered">לפי שאלות שנפתרו</option></select>
+      <button class="btn" id="ad_csv">ייצוא ל־CSV</button></div></div>
+    <div class="tbl-wrap"><table class="adm"><thead><tr><th>שם</th><th>אימייל</th><th>נרשם</th><th>כניסה אחרונה</th><th>כניסות</th><th>זמן באתר</th><th>שאלות</th></tr></thead><tbody id="ad_rows"></tbody></table></div>
+  </section>
+  <section class="panel" id="ad_one" hidden></section>`;
+  const draw = () => {
+    const q = state.q.toLowerCase();
+    const list = rows.filter(r => !q || (r.name + ' ' + r.email).toLowerCase().includes(q)).sort((a, b) => {
+      if (state.sort === 'answered') return ans(b) - ans(a);
+      if (state.sort === 'total_seconds') return (b.total_seconds || 0) - (a.total_seconds || 0);
+      return Date.parse(b[state.sort] || 0) - Date.parse(a[state.sort] || 0);
+    });
+    $('#ad_rows').innerHTML = list.map(r => `<tr data-uid="${r.id}" tabindex="0"><td><b>${esc(r.name || '—')}</b>${r.is_admin ? ' <span class="chip">מנהל</span>' : ''}</td><td dir="ltr">${esc(r.email)}</td><td>${when(r.created_at)}</td><td>${when(r.last_login)}</td><td class="num">${r.logins || 0}</td><td>${dur(r.total_seconds)}</td><td class="num">${ans(r)}</td></tr>`).join('') || '<tr><td colspan="7" class="note">אין משתמשים שמתאימים לחיפוש.</td></tr>';
+  };
+  draw();
+  $('#ad_q').oninput = e => { state.q = e.target.value; draw(); };
+  $('#ad_sort').onchange = e => { state.sort = e.target.value; draw(); };
+  $('#ad_csv').onclick = () => {
+    const cell = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+    const csv = '﻿' + [['שם', 'אימייל', 'נרשם', 'כניסה אחרונה', 'נראה לאחרונה', 'כניסות', 'דקות באתר', 'שאלות שנפתרו'].map(cell).join(',')]
+      .concat(rows.map(r => [r.name, r.email, r.created_at, r.last_login, r.last_seen, r.logins, Math.round((r.total_seconds || 0) / 60), ans(r)].map(cell).join(','))).join('\n');
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], {type: 'text/csv'})); a.download = `silas-users-${todayISO()}.csv`; document.body.appendChild(a); a.click(); a.remove();
+  };
+  $('#ad_rows').onclick = async e => {
+    const tr = e.target.closest('tr[data-uid]'); if (!tr) return; const r = rows.find(x => x.id === tr.dataset.uid), box = $('#ad_one');
+    box.hidden = false; box.innerHTML = `<h4>${esc(r.name)}</h4><p class="note" dir="ltr" style="text-align:right">${esc(r.email)}</p><p class="note">טוען כניסות…</p>`;
+    let ss = []; try { ss = await ACC.admin.sessions(r.id); } catch (x) {}
+    const d = r.progress && r.progress.data;
+    box.innerHTML = `<h4>${esc(r.name)}</h4><p class="note" dir="ltr" style="text-align:right">${esc(r.email)}</p>
+      <div class="kpis sm"><div class="kpi"><b class="num">${r.logins || 0}</b><span>כניסות</span></div><div class="kpi"><b>${dur(r.total_seconds)}</b><span>זמן באתר</span></div><div class="kpi"><b class="num">${ans(r)}</b><span>שאלות שנפתרו</span></div><div class="kpi"><b class="num">${d && d.exams ? d.exams.length : 0}</b><span>מבחנים</span></div></div>
+      <h4 style="margin-top:14px">כניסות אחרונות</h4>
+      <div class="tbl-wrap"><table class="adm"><thead><tr><th>התחלה</th><th>משך</th><th>מכשיר</th></tr></thead><tbody>${ss.map(x => `<tr><td>${when(x.started_at)}</td><td>${dur(x.seconds)}</td><td class="note">${/iPhone|iPad/.test(x.device) ? 'iPhone/iPad' : /Android/.test(x.device) ? 'Android' : /Mac/.test(x.device) ? 'Mac' : /Windows/.test(x.device) ? 'Windows' : 'אחר'}</td></tr>`).join('') || '<tr><td colspan="3" class="note">אין עדיין כניסות.</td></tr>'}</tbody></table></div>`;
+    box.scrollIntoView({behavior: 'smooth', block: 'start'});
+  };
 }
 
 // ---------- home ----------
@@ -4694,24 +4975,75 @@ function vLearn(m, o) {
     return;
   }
   const t = T[id], i = TOPICS.indexOf(t), prev = TOPICS[i - 1], next = TOPICS[i + 1], ch = chapterOf(t.id), z = ZERO[t.id];
-  m.innerHTML = `<div class="crumbs"><a href="#" data-go="learn">לימוד</a><span>›</span><span>${ch ? `פרק ${ch.n}` : t.id === 'f0' ? 'לפני שמתחילים' : 'הרחבה'}</span></div>
+  m.innerHTML = `<div class="crumbs"><a href="#" data-go="learn">לימוד</a><span aria-hidden="true">‹</span><span>${ch ? `פרק ${ch.n}` : t.id === 'f0' ? 'לפני שמתחילים' : 'הרחבה'}</span></div>
   <article class="lesson">
   <h2>${t.title}</h2>
-  ${z ? `<div class="zero"><p class="why">${z.why}</p>
+  ${z ? `<div class="zero"><span class="ltag t-short">הסבר קצר</span><p class="why">${z.why}</p>
     ${VIDEO_OF[t.id] ? `<button class="btn primary" data-video="${VIDEO_OF[t.id].id}">▶ לצפות בסרטון ההסבר</button>` : ''}
     <div class="zcols"><div><h4>מונחים</h4><dl>${z.words.map(([w, d]) => `<dt>${w}</dt><dd>${d}</dd>`).join('')}</dl></div>
     <div><h4>איך ניגשים לשאלה</h4><ol>${z.steps.map(x => `<li>${x}</li>`).join('')}</ol></div></div></div>` : ''}
-  ${t.lesson}
+  <div class="lbody">${t.lesson}</div>
   <h4>בדיקה עצמית</h4><div class="mq" id="mq"></div>
   <div class="row endrow"><button class="btn primary" data-practice="${t.id}">לתרגל את הנושא</button>
   <label class="check"><input type="checkbox" id="readCb" ${S.lessons[t.id] ? 'checked' : ''}> סיימתי את השיעור</label></div>
   <nav class="lesson-nav">${prev ? `<button class="btn ghost" data-lesson="${prev.id}">→ ${prev.short}</button>` : '<span></span>'}${next ? `<button class="btn ghost" data-lesson="${next.id}">${next.short} ←</button>` : ''}</nav>
   </article>`;
+  lessonBlocks(m.querySelector('.lbody'));
   $('#readCb').onchange = e => { S.lessons[t.id] = e.target.checked; save(); };
   const mqs = QB.filter(q => q.t === t.id).slice(0, 2).map(prep), mans = {};
   const drawMQ = () => { $('#mq').innerHTML = mqs.map((q, k) => `<div class="qcard" data-mqk="${k}">${qBlock(q, mans[k], mans[k] !== undefined)}</div>`).join('');
     $('#mq').querySelectorAll('[data-mqk]').forEach(card => card.querySelectorAll('[data-opt]').forEach(b => b.onclick = () => { const k = +card.dataset.mqk; if (mans[k] !== undefined) return; mans[k] = +b.dataset.opt; const ok = isRight(mqs[k], mans[k]); record(t.id, ok); if (!ok) addMistake(mqs[k], mans[k]); save(); drawMQ(); })); };
   drawMQ();
+}
+
+// Lessons arrive as one long flow. On screen they become learning blocks: each heading opens a card,
+// long paragraphs are split at sentence ends, and the example / pitfalls / summary boxes get clear labels.
+function splitLong(p, max = 280) {
+  if (p.textContent.length <= max) return;
+  const nodes = [...p.childNodes], total = p.textContent.length; let acc = 0, cut = null;
+  for (const n of nodes) {
+    if (n.nodeType === 3) {
+      const re = /[.?!]\s+(?=[֐-׿])/g; let mm;
+      while ((mm = re.exec(n.nodeValue))) { const pos = acc + mm.index; if (pos > total * 0.3 && pos < total * 0.75 && (!cut || Math.abs(pos - total / 2) < Math.abs(cut.pos - total / 2))) cut = {n, at: mm.index + mm[0].length, pos}; }
+    }
+    acc += n.textContent.length;
+  }
+  if (!cut) return;
+  const tail = cut.n.splitText(cut.at), p2 = document.createElement('p');
+  let x = tail; while (x) { const nx = x.nextSibling; p2.appendChild(x); x = nx; }
+  if (cut.n.nodeValue.trim() === '' ) cut.n.remove();
+  p.after(p2); splitLong(p, max); splitLong(p2, max);
+}
+// Formula boxes are LTR, but some lines open with a Hebrew label ("צבירה רציפה: …"). Each line becomes
+// a row: the label reads right-to-left, the formula left-to-right, and a long formula scrolls instead of breaking.
+function fxLines(root) {
+  root.querySelectorAll('.fx[dir="ltr"]:not(.fxd)').forEach(fx => {
+    const lines = fx.innerHTML.split(/<br\s*\/?>/i).map(x => x.trim()).filter(Boolean);
+    fx.innerHTML = lines.map(l => {
+      const m = l.match(/^([\u0590-\u05FF][^:<]*?):\s*(.*)$/);
+      return m ? `<div class="fxr"><span class="fxlab" dir="rtl">${m[1]}</span><bdi dir="ltr" class="fxf">${m[2]}</bdi></div>` : `<div class="fxr"><bdi dir="ltr" class="fxf">${l}</bdi></div>`;
+    }).join('');
+    fx.classList.add('fxd');
+  });
+}
+function lessonBlocks(body) {
+  if (!body) return;
+  fxLines(body);
+  const LBL = {ex: ['t-ex', 'דוגמה'], trap: ['t-trap', 'טעות נפוצה'], plain: ['t-tip', 'לזכור למבחן']};
+  body.querySelectorAll(':scope > p').forEach(p => splitLong(p));
+  const kids = [...body.children], out = document.createDocumentFragment(); let sec = null;
+  kids.forEach(k => {
+    const box = ['ex', 'trap', 'plain'].find(c => k.classList.contains(c));
+    if (box) {
+      sec = null; const [cls, label] = LBL[box], lead = k.querySelector(':scope > b:first-child');
+      if (lead && /דוגמה פתורה|מלכודות|במילים פשוטות/.test(lead.textContent)) { const extra = lead.textContent.replace(/דוגמה פתורה|מלכודות נפוצות|במילים פשוטות/, '').replace(/^[\s.:]+|[\s.:]+$/g, ''); lead.remove(); if (extra) k.insertAdjacentHTML('afterbegin', `<b>${extra}.</b> `); }
+      k.insertAdjacentHTML('afterbegin', `<span class="ltag ${cls}">${label}</span>`);
+      k.classList.add('lcall'); out.appendChild(k); return;
+    }
+    if (k.tagName === 'H4' || !sec) { sec = document.createElement('section'); sec.className = 'lsec'; out.appendChild(sec); }
+    sec.appendChild(k);
+  });
+  body.appendChild(out);
 }
 
 // ---------- practice ----------
@@ -4749,7 +5081,6 @@ function vPractice(m) {
   <div class="pbar">
     <div class="seg" role="group" aria-label="סוג תרגול">${[['mix', 'כל הנושאים'], ['weak', 'נקודות חלשות'], ['mistakes', `הטעויות שלי${S.mistakes.length ? ` (${S.mistakes.length})` : ''}`]].map(([k, l]) => `<button data-pick="${k}" aria-pressed="${P.sel === k}">${l}</button>`).join('')}</div>
     <select id="chSel" aria-label="תרגול לפי פרק"><option value="">${isCh ? selLabel(P.sel) : 'לפי פרק…'}</option>${CHAPTERS.map(c => `<option value="ch${c.n}">פרק ${c.n}: ${c.title}</option>`).join('')}<optgroup label="כמו שאלות המבחן 09/2025">${EXAM_META.map((x, i) => `<option value="twin:${i}">שאלה ${i + 1}: ${x.focus}</option>`).join('')}</optgroup><optgroup label="הרחבה">${EXTRA_TOPICS.map(t => `<option value="${t}">${T[t].short}</option>`).join('')}</optgroup></select>
-    <span class="score num">${P.total ? `${P.right} מתוך ${P.total}` : ''}</span>
   </div>
   <div id="qwrap"></div>
   ${S.mistakes.length ? `<p class="note"><a href="#" data-go="mistakes">לרשימת כל הטעויות (${S.mistakes.length})</a></p>` : ''}`;
@@ -4772,7 +5103,9 @@ function drawQ() {
   const w = $('#qwrap');
   if (!P.q) { w.innerHTML = `<div class="empty">אין טעויות לתרגל. כל תשובה שגויה תישמר כאן אוטומטית, יחד עם ההסבר.</div>`; return; }
   const q = P.q, t = T[q.t];
-  w.innerHTML = `<div class="qcard"><div class="qhead">${chipOf(t)}<span class="note">${t.short}</span><button class="btn ghost sm" data-lesson="${q.t}">לשיעור</button></div>
+  const qn = Math.min(solved() + (P.answered === undefined ? 1 : 0), BANK());
+  w.innerHTML = `<div class="qprog" aria-label="התקדמות"><div class="row between"><b>שאלה ${qn} מתוך ${BANK()}</b><span class="note">${P.total ? `${P.right} נכונות מתוך ${P.total} בסבב הזה` : 'בהצלחה!'}</span></div><div class="pbar2"><i style="width:${Math.max(1.5, solved() / BANK() * 100)}%"></i></div></div>
+  <div class="qcard"><div class="qhead">${chipOf(t)}<span class="note">${t.short}</span><button class="btn ghost sm" data-lesson="${q.t}">לשיעור</button></div>
   ${qBlock(q, P.answered, P.answered !== undefined)}
   ${P.answered !== undefined ? `<div class="row"><button class="btn primary" id="nextQ">לשאלה הבאה</button></div>` : ''}</div>`;
   w.querySelectorAll('[data-opt]').forEach(b => b.onclick = () => answer(+b.dataset.opt));
@@ -4786,7 +5119,6 @@ function answer(i) {
   if (ok && P.fromMistakes) dropMistake(q);
   if (!ok) addMistake(q, i);
   save();
-  const sc = $('.score'); if (sc) sc.textContent = `${P.right} מתוך ${P.total}`;
   const mb = document.querySelector('[data-pick="mistakes"]'); if (mb) mb.textContent = `הטעויות שלי${S.mistakes.length ? ` (${S.mistakes.length})` : ''}`;
   drawQ();
 }
@@ -4885,7 +5217,7 @@ function examResults(m) {
 
 // ---------- mistakes ----------
 function vMistakes(m) {
-  const head = `<div class="crumbs"><a href="#" data-go="practice">תרגול</a><span>›</span><span>הטעויות שלי</span></div>`;
+  const head = `<div class="crumbs"><a href="#" data-go="practice">תרגול</a><span aria-hidden="true">‹</span><span>הטעויות שלי</span></div>`;
   if (!S.mistakes.length) { m.innerHTML = head + `<div class="empty">אין טעויות שמורות. כל שאלה שתיענה לא נכון בתרגול או במבחן תישמר כאן, יחד עם ההסבר.</div>`; return; }
   m.innerHTML = head + `<header class="page"><h2>הטעויות שלי</h2><p>${S.mistakes.length} שאלות. כדאי לקרוא את ההסבר, להבין איפה הייתה הטעות, ואז לתרגל. תשובה נכונה מוציאה את השאלה מהרשימה.</p>
   <button class="btn primary" data-practice-mode="mistakes">לתרגל את הטעויות</button></header>
@@ -4963,11 +5295,12 @@ function vFormulas(m) {
   <div class="tbl-wrap" dir="ltr"><table class="mini"><tr><th>z</th>${[...Array(10)].map((_, c) => `<th>0.0${c}</th>`).join('')}</tr>${rows.join('')}</table></div></details>
   <details class="more"><summary>כל הנוסחאות מהשיעורים</summary>
   <div class="fgrid">${TOPICS.map(t => `<div class="panel"><h4><a href="#" data-lesson="${t.id}">${t.title}</a></h4>${(t.lesson.match(/<div class="fx"[^>]*>[\s\S]*?<\/div>/g) || []).join('')}</div>`).join('')}</div></details>`;
+  fxLines(m);
 }
 
 // ---------- tools ----------
 function vTools(m) {
-  m.innerHTML = `<div class="crumbs"><a href="#" data-go="formulas">נוסחאות</a><span>›</span><span>מחשבונים</span></div><header class="page"><h2>מחשבונים</h2><p>לבדיקת חישובים בזמן התרגול. במבחן משתמשים במחשבון רגיל, לכן חשוב לתרגל גם בלי הכלים האלה.</p></header>
+  m.innerHTML = `<div class="crumbs"><a href="#" data-go="formulas">נוסחאות</a><span aria-hidden="true">‹</span><span>מחשבונים</span></div><header class="page"><h2>מחשבונים</h2><p>לבדיקת חישובים בזמן התרגול. במבחן משתמשים במחשבון רגיל, לכן חשוב לתרגל גם בלי הכלים האלה.</p></header>
   <div class="tools">
    <div class="panel"><h4>ערך עתידי וערך נוכחי</h4><div class="fields" style="margin-top:10px">
     <label class="field">סכום<input id="tv_a" type="number" value="10000"></label><label class="field">ריבית %<input id="tv_r" type="number" value="5" step="0.1"></label>
@@ -5041,6 +5374,7 @@ document.addEventListener('click', e => {
   else if (pm) { e.preventDefault(); P = {sel: pm.dataset.practiceMode, right: 0, total: 0, q: null}; go('practice'); }
 });
 document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.target.matches('[role="link"][data-go]')) { e.preventDefault(); go(e.target.dataset.go); return; }
   if (e.target.matches('input, select, textarea')) return;
   const k = e.key;
   if (view === 'practice' && P && P.q) {
@@ -5051,6 +5385,12 @@ document.addEventListener('keydown', e => {
 function setHdr() { const h = document.querySelector('.top'); if (h) document.documentElement.style.setProperty('--hdr', h.offsetHeight + 'px'); }
 window.addEventListener('resize', setHdr);
 window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if (h !== view && ROUTES.includes(h)) go(h); });
-nav(); render(); setHdr(); fixBidi(document.getElementById('main'));
+// start: wait for the account backend (instant in local mode), then show the right screen
+$('#main').innerHTML = '<p class="note" style="text-align:center;padding:40px 0">טוען…</p>';
+ACC.ready().catch(() => {}).then(async () => {
+  loadCourse(); if (ACC.user()) await syncCourse();
+  if (!ACC.user()) view = 'login'; else if (view === 'admin' && !ACC.user().isAdmin) view = 'home';
+  nav(); render(); setHdr(); fixBidi(document.getElementById('main'));
+});
 </script>
 </body></html>
