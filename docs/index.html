@@ -5116,7 +5116,7 @@ function nav() {
   $('#cd').textContent = dl > 1 ? `${dl} ימים למבחן` : dl === 1 ? 'המבחן מחר' : dl === 0 ? 'המבחן היום. בהצלחה!' : 'מועד המבחן עבר';
   $('#cd').hidden = !inCourse || !S.started;
   $('#fcourse').hidden = !inCourse; // the exam-body disclaimer belongs to this course only
-  const wa = $('#wa'); if (wa) { wa.hidden = view === 'exam' && X && X.running; wa.href = waLink(u ? ` (${u.name})` : ''); }
+  const wa = $('#wa'); if (wa) { wa.hidden = view === 'exam' && X && X.running; wa.href = waMessage(); }
 }
 function go(v, opts) {
   if (v !== 'videos' && typeof stopVideo === 'function') stopVideo();
@@ -5179,6 +5179,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') document.que
 const pwField = (id, label, ac, hint = '') => `<label class="field" for="${id}">${label}</label>
   <div class="pw"><input id="${id}" type="password" dir="ltr" autocomplete="${ac}" minlength="6" required${hint ? ` placeholder="${hint.replace(/[()]/g, '')}"` : ''}><button type="button" class="eye" data-eye="${id}" aria-label="הצגת הסיסמה" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path class="slash" d="M4 4l16 16"/></svg></button></div>`;
 document.addEventListener('click', e => {
+  const wl = e.target.closest('#wa, .flink'); if (wl) { wl.href = waMessage(); return; }
   const b = e.target.closest('[data-eye]'); if (!b) return;
   const i = document.getElementById(b.dataset.eye), show = i.type === 'password';
   i.type = show ? 'text' : 'password'; b.setAttribute('aria-pressed', show); b.setAttribute('aria-label', show ? 'הסתרת הסיסמה' : 'הצגת הסיסמה'); i.focus();
@@ -5293,6 +5294,25 @@ function vReset(m) {
   };
 }
 const WA_ICON = `<svg class="waic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2a9.8 9.8 0 0 0-8.4 14.8L2.3 21.7l4.8-1.3A9.8 9.8 0 1 0 12 2.2z" fill="currentColor"/><path d="M9 7.6c.2-.4.4-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.6l-.6.7c-.1.1-.2.3 0 .5.5.9 1.2 1.7 2.1 2.3.7.4 1 .5 1.2.3l.8-.9c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.3.4.4 0 .4-.1 1.1-.6 1.6-.5.5-1.4.9-2.4.7-1.5-.3-3.3-1.3-4.6-2.6-1.3-1.3-2.2-2.9-2.4-4.2-.1-.9.5-1.7 1-2.2z" fill="#fff"/></svg>`;
+// The WhatsApp message to support carries its own context: who is writing, where they are, and a link
+// to that exact screen, so the conversation starts from the problem instead of "who are you?".
+function waMessage(kind) {
+  const u = ACC.user(), site = location.origin + location.pathname;
+  const where = {home: 'דף הקורסים', dash: 'דף הבית של הקורס', learn: 'לימוד', practice: 'תרגול', exam: 'מבחנים', formulas: 'נוסחאות', tools: 'מחשבונים', videos: 'סרטונים', mistakes: 'הטעויות שלי', account: 'החשבון שלי', login: 'מסך הכניסה'}[view] || view;
+  const lines = ['היי שמעון 👋', 'הגעתי מאתר Silas Academy ואשמח לעזרה.', ''];
+  if (u) lines.push(`👤 ${u.name} · ${u.email}`);
+  if (kind === 'blocked') lines.push('🔒 החשבון שלי חסום, ואשמח להבין איך מחדשים את הגישה.');
+  else {
+    let place = `📍 ${where}`;
+    const topic = view === 'learn' && document.querySelector('article.lesson h2');
+    if (topic) place += `: ${topic.textContent.trim()}`;
+    if (view === 'practice' && P && P.q) place += `: ${T[P.q.t] ? T[P.q.t].title : ''}${P.q.id ? ` (שאלה ${P.q.id})` : ''}`;
+    if (!ACADEMY_VIEWS.includes(view)) lines.push('📚 קורס סטטיסטיקה ומימון');
+    lines.push(place);
+  }
+  lines.push(`🔗 ${site}${location.hash}`, '', '✏️ השאלה שלי:', '');
+  return `https://wa.me/${SUPPORT.wa}?text=${encodeURIComponent(lines.join('\n'))}`;
+}
 // a blocked account sees only this screen, with the admin's message and how to reach the academy
 function vBlocked(m, u) {
   const contact = (typeof CLOUD !== 'undefined' && CLOUD.support) || '';
@@ -5300,7 +5320,7 @@ function vBlocked(m, u) {
     <div class="lockic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg></div>
     <h2>הגישה לחשבון הושהתה</h2>
     <p>${u.blockMessage ? esc(u.blockMessage) : 'הגישה לחשבון שלכם הושהתה זמנית. כדי לחדש אותה, צרו קשר עם צוות האקדמיה.'}</p>
-    <a class="btn wabtn" href="${waLink(` (${u.name}, חשבון חסום)`)}" target="_blank" rel="noopener">${WA_ICON} כתבו לנו בוואטסאפ</a>
+    <a class="btn wabtn" href="${waMessage('blocked')}" target="_blank" rel="noopener">${WA_ICON} כתבו לנו בוואטסאפ</a>
     ${contact ? `<div class="contact"><span>או במייל:</span> <b dir="ltr" class="sel">${esc(contact)}</b> <button class="btn ghost sm" id="bl_copy">העתקה</button></div>` : ''}
     <p class="note">החשבון: <span dir="ltr">${esc(u.email)}</span>. ההתקדמות שלכם שמורה, ותחזור ברגע שהגישה תחודש.</p>
     <button class="btn" id="bl_out">יציאה מהחשבון</button>
