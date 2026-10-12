@@ -1247,11 +1247,15 @@ const G = (t, q, correct, cands, f, e, w) => {
     if (r) {
       let ww;
       if (w) { ww = r.o.map(() => null); cands.forEach((d, i) => { if (!w[i] || !isFinite(d)) return; const k = r.bin(d); if (k !== r.a && !ww[k]) ww[k] = w[i]; }); }
+      // a wrong range that no typical mistake lands in: say where the right value is, and which way the calculation went off
+      ww = r.o.map((_, k) => k === r.a ? null : (ww && ww[k]) || `התוצאה הנכונה היא <bdi dir="ltr">${f(correct)}</bdi>, ${k < r.a ? 'גבוהה' : 'נמוכה'} מכל הערכים בטווח הזה. אם יצא לכם מספר בטווח הזה, כנראה טעות באחד משלבי החישוב: השוו כל שלב לפתרון שלמטה.`);
       return {t, q, o: r.o, a: r.a, fixed: true, e, gen: true, w: ww};
     }
   }
   const src = [], o = mkOpts(correct, cands, f, src);
-  return {t, q, o, e, gen: true, w: w ? src.map(i => i < 0 ? null : w[i] || null) : undefined};
+  // filler options (added only to reach five choices) get a plain note: where the right value is, and how to find the slip
+  const fill = k => `המספר הזה לא נובע מטעות אופיינית. הוא ${parseFloat(String(o[k]).replace(/[^\d.−-]/g, '').replace('−', '-')) < correct ? 'נמוך' : 'גבוה'} מהתוצאה הנכונה, <bdi dir="ltr">${o[0]}</bdi>. אם הוא יצא לכם, בדקו את ההצבה ואת סדר הפעולות מול הפתרון שלמטה.`;
+  return {t, q, o, e, gen: true, w: w ? src.map((i, k) => k === 0 ? null : i < 0 ? fill(k) : w[i] || fill(k)) : undefined};
 };
 // A structured, step-by-step explanation. Every field is optional.
 // ask: what the question really asks · f: the formula (pure math → wrap in <bdi dir="ltr">) · why: why this formula fits
@@ -1886,7 +1890,7 @@ s1:[() => {
   const sp = Math.sqrt(ss2 / n);
   const F = x => nf(x, 3);
   return G('s1', `נתונות 5 תצפיות: ${xs.join(', ')}. מהי סטיית התקן (לפי דף הנוסחאות, P<sub>i</sub> = 1/n)?`, sp,
-    [s, ss2 / n, ss2 / (n - 1), Math.sqrt(ss2) / n, xs.reduce((a, x) => a + Math.abs(x - m2), 0) / n], F,
+    [s, ss2 / n, ss2 / (n - 1), Math.sqrt(ss2) / n, xs.reduce((a, x) => a + Math.abs(x - m2), 0) / n, Math.max(...xs) - Math.min(...xs)], F,
     SOL({ask: 'כמה בממוצע התצפיות רחוקות מהממוצע שלהן, כלומר סטיית התקן של 5 המספרים.',
       f: GB('σ = √( Σ(x<sub>i</sub> − x̄)² / n )'),
       why: 'סטיית התקן מודדת פיזור סביב הממוצע. מעלים כל סטייה בריבוע כדי שסטיות חיוביות ושליליות לא יקזזו זו את זו, מחלקים ב־n (לפי דף הנוסחאות), ובסוף מוציאים שורש כדי לחזור ליחידות של הנתונים.',
@@ -1899,9 +1903,10 @@ s1:[() => {
       tip: 'לפי דף הנוסחאות מחלקים ב־n (כאן 5) ולא ב־n − 1, ולא שוכחים להוציא שורש מהשונות.'}),
     [`${F(s)} מתקבל מחלוקה ב־4 (n − 1, נוסחת המדגם): ${GB(`√(${nf(ss2, 2)} / 4)`)}. בבחינה, לפי דף הנוסחאות, מחלקים ב־n = 5.`,
      `${F(ss2 / n)} היא השונות (${GB(`${nf(ss2, 2)} / 5`)}), לא סטיית התקן. צריך להוציא ממנה שורש.`,
-     `${F(ss2 / (n - 1))} היא השונות בחלוקה ב־4, וגם בלי שורש. כאן יש שתי טעויות: מחלקים ב־5, ואז מוציאים שורש.`,
+     `${F(ss2 / (n - 1))} היא השונות בחלוקה ב־4, בלי שורש. יש כאן שתי טעויות: חילקו ב־4 במקום ב־5, ולא הוציאו שורש.`,
      `${F(Math.sqrt(ss2) / n)} מתקבל אם מוציאים שורש מסכום הריבועים ורק אחר כך מחלקים ב־5 (${GB(`√${nf(ss2, 2)} / 5`)}). הסדר הנכון: קודם מחלקים ב־5, ואז מוציאים שורש מהתוצאה.`,
-     `${F(xs.reduce((a, x) => a + Math.abs(x - m2), 0) / n)} הוא ממוצע הסטיות המוחלטות |x − x̄|. סטיית התקן מעלה את הסטיות בריבוע, מחלקת ב־5 ומוציאה שורש, ולכן התוצאה שונה.`]);
+     `${F(xs.reduce((a, x) => a + Math.abs(x - m2), 0) / n)} הוא ממוצע הסטיות המוחלטות |x − x̄|. סטיית התקן מעלה את הסטיות בריבוע, מחלקת ב־5 ומוציאה שורש, ולכן התוצאה שונה.`,
+     `${F(Math.max(...xs) - Math.min(...xs))} הוא הטווח (${GB(`${Math.max(...xs)} − ${Math.min(...xs)}`)}), ההפרש בין התצפית הגדולה לקטנה. סטיית התקן מתחשבת בכל התצפיות דרך הסטיות מהממוצע.`]);
 }],
 s3:[() => {
   const m = ri(2, 12), v = pick([4, 9, 16, 25, 36]), a = ri(-10, 10), b = pick([-3, -2, 2, 3, 4, 0.5]);
