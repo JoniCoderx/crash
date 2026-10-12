@@ -643,6 +643,19 @@ nav.tabs{mask-image:linear-gradient(to left,#000 calc(100% - 28px),transparent);
   table.users td.c-mail{grid-column:1/-1;text-align:right;color:var(--muted);margin-bottom:4px}
   table.users td[data-l]::before{content:attr(data-l) ": ";color:var(--muted);font-size:.78rem}
 }
+
+/* WhatsApp support */
+.wafab{position:fixed;bottom:calc(18px + env(safe-area-inset-bottom,0px));left:18px;z-index:12;display:flex;align-items:center;gap:8px;height:52px;min-width:52px;padding:0 13px;border-radius:999px;background:#1fae55;color:#fff;text-decoration:none;box-shadow:0 8px 22px rgb(0 0 0/.22);font:600 .92rem var(--display);transition:transform .15s var(--ease),box-shadow .2s}
+.wafab svg{width:26px;height:26px;flex:none;color:#fff}
+.wafab .walabel{max-width:0;overflow:hidden;white-space:nowrap;transition:max-width .25s var(--ease)}
+.wafab:hover,.wafab:focus-visible{transform:translateY(-2px);box-shadow:0 12px 28px rgb(0 0 0/.26)}
+@media (hover:hover){.wafab:hover .walabel,.wafab:focus-visible .walabel{max-width:180px}}
+.wafab[hidden]{display:none}
+@media print{.wafab{display:none}}
+.wabtn{background:#1fae55;border-color:#1fae55;color:#fff;justify-content:center;gap:8px}.wabtn:hover{background:#1a9a4b}
+.waic{width:20px;height:20px}
+.flink{color:inherit;text-decoration:underline;text-underline-offset:3px}
+main{padding-bottom:96px}
 </style>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
   <linearGradient id="bm-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a3cc2"/><stop offset="1" stop-color="#121a66"/></linearGradient>
@@ -659,7 +672,8 @@ nav.tabs{mask-image:linear-gradient(to left,#000 calc(100% - 28px),transparent);
   <nav class="tabs" id="tabs" aria-label="ניווט בקורס"></nav>
 </div></header>
 <main id="main"></main>
-<footer class="site"><div><span>© Silas Academy · אקדמיית סיילס</span><span id="fcourse" hidden>קורס סטטיסטיקה ומימון הוא חומר עזר ללימוד, ואינו קשור לרשות ניירות ערך.</span></div></footer>
+<a id="wa" class="wafab" href="https://wa.me/35795904439" target="_blank" rel="noopener" aria-label="תמיכה בוואטסאפ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2a9.8 9.8 0 0 0-8.4 14.8L2.3 21.7l4.8-1.3A9.8 9.8 0 1 0 12 2.2z" fill="currentColor"/><path d="M9 7.6c.2-.4.4-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.6l-.6.7c-.1.1-.2.3 0 .5.5.9 1.2 1.7 2.1 2.3.7.4 1 .5 1.2.3l.8-.9c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.3.4.4 0 .4-.1 1.1-.6 1.6-.5.5-1.4.9-2.4.7-1.5-.3-3.3-1.3-4.6-2.6-1.3-1.3-2.2-2.9-2.4-4.2-.1-.9.5-1.7 1-2.2z" fill="#25d366"/></svg><span class="walabel">שאלה? דברו איתנו</span></a>
+<footer class="site"><div><span>© Silas Academy · אקדמיית סיילס</span><a class="flink" href="https://wa.me/35795904439?text=%D7%94%D7%99%D7%99%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%90%D7%AA%D7%A8%20Silas%20Academy" target="_blank" rel="noopener">תמיכה בוואטסאפ</a><span id="fcourse" hidden>קורס סטטיסטיקה ומימון הוא חומר עזר ללימוד, ואינו קשור לרשות ניירות ערך.</span></div></footer>
 <script>
 const TOPICS = [
 {id:'s1', area:'stat', title:'סטטיסטיקה תיאורית', short:'תיאורית',
@@ -1090,6 +1104,9 @@ lesson:`
 ];
 // ---------- Silas Academy: brand, course catalog, accounts ----------
 const BRAND = {en: 'Silas Academy', he: 'אקדמיית סיילס'};
+// support on WhatsApp: one number, one ready-made opening line
+const SUPPORT = {wa: '35795904439', text: 'היי, הגעתי מאתר Silas Academy'};
+const waLink = (extra = '') => `https://wa.me/${SUPPORT.wa}?text=${encodeURIComponent(SUPPORT.text + extra)}`;
 // Cloud backend (Supabase, free tier). Empty url → accounts live on this device only.
 // The key here is Supabase's public "anon" key: it is meant to be in the page; the database's access rules protect the data.
 const CLOUD = {url: 'https://tsgbbmsqxxhggsmxjqpm.supabase.co', key: 'sb_publishable_lFPddHMR7XYQyNexNji-4g_eiftzZZ7', adminEmail: 'kutaybamusic@gmail.com', adminUser: 'Admin', support: 'kutaybamusic@gmail.com'};
@@ -5099,6 +5116,7 @@ function nav() {
   $('#cd').textContent = dl > 1 ? `${dl} ימים למבחן` : dl === 1 ? 'המבחן מחר' : dl === 0 ? 'המבחן היום. בהצלחה!' : 'מועד המבחן עבר';
   $('#cd').hidden = !inCourse || !S.started;
   $('#fcourse').hidden = !inCourse; // the exam-body disclaimer belongs to this course only
+  const wa = $('#wa'); if (wa) { wa.hidden = view === 'exam' && X && X.running; wa.href = waLink(u ? ` (${u.name})` : ''); }
 }
 function go(v, opts) {
   if (v !== 'videos' && typeof stopVideo === 'function') stopVideo();
@@ -5274,6 +5292,7 @@ function vReset(m) {
     catch (x) { err.textContent = x.message; }
   };
 }
+const WA_ICON = `<svg class="waic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2a9.8 9.8 0 0 0-8.4 14.8L2.3 21.7l4.8-1.3A9.8 9.8 0 1 0 12 2.2z" fill="currentColor"/><path d="M9 7.6c.2-.4.4-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.6l-.6.7c-.1.1-.2.3 0 .5.5.9 1.2 1.7 2.1 2.3.7.4 1 .5 1.2.3l.8-.9c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.3.4.4 0 .4-.1 1.1-.6 1.6-.5.5-1.4.9-2.4.7-1.5-.3-3.3-1.3-4.6-2.6-1.3-1.3-2.2-2.9-2.4-4.2-.1-.9.5-1.7 1-2.2z" fill="#fff"/></svg>`;
 // a blocked account sees only this screen, with the admin's message and how to reach the academy
 function vBlocked(m, u) {
   const contact = (typeof CLOUD !== 'undefined' && CLOUD.support) || '';
@@ -5281,7 +5300,8 @@ function vBlocked(m, u) {
     <div class="lockic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg></div>
     <h2>הגישה לחשבון הושהתה</h2>
     <p>${u.blockMessage ? esc(u.blockMessage) : 'הגישה לחשבון שלכם הושהתה זמנית. כדי לחדש אותה, צרו קשר עם צוות האקדמיה.'}</p>
-    ${contact ? `<div class="contact"><span>יצירת קשר:</span> <b dir="ltr" class="sel">${esc(contact)}</b> <button class="btn ghost sm" id="bl_copy">העתקה</button></div>` : ''}
+    <a class="btn wabtn" href="${waLink(` (${u.name}, חשבון חסום)`)}" target="_blank" rel="noopener">${WA_ICON} כתבו לנו בוואטסאפ</a>
+    ${contact ? `<div class="contact"><span>או במייל:</span> <b dir="ltr" class="sel">${esc(contact)}</b> <button class="btn ghost sm" id="bl_copy">העתקה</button></div>` : ''}
     <p class="note">החשבון: <span dir="ltr">${esc(u.email)}</span>. ההתקדמות שלכם שמורה, ותחזור ברגע שהגישה תחודש.</p>
     <button class="btn" id="bl_out">יציאה מהחשבון</button>
   </section></div>`;
