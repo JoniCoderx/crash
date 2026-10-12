@@ -514,7 +514,8 @@ article.lesson>h2{padding-inline:4px}
 .lsec h4{font-size:1.12rem;margin:0}
 .lsec p{margin:0;line-height:1.9}
 .lsec .fx{margin:4px 0}
-.lcall{border-radius:var(--r);padding:16px clamp(16px,3vw,22px);line-height:1.9;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.lcall{border-radius:var(--r);padding:16px clamp(16px,3vw,22px);line-height:1.9;display:block}
+.lcall>.ltag{display:table;margin-bottom:8px}
 .lcall>*{max-width:66ch}
 .ltag{display:inline-flex;align-items:center;gap:6px;font-family:var(--display);font-size:.78rem;font-weight:700;border-radius:999px;padding:3px 11px;margin-bottom:2px}
 .ltag::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
@@ -542,6 +543,7 @@ footer.site div{justify-content:center;text-align:center;font-size:.76rem;opacit
 
 /* QA round 2 */
 bdi.mnw{white-space:nowrap}
+.nobr{white-space:nowrap}
 bdi.mlong{display:inline-block;max-width:100%;overflow-x:auto;white-space:nowrap;vertical-align:bottom;scrollbar-width:thin;padding-bottom:1px}
 .examgrid .panel{display:flex;flex-direction:column;gap:10px}.examgrid .panel .btn.primary{width:100%;justify-content:center;margin-top:auto}.examgrid .panel .btn.ghost{align-self:center}
 .vrow{mask-image:linear-gradient(to left,#000 calc(100% - 40px),transparent);-webkit-mask-image:linear-gradient(to left,#000 calc(100% - 40px),transparent);padding-inline-end:40px;margin-top:12px}
@@ -557,6 +559,66 @@ nav.tabs{mask-image:linear-gradient(to left,#000 calc(100% - 28px),transparent);
 :root[data-theme="dark"]{--btn:#4256e6;--btn-ink:#ffffff}
 .btn.primary{background:var(--btn);border-color:var(--btn);color:var(--btn-ink)}
 .vbig{background:var(--btn);color:var(--btn-ink)}
+
+/* password field, forgot link, toast */
+.pw{position:relative;display:flex}.pw input{width:100%;padding-inline-end:46px}
+.eye{position:absolute;inset-block:0;inset-inline-end:4px;margin:auto 0;width:38px;height:38px;border:0;background:none;border-radius:10px;color:var(--muted);cursor:pointer;display:grid;place-items:center}
+.eye:hover{background:var(--surface);color:var(--ink)}.eye svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+.eye[aria-pressed="false"] .slash{display:none}
+.forgot{align-self:flex-start;font-size:.88rem;margin-top:-4px}
+.authwrap.single{grid-template-columns:1fr;max-width:460px}
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));inset-inline:0;margin:0 auto;width:max-content;max-width:calc(100% - 32px);background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:12px;box-shadow:var(--lift);z-index:20;font-weight:500;transition:opacity .4s,transform .4s}
+.toast.out{opacity:0;transform:translateY(8px)}
+/* admin */
+.user{display:flex;align-items:center;gap:8px}
+.adbtn{font:600 .85rem var(--display);border:1.5px solid var(--hl);background:var(--gold-soft);color:var(--ink);border-radius:10px;padding:5px 12px;cursor:pointer}
+.adbtn[aria-current="true"]{background:var(--hl);color:var(--hl-ink)}
+.kpis.six{grid-template-columns:repeat(6,1fr)}
+@media (max-width:900px){.kpis.six{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:520px){.kpis.six{grid-template-columns:repeat(2,1fr)}}
+.adchart{width:100%;height:auto;margin-top:10px;direction:ltr}
+.adchart .grid{stroke:var(--line);stroke-dasharray:3 4}.adchart .base{stroke:var(--line)}
+.adchart .ax{font:500 10px var(--mono);fill:var(--muted)}
+.adchart .b-act{fill:color-mix(in srgb,var(--accent) 55%,transparent)}.adchart .b-su{fill:var(--hl)}
+.legend{display:flex;gap:14px;font-size:.8rem;color:var(--muted)}.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-inline-end:6px;vertical-align:-1px}
+.lg-act::before{background:color-mix(in srgb,var(--accent) 55%,transparent)}.lg-su::before{background:var(--hl)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.chipbtn{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px;font:500 .86rem var(--display);cursor:pointer}
+.chipbtn .cnt{font:600 .75rem var(--mono);background:var(--sunk);border-radius:999px;padding:1px 7px;margin-inline-start:4px}
+.chipbtn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}.chipbtn[aria-pressed="true"] .cnt{background:color-mix(in srgb,var(--bg) 20%,transparent)}
+.adtools{gap:10px}
+.dotst{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--line);margin-inline-end:8px;vertical-align:1px}.dotst.on{background:var(--good);box-shadow:0 0 0 3px var(--good-soft)}
+.minibar{display:inline-block;width:52px;height:6px;border-radius:9px;background:var(--sunk);overflow:hidden;vertical-align:middle;margin-inline-end:4px}.minibar i{display:block;height:100%;background:var(--accent)}
+
+/* date picker */
+.dp{position:relative}
+.dpwrap{position:relative;display:flex}.dpwrap input{width:100%;padding-inline-end:46px;text-align:right;font-family:var(--mono)}
+.dpwrap input[aria-invalid="true"]{border-color:var(--bad)!important;box-shadow:0 0 0 3px var(--bad-soft)}
+.dpbtn{position:absolute;inset-block:0;inset-inline-end:4px;margin:auto 0;width:38px;height:38px;border:0;background:none;border-radius:10px;color:var(--accent);cursor:pointer;display:grid;place-items:center}
+.dpbtn:hover{background:var(--accent-soft)}.dpbtn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+.dphint{font-size:.76rem;color:var(--muted)}
+.onb .dphint{color:rgb(255 255 255/.65)}
+.dpop{position:absolute;top:calc(100% + 6px);inset-inline-start:0;z-index:15;width:288px;max-width:calc(100vw - 32px);background:var(--surface);color:var(--ink);border-radius:16px;box-shadow:var(--lift);border:1px solid var(--line);padding:12px}
+.dphead{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.dphead b{font-family:var(--display)}
+.dphead button,.dpfoot button{border:0;background:var(--sunk);color:var(--ink);border-radius:10px;min-width:36px;height:34px;font:600 1rem var(--display);cursor:pointer}
+.dpgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.dpgrid .wd{font-size:.75rem;color:var(--muted);padding:4px 0}
+.dpgrid button{border:0;background:none;color:var(--ink);border-radius:10px;height:34px;font:500 .92rem var(--body);cursor:pointer}
+.dpgrid button:hover{background:var(--accent-soft)}
+.dpgrid button.istoday{box-shadow:inset 0 0 0 1.5px var(--accent)}
+.dpgrid button.sel{background:var(--btn);color:var(--btn-ink);font-weight:700}
+.dpfoot{display:flex;justify-content:space-between;margin-top:8px}.dpfoot button{padding:0 12px;font-size:.85rem}
+
+/* blocked account + admin block controls */
+.auth.blocked{text-align:center;align-items:center;gap:12px}
+.lockic{width:64px;height:64px;border-radius:20px;background:var(--bad-soft);color:var(--bad);display:grid;place-items:center}.lockic svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+.contact{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;background:var(--sunk);border-radius:12px;padding:10px 14px}
+.contact .sel{user-select:all}
+.chip.blk{background:var(--bad-soft);color:var(--bad)}
+.blockbox{margin-top:14px;border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.blockbox.on{border-color:var(--bad);background:var(--bad-soft)}
+.blockbox textarea{width:100%;border-radius:10px;padding:10px 12px;background:var(--surface);border:1.5px solid var(--line);font:inherit;color:var(--ink);resize:vertical}
+.btn.danger{background:var(--bad);border-color:var(--bad);color:#fff}
 </style>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
   <linearGradient id="bm-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a3cc2"/><stop offset="1" stop-color="#121a66"/></linearGradient>
@@ -718,7 +780,7 @@ lesson:`
 <p>μ₀ הוא הממוצע לפי H₀. הסטטיסטי Z מודד כמה טעויות תקן ממוצע המדגם x̄ רחוק מ־μ₀. אם Z רחוק מאפס יותר מהערך הקריטי, התוצאה לא סבירה תחת H₀, ודוחים אותה.</p>
 <h4>שני סוגי טעויות</h4>
 <div class="tbl-wrap"><table class="mini"><tr><th></th><th>H₀ נכונה</th><th>H₀ אינה נכונה</th></tr>
-<tr><th>דוחים את H₀</th><td>טעות מסוג I (α)</td><td>החלטה נכונה (עוצמה = <bdi dir="ltr">1 − β</bdi>)</td></tr>
+<tr><th>דוחים את H₀</th><td>טעות מסוג I (α)</td><td>החלטה נכונה (העוצמה היא <bdi dir="ltr">1 − β</bdi>)</td></tr>
 <tr><th>לא דוחים</th><td>החלטה נכונה</td><td>טעות מסוג II (β)</td></tr></table></div>
 <ul><li>הקטנת α, כשגודל המדגם קבוע, מגדילה את β.</li><li>הגדלת המדגם מקטינה את β, ולכן מגדילה את עוצמת המבחן.</li></ul>
 <h4>p-value</h4>
@@ -792,7 +854,8 @@ lesson:`
 <div class="fx" dir="ltr">(1 + n) = (1 + r)·(1 + π)<br>r = (1 + n)/(1 + π) − 1 ≈ n − π</div>
 <p>בנוסחה, n היא הריבית הנומינלית, r היא הריבית הריאלית ו־π היא שיעור האינפלציה. הריבית הריאלית מודדת את הגידול בכוח הקנייה. הקירוב <bdi dir="ltr">n − π</bdi> טוב רק כשהמספרים קטנים.</p>
 <h4>הצמדת הקרן למדד</h4>
-<div class="fx" dir="rtl" style="direction:rtl;text-align:right">קרן צמודה = קרן × (מדד ידוע / מדד בסיס)</div>
+<div class="fx" dir="ltr">L<sub>1</sub> = L<sub>0</sub> × (I<sub>1</sub> / I<sub>0</sub>)</div>
+<p>כאן <bdi dir="ltr">L<sub>0</sub></bdi> היא הקרן המקורית, <bdi dir="ltr">L<sub>1</sub></bdi> היא הקרן הצמודה, <bdi dir="ltr">I<sub>0</sub></bdi> הוא מדד הבסיס, ו־<bdi dir="ltr">I<sub>1</sub></bdi> הוא המדד הידוע.</p>
 <p>מדד הבסיס הוא המדד ביום ההלוואה או ההנפקה, והמדד הידוע הוא המדד האחרון שפורסם ביום התשלום. למשל, קרן של 100,000 ₪, מדד בסיס 100 ומדד ידוע 103: הקרן הצמודה היא <bdi dir="ltr">100,000 × 103/100 = 103,000</bdi> ₪.</p>
 <h4>אג״ח צמודה מול אג״ח שקלית</h4>
 <p>אג״ח צמודה למדד מניבה תשואה ריאלית, ואג״ח שקלית מניבה תשואה נומינלית. <b>אינפלציית האיזון</b> היא שיעור האינפלציה שבו שתיהן מניבות אותה תשואה:</p>
@@ -832,12 +895,13 @@ lesson:`
 <div class="plain"><b>במילים פשוטות:</b> בשפיצר, בתחילת התקופה רוב התשלום הולך לריבית, ולכן הקרן יורדת לאט. בקרן שווה החוב קטן מהר יותר, ולכן סך הריבית נמוך יותר.</div>
 <div class="trap"><b>מלכודות נפוצות</b><ul>
 <li>להשתמש בנוסחה לתשלומים בסוף התקופה כשהתשלומים בתחילתה.</li>
-<li>להציב D₀ במקום D₁ בצמיתות גדלה.</li>
+<li>להציב בצמיתות גדלה את התשלום של השנה הנוכחית במקום C₁, התשלום בסוף השנה הראשונה.</li>
 <li>לשכוח להמיר לריבית חודשית בהלוואה עם תשלומים חודשיים.</li>
 </ul></div>`},
 
 {id:'f4', area:'fin', title:'הערכת השקעות: NPV ו־IRR', short:'NPV ו־IRR',
 lesson:`
+<p>הערכת השקעה עונה על שאלה אחת: האם הפרויקט מחזיר יותר ממה שהכסף היה מרוויח בהשקעה חלופית באותו סיכון. משווים את הערך הנוכחי של התקבולים להשקעה.</p>
 <div class="fx" dir="ltr">NPV = PV − I<br>IRR: הריבית שבה NPV = 0<br>PI = NPV / I &nbsp;(דף הנוסחאות הרשמי)<br>EAC = NPV·i / [1 − 1/(1 + i)<sup>t</sup>]</div>
 <p>הסימנים: I היא ההשקעה הראשונית (בזמן 0), PV הוא הערך הנוכחי של כל התקבולים העתידיים, i הוא מחיר ההון (שיעור ההיוון), ו־t הוא אורך חיי הפרויקט בשנים. ה־NPV (ערך נוכחי נקי) אומר כמה ערך הפרויקט מוסיף, בשקלים של היום. ה־IRR (שיעור תשואה פנימי) הוא הריבית שהפרויקט עצמו מניב.</p>
 <p><b>שימו לב:</b> בדף הנוסחאות הרשמי מדד הרווחיות (PI) מוגדר כ־NPV חלקי ההשקעה. לכן פרויקט כדאי כאשר <bdi dir="ltr">PI &gt; 0</bdi>, ולא כאשר <bdi dir="ltr">PI &gt; 1</bdi> כמו בהגדרה הישנה <bdi dir="ltr">(PV/I)</bdi>.</p>
@@ -860,7 +924,7 @@ lesson:`
 מדד הרווחיות: <bdi dir="ltr">PI = 41.32/1,000 = 0.041</bdi>, גדול מאפס.<br>
 IRR: פותרים <bdi dir="ltr">600x + 600x² = 1,000</bdi>, כאשר <bdi dir="ltr">x = 1/(1 + i)</bdi>. מתקבל <bdi dir="ltr">x = 0.8844</bdi>, ולכן <bdi dir="ltr">IRR = 1/0.8844 − 1 ≈ 13.07%</bdi>, יותר ממחיר ההון (10%).<br>
 EAC לשנתיים: <bdi dir="ltr">41.32·0.1 / (1 − 1/1.1²) = 4.132/0.1736 = 23.81</bdi> בשנה.</div>
-<div class="plain"><b>במילים פשוטות:</b> NPV עונה על השאלה: כמה כסף, בערכים של היום, הפרויקט מוסיף לי מעבר למה שהייתי מרוויח בהשקעה החלופית. IRR עונה על השאלה: איזו ריבית הפרויקט מניב לי.</div>
+<div class="plain"><b>במילים פשוטות:</b> NPV עונה על השאלה: כמה כסף, בערכים של היום, הפרויקט מוסיף מעבר למה שהיה מתקבל בהשקעה החלופית. IRR עונה על השאלה: איזו ריבית הפרויקט מניב.</div>
 <div class="trap"><b>מלכודות נפוצות</b><ul>
 <li>לבחור לפי IRR בין פרויקטים מוציאים זה את זה.</li>
 <li>להוון את ההשקעה הראשונית. היא מתבצעת בזמן 0.</li>
@@ -870,16 +934,18 @@ EAC לשנתיים: <bdi dir="ltr">41.32·0.1 / (1 − 1/1.1²) = 4.132/0.1736 =
 {id:'f5', area:'fin', title:'אגרות חוב, תשואה ומח״מ', short:'אג״ח ומח״מ',
 lesson:`
 <p>מחיר אג״ח הוא הערך הנוכחי של תשלומי הקופון ושל הקרן, מהוונים בתשואה לפדיון (YTM).</p>
-<div class="fx" dir="ltr">P = Σ C/(1 + y)<sup>t</sup> + F/(1 + y)<sup>n</sup><br>אג״ח ללא קופון: P = F / (1 + y)<sup>n</sup><br>תשואה שוטפת = C / P</div>
+<div class="fx" dir="ltr">P = Σ C/(1 + y)<sup>t</sup> + F/(1 + y)<sup>n</sup><br>אג״ח ללא קופון: P = F / (1 + y)<sup>n</sup><br>תשואה שוטפת: C / P</div>
 <p>הסימנים: P הוא מחיר האג״ח, C הוא הקופון השנתי בשקלים, F הוא הערך הנקוב (הקרן שמוחזרת בסוף), y היא התשואה לפדיון, t הוא מועד כל תשלום ו־n הוא מספר השנים עד הפדיון. התשואה השוטפת היא רק הקופון חלקי המחיר, בלי הרווח או ההפסד בפדיון. דוגמה: אג״ח ללא קופון, ערך נקוב 100, 3 שנים, תשואה 6%: <bdi dir="ltr">P = 100/1.06³ = 83.96</bdi>.</p>
 <h4>כללים שחייבים לזכור</h4>
 <ul>
 <li>המחיר והתשואה נעים <b>בכיוונים הפוכים</b>.</li>
-<li>הקופון שווה לתשואה, ולכן האג״ח נסחרת לפי הערך הנקוב. התשואה גבוהה מהקופון, ולכן האג״ח נסחרת בניכיון (מחיר נמוך מ־100). התשואה נמוכה מהקופון, ולכן היא נסחרת בפרמיה.</li>
+<li>כשהקופון שווה לתשואה, האג״ח נסחרת לפי הערך הנקוב (100).</li>
+<li>כשהתשואה גבוהה מהקופון, האג״ח נסחרת בניכיון (מחיר נמוך מ־100).</li>
+<li>כשהתשואה נמוכה מהקופון, האג״ח נסחרת בפרמיה (מחיר גבוה מ־100).</li>
 </ul>
 <h4>מח״מ (משך חיים ממוצע)</h4>
 <div class="fx" dir="ltr">מח״מ מקולי: D = Σ t·PV(CF<sub>t</sub>) / P<br>מח״מ מתוקן: D* = D / (1 + y)<br>ΔP/P ≈ −D*·Δy<br>תיקון קמירות: + ½·C·Δy²<br>אג״ח צמיתה: D = (1 + y)/y</div>
-<p>הסימנים: <bdi dir="ltr">PV(CF<sub>t</sub>)</bdi> הוא הערך הנוכחי של התשלום בשנה t. D הוא מח״מ מקולי, D* הוא המח״מ המתוקן, Δy הוא השינוי בתשואה, ו־C היא הקמירות. המח״מ של מקולי הוא הממוצע המשוקלל של מועדי התשלומים, כשהמשקל של כל מועד הוא החלק שלו במחיר. המח״מ המתוקן משמש לחישוב שינוי המחיר: עלייה של Δy בתשואה מורידה את המחיר בכ־<bdi dir="ltr">D*·Δy</bdi> אחוזים. באג״ח ללא קופון המח״מ שווה לזמן לפדיון. באג״ח צמיתה עם תשואה של 6%: <bdi dir="ltr">D = 1.06/0.06 = 17.67</bdi> שנים.</p>
+<p>הסימנים: <bdi dir="ltr">PV(CF<sub>t</sub>)</bdi> הוא הערך הנוכחי של התשלום בשנה t. D הוא מח״מ מקולי, D* הוא המח״מ המתוקן, Δy הוא השינוי בתשואה, ו־C בשורת תיקון הקמירות היא הקמירות (ולא הקופון). המח״מ של מקולי הוא הממוצע המשוקלל של מועדי התשלומים, כשהמשקל של כל מועד הוא החלק שלו במחיר. המח״מ המתוקן משמש לחישוב שינוי המחיר: עלייה של Δy בתשואה מורידה את המחיר בכ־<bdi dir="ltr">D*·Δy</bdi> אחוזים. באג״ח ללא קופון המח״מ שווה לזמן לפדיון. באג״ח צמיתה עם תשואה של 6%: <bdi dir="ltr">D = 1.06/0.06 = 17.67</bdi> שנים.</p>
 <p>המח״מ <b>ארוך יותר</b> כאשר: התקופה לפדיון ארוכה יותר, הקופון נמוך יותר או התשואה נמוכה יותר.</p>
 <p><b>קמירות</b>: עקומת המחיר־תשואה קמורה, ולכן הקירוב הלינארי של המח״מ <u>מעריך בחסר</u> את עליית המחיר כשהריבית יורדת, ו<u>מעריך ביתר</u> את ירידת המחיר כשהריבית עולה. מבין שתי אג״ח עם אותו מח״מ, עדיפה זו שהקמירות שלה גבוהה יותר.</p>
 <div class="ex"><b>דוגמה פתורה.</b> אג״ח ל־3 שנים, קופון 5%, ערך נקוב 100, תשואה לפדיון 6%.<br>
@@ -936,7 +1002,7 @@ lesson:`
 
 {id:'f8', area:'fin', title:'סיכון, תשואה ותורת התיקים', short:'תיקים',
 lesson:`
-<div class="fx" dir="ltr">E(R<sub>p</sub>) = Σ w<sub>i</sub>·E(R<sub>i</sub>)<br>σ²<sub>p</sub> = w₁²σ₁² + w₂²σ₂² + 2w₁w₂·ρ·σ₁σ₂<br>מינימום שונות: w₁ = (σ₂² − Cov) / (σ₁² + σ₂² − 2Cov)<br>Sharpe = (E(R) − r<sub>f</sub>) / σ</div>
+<div class="fx" dir="ltr">E(R<sub>p</sub>) = Σ w<sub>i</sub>·E(R<sub>i</sub>)<br>σ²<sub>p</sub> = w₁²σ₁² + w₂²σ₂² + 2w₁w₂·ρ·σ₁σ₂<br>מינימום שונות: w₁ = (σ₂² − Cov) / (σ₁² + σ₂² − 2Cov)<br>שארפ: (E(R) − r<sub>f</sub>) / σ</div>
 <p>הסימנים: <bdi dir="ltr">w<sub>i</sub></bdi> הוא המשקל של נכס i בתיק (החלק מהכסף שמושקע בו), <bdi dir="ltr">E(R<sub>i</sub>)</bdi> היא התשואה הצפויה שלו, σ היא סטיית התקן (הסיכון), ρ הוא מקדם המתאם בין שני הנכסים, ו־<bdi dir="ltr">Cov = ρ·σ₁σ₂</bdi> היא השונות המשותפת. <bdi dir="ltr">r<sub>f</sub></bdi> היא הריבית חסרת הסיכון. מדד שארפ מודד כמה תשואה עודפת מקבלים על כל יחידת סיכון.</p>
 <h4>תועלת הפיזור</h4>
 <ul>
@@ -947,10 +1013,10 @@ lesson:`
 <p>הפיזור מבטל רק את הסיכון ה<b>ספציפי</b> (הלא־שיטתי). הסיכון ה<b>שיטתי</b>, כלומר סיכון השוק, נשאר.</p>
 <h4>החזית היעילה וקו שוק ההון (CML)</h4>
 <p>תיק יעיל הוא תיק שאין תיק אחר שמניב תשואה צפויה גבוהה יותר באותה רמת סיכון. כשמוסיפים נכס חסר סיכון, כל התיקים היעילים נמצאים על קו ישר שיוצא מ־<bdi dir="ltr">r<sub>f</sub></bdi> ועובר דרך תיק השוק M:</p>
-<div class="fx" dir="ltr">E(R<sub>p</sub>) = r<sub>f</sub> + [(E(R<sub>m</sub>) − r<sub>f</sub>) / σ<sub>m</sub>]·σ<sub>p</sub><br>שילוב חסר סיכון ומסוכן: σ<sub>p</sub> = w·σ<sub>risky</sub></div>
-<p>בקו הראשון, <bdi dir="ltr">E(R<sub>m</sub>)</bdi> ו־<bdi dir="ltr">σ<sub>m</sub></bdi> הם התשואה הצפויה והסיכון של תיק השוק, ו־<bdi dir="ltr">σ<sub>p</sub></bdi> הוא הסיכון של התיק שלנו. בקו השני, w הוא החלק שמושקע בנכס המסוכן. הנכס חסר הסיכון לא תורם סיכון, ולכן סטיית התקן של התיק היא פשוט החלק המסוכן כפול סטיית התקן שלו.</p>
+<div class="fx" dir="ltr">E(R<sub>p</sub>) = r<sub>f</sub> + [(E(R<sub>m</sub>) − r<sub>f</sub>) / σ<sub>m</sub>]·σ<sub>p</sub><br>שילוב חסר סיכון ומסוכן: σ<sub>p</sub> = w·σ<sub>A</sub></div>
+<p>בקו הראשון, <bdi dir="ltr">E(R<sub>m</sub>)</bdi> ו־<bdi dir="ltr">σ<sub>m</sub></bdi> הם התשואה הצפויה והסיכון של תיק השוק, ו־<bdi dir="ltr">σ<sub>p</sub></bdi> הוא הסיכון של התיק שלנו. בקו השני, w הוא החלק שמושקע בנכס המסוכן A, ו־<bdi dir="ltr">σ<sub>A</sub></bdi> היא סטיית התקן שלו. הנכס חסר הסיכון לא תורם סיכון, ולכן סטיית התקן של התיק היא פשוט החלק המסוכן כפול סטיית התקן שלו.</p>
 <h4>סוגי שאלות שחוזרים במבחן</h4>
-<ul><li><b>תיק עם נכס חסר סיכון ויעד לסטיית התקן</b>: <bdi dir="ltr">σ<sub>total</sub> = w<sub>risky</sub>·σ<sub>risky</sub></bdi>. אם סטיית התקן של התיק המנייתי היא 18% ורוצים להגיע ל־9%, משקיעים <bdi dir="ltr">9/18 = 50%</bdi> בתיק המנייתי, ו־50% בנכס חסר הסיכון (שאלה 1 במבחן 09/2025).</li>
+<ul><li><b>תיק עם נכס חסר סיכון ויעד לסטיית התקן</b>: <bdi dir="ltr">σ<sub>p</sub> = w·σ<sub>A</sub></bdi>. אם סטיית התקן של התיק המנייתי היא 18% ורוצים להגיע ל־9%, משקיעים <bdi dir="ltr">9/18 = 50%</bdi> בתיק המנייתי, ו־50% בנכס חסר הסיכון. כך היה בשאלה 1 במבחן 09/2025.</li>
 <li><b>תיק מינימום שונות</b>: המשקל של A לפי הנוסחה בדף הרשמי הוא <bdi dir="ltr">W<sub>A</sub>* = (σ<sub>B</sub>² − σ<sub>A</sub>σ<sub>B</sub>ρ)/(σ<sub>A</sub>² + σ<sub>B</sub>² − 2σ<sub>A</sub>σ<sub>B</sub>ρ)</bdi>. השאלה יכולה להופיע גם בכיוון ההפוך: נתונה סטיית התקן של תיק המינימום, ומבקשים את ρ (שאלה 20). במקרה כזה פותרים בניסוי וטעייה, על ידי הצבת התשובות.</li>
 <li>המתאם שמביא לסיכון <b>המינימלי</b> הוא ‎−1 (שאלה 6).</li></ul>
 <div class="ex"><b>דוגמה פתורה.</b> נכס A: תשואה צפויה 10% וסטיית תקן 20%. נכס B: תשואה צפויה 14% וסטיית תקן 30%. המתאם ביניהם: <bdi dir="ltr">ρ = 0.2</bdi>. משקיעים 60% ב־A ו־40% ב־B.<br>
@@ -984,7 +1050,7 @@ lesson:`
 <h4>אלפא ותמחור</h4>
 <p>אם התשואה הצפויה של מניה גבוהה מזו שנותן מודל CAPM, המניה נמצאת מעל ה־SML: היא <b>זולה</b> (אלפא חיובית), וכדאי לקנות אותה.</p>
 <h4>מדדי ביצוע</h4>
-<div class="fx" dir="ltr">Sharpe = (R<sub>p</sub> − r<sub>f</sub>) / σ<sub>p</sub><br>Treynor = (R<sub>p</sub> − r<sub>f</sub>) / β<sub>p</sub><br>Jensen α = R<sub>p</sub> − [r<sub>f</sub> + β<sub>p</sub>(R<sub>m</sub> − r<sub>f</sub>)]</div>
+<div class="fx" dir="ltr">שארפ: (R<sub>p</sub> − r<sub>f</sub>) / σ<sub>p</sub><br>טריינור: (R<sub>p</sub> − r<sub>f</sub>) / β<sub>p</sub><br>אלפא של ג׳נסן: α = R<sub>p</sub> − [r<sub>f</sub> + β<sub>p</sub>(R<sub>m</sub> − r<sub>f</sub>)]</div>
 <p><bdi dir="ltr">R<sub>p</sub></bdi> היא התשואה שהתיק השיג בפועל. שני המדדים הראשונים מודדים תשואה עודפת ליחידת סיכון. מדד שארפ מתאים כשהתיק הוא כל ההשקעה של המשקיע, ולכן הוא מתייחס לסיכון הכולל (σ). מדד טריינור מתאים כשהתיק הוא חלק מתיק מפוזר, ולכן הוא מתייחס לסיכון השיטתי בלבד (β). האלפא של ג׳נסן היא התשואה שהתיק השיג מעבר למה שמגיע לו לפי CAPM.</p>
 <div class="ex"><b>דוגמה פתורה.</b> <bdi dir="ltr">r<sub>f</sub> = 3%</bdi>, תשואת השוק 9%, <bdi dir="ltr">β = 1.2</bdi>.<br>
 התשואה הנדרשת: <bdi dir="ltr">E(R) = 3 + 1.2·(9 − 3) = 3 + 7.2 = 10.2%</bdi>.<br>
@@ -1002,7 +1068,7 @@ lesson:`
 const BRAND = {en: 'Silas Academy', he: 'אקדמיית סיילס'};
 // Cloud backend (Supabase, free tier). Empty url → accounts live on this device only.
 // The key here is Supabase's public "anon" key: it is meant to be in the page; the database's access rules protect the data.
-const CLOUD = {url: 'https://tsgbbmsqxxhggsmxjqpm.supabase.co', key: 'sb_publishable_lFPddHMR7XYQyNexNji-4g_eiftzZZ7', adminEmail: 'kutaybamusic@gmail.com', adminUser: 'Admin'};
+const CLOUD = {url: 'https://tsgbbmsqxxhggsmxjqpm.supabase.co', key: 'sb_publishable_lFPddHMR7XYQyNexNji-4g_eiftzZZ7', adminEmail: 'kutaybamusic@gmail.com', adminUser: 'Admin', support: 'kutaybamusic@gmail.com'};
 // Every course is one entry. A course with `open: true` has its own views (the stats & finance course is the app below).
 const COURSES = [
   {id: 'stats-finance', open: true, title: 'סטטיסטיקה ומימון', tag: 'רשות ניירות ערך',
@@ -1053,11 +1119,16 @@ const ACC = (() => {
     async rename(name) { const u = db.users[db.current]; if (u && name.trim()) { u.name = name.trim(); store(); } },
     async remove() { const id = db.current; if (!id) return; Object.keys(localStorage).filter(k => k.startsWith(`silas:${id}:`)).forEach(k => localStorage.removeItem(k)); delete db.users[id]; db.current = null; store(); },
     async pullProgress() { return null; }, pushProgress() {},
+    async resetPassword() { throw new Error('איפוס סיסמה במייל זמין רק בחשבון מחובר לשרת.'); },
+    async updatePassword(pw) { const u = db.users[db.current]; if (!u) return; if (String(pw || '').length < 6) throw new Error('הסיסמה צריכה להיות באורך 6 תווים לפחות.'); u.salt = Math.random().toString(36).slice(2, 10); u.pw = await hash(pw, u.salt); store(); },
+    recovering: () => false,
     admin: null
   };
 
   // ----- cloud backend: Supabase Auth + tables (see supabase-setup.sql) -----
   let sb = null, me = null, sid = null, beat = null, lastBeat = 0, pushT = null;
+  // a password-reset link lands here with "type=recovery" in the address; remember it before the library cleans the URL
+  let recovering = typeof location !== 'undefined' && /type=recovery/.test(location.hash + location.search);
   const loadLib = () => window.supabase ? Promise.resolve() : new Promise((ok, no) => {
     const sc = document.createElement('script'); sc.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.50.0/dist/umd/supabase.js';
     sc.onload = ok; sc.onerror = () => no(new Error('lib')); document.head.appendChild(sc);
@@ -1073,14 +1144,16 @@ const ACC = (() => {
   };
   async function loadMe(user) {
     if (!user) { me = null; return; }
-    const {data} = await sb.from('profiles').select('name,email,is_admin').eq('id', user.id).maybeSingle();
-    me = {id: user.id, name: (data && data.name) || (user.user_metadata && user.user_metadata.name) || user.email.split('@')[0], email: user.email, isAdmin: !!(data && data.is_admin)};
+    let {data, error} = await sb.from('profiles').select('name,email,is_admin,blocked,block_message').eq('id', user.id).maybeSingle();
+    if (error) ({data} = await sb.from('profiles').select('name,email,is_admin').eq('id', user.id).maybeSingle()); // before supabase-block.sql ran
+    me = {id: user.id, name: (data && data.name) || (user.user_metadata && user.user_metadata.name) || user.email.split('@')[0], email: user.email, isAdmin: !!(data && data.is_admin), blocked: !!(data && data.blocked), blockMessage: (data && data.block_message) || ''};
   }
   async function track() { // one session per visit; heartbeats add the visible, active time
     stopTrack(); if (!me) return;
     try { const {data} = await sb.rpc('start_session', {p_device: navigator.userAgent}); sid = data; } catch (e) { sid = null; }
     lastBeat = Date.now();
-    const send = () => { if (!sid || document.hidden) { lastBeat = Date.now(); return; } const s = Math.round((Date.now() - lastBeat) / 1000); lastBeat = Date.now(); if (s > 0) sb.rpc('heartbeat', {p_session: sid, p_seconds: s}).then(() => {}, () => {}); };
+    const send = () => { if (!sid || document.hidden) { lastBeat = Date.now(); return; } const s = Math.round((Date.now() - lastBeat) / 1000); lastBeat = Date.now(); sb.rpc('heartbeat', {p_session: sid, p_seconds: s}).then(r => { if (r && r.data === true && me && !me.blocked) { await_block(); } }, () => {}); };
+    const await_block = async () => { await loadMe((await sb.auth.getUser()).data.user); if (me && me.blocked && cloud.onBlocked) cloud.onBlocked(); };
     beat = setInterval(send, 60000);
     track.vis = () => { if (document.hidden) send(); else lastBeat = Date.now(); };
     document.addEventListener('visibilitychange', track.vis);
@@ -1089,7 +1162,8 @@ const ACC = (() => {
   function stopTrack() { clearInterval(beat); beat = null; sid = null; if (track.vis) document.removeEventListener('visibilitychange', track.vis); }
   const cloud = {
     async ready() {
-      await loadLib(); sb = window.supabase.createClient(CLOUD.url, CLOUD.key, {auth: {persistSession: true, autoRefreshToken: true}});
+      await loadLib(); sb = window.supabase.createClient(CLOUD.url, CLOUD.key, {auth: {persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: 'implicit'}});
+      sb.auth.onAuthStateChange(ev => { if (ev === 'PASSWORD_RECOVERY') { recovering = true; if (cloud.onRecovery) cloud.onRecovery(); } });
       const {data} = await sb.auth.getSession(); await loadMe(data.session && data.session.user); if (me) track();
     },
     user: () => me,
@@ -1107,7 +1181,20 @@ const ACC = (() => {
       if (error) throw new Error(he(error));
       await loadMe(data.user); track();
     },
-    async logout() { stopTrack(); await sb.auth.signOut(); me = null; },
+    async logout() { stopTrack(); clearTimeout(pushT); await sb.auth.signOut(); me = null; },
+    async resetPassword(ident) {
+      const email = norm(asEmail(ident));
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error('כתובת האימייל לא תקינה.');
+      const {error} = await sb.auth.resetPasswordForEmail(email, {redirectTo: location.origin + location.pathname});
+      if (error) throw new Error(he(error));
+    },
+    async updatePassword(pw) {
+      if (String(pw || '').length < 6) throw new Error('הסיסמה צריכה להיות באורך 6 תווים לפחות.');
+      const {error} = await sb.auth.updateUser({password: pw});
+      if (error) throw new Error(/different from the old/i.test(error.message) ? 'הסיסמה החדשה צריכה להיות שונה מהקודמת.' : he(error));
+      recovering = false;
+    },
+    recovering: () => recovering,
     async rename(name) { if (!me || !name.trim()) return; me.name = name.trim(); await sb.from('profiles').update({name: me.name}).eq('id', me.id); },
     async remove() { await cloud.logout(); },
     async pullProgress(course) {
@@ -1117,7 +1204,8 @@ const ACC = (() => {
     },
     pushProgress(course, data) { // debounced, so a burst of answers is one write
       if (!me) return; clearTimeout(pushT);
-      pushT = setTimeout(() => sb.from('progress').upsert({user_id: me.id, course, data, updated_at: new Date().toISOString()}).then(() => {}, () => {}), 1500);
+      const uid = me.id;
+      pushT = setTimeout(() => { if (!me || me.id !== uid) return; sb.from('progress').upsert({user_id: uid, course, data, updated_at: new Date().toISOString()}).then(() => {}, () => {}); }, 1500);
     },
     admin: {
       async users() {
@@ -1126,6 +1214,12 @@ const ACC = (() => {
         const prog = {}; (g.data || []).forEach(r => { prog[r.user_id] = r; });
         return p.data.map(u => ({...u, progress: prog[u.id] || null}));
       },
+      async recent(days = 30) { // every visit in the window, for the activity chart
+        const since = new Date(Date.now() - days * 864e5).toISOString();
+        const {data, error} = await sb.from('sessions').select('user_id,started_at,seconds').gte('started_at', since).order('started_at', {ascending: false}).limit(5000);
+        if (error) throw new Error(he(error)); return data;
+      },
+      async setBlock(uid, blocked, msg) { const {error} = await sb.rpc('set_block', {p_user: uid, p_blocked: blocked, p_message: msg || ''}); if (error) throw new Error(/function|schema cache/i.test(error.message) ? 'צריך להריץ קודם את supabase-block.sql ב־Supabase.' : he(error)); },
       async sessions(uid) {
         const {data, error} = await sb.from('sessions').select('started_at,last_ping,seconds,device').eq('user_id', uid).order('started_at', {ascending: false}).limit(50);
         if (error) throw new Error(he(error)); return data;
@@ -1143,6 +1237,9 @@ const ACC = (() => {
     signup: (n, e, p) => B.signup(n, e, p), login: (e, p) => B.login(e, p), logout: () => B.logout(),
     rename: n => B.rename(n), remove: () => B.remove(),
     pullProgress: c => B.pullProgress(c), pushProgress: (c, d) => B.pushProgress(c, d),
+    resetPassword: e => B.resetPassword(e), updatePassword: p => B.updatePassword(p), recovering: () => B.recovering(),
+    set onRecovery(f) { B.onRecovery = f; },
+    set onBlocked(f) { B.onBlocked = f; },
     get admin() { return B.admin; }
   };
 })();
@@ -1197,7 +1294,7 @@ s1:[
    why:'החציון נקבע רק לפי המיקום של התצפית האמצעית בסדרה המסודרת. אם מגדילים מאוד את הערך הגבוה ביותר, הוא נשאר הגבוה ביותר, והתצפית האמצעית לא משתנה.',
    steps:['דוגמה: בסדרה 1, 2, 3, 4, 5 החציון 3 והממוצע 3.', 'מחליפים את 5 ב־500: החציון עדיין 3, והממוצע קופץ ל־102.'],
    res:'החציון.',
-   tip:'מדדים שמשתמשים בערך של כל תצפית (ממוצע, שונות, טווח) רגישים לקיצוניים. החציון משתמש רק בסדר.'}),
+   tip:'מדדים שמחושבים מהערכים עצמם (ממוצע, שונות) או מהקצוות (טווח) רגישים לקיצוניים. החציון תלוי רק בסדר התצפיות.'}),
  w:[null,
    'הממוצע מושפע מכל תצפית. ערך קיצוני אחד מגדיל את הסכום, ולכן מזיז את הממוצע.',
    'סטיית התקן מחושבת מריבועי הסטיות מהממוצע. לערך קיצוני יש סטייה גדולה, והריבוע מגדיל אותה עוד יותר.',
@@ -1260,7 +1357,7 @@ s2:[
    '24 הוא <bdi dir="ltr">8·3</bdi>. אין כאן כפל של מספר המניות במספר הבחירות. סופרים קבוצות: <bdi dir="ltr">C(8,3) = 56</bdi>.',
    '512 הוא <bdi dir="ltr">8³</bdi>, כלומר בחירה עם חזרות וכשהסדר חשוב. כאן אי אפשר לבחור אותה מניה פעמיים, והסדר לא חשוב.']},
 {q:'ההסתברות שהשוק יהיה במצב רע היא 30%. במצב רע קרן מפסידה בהסתברות 0.8, ובמצב טוב בהסתברות 0.2. ידוע שהקרן הפסידה. מה ההסתברות שהשוק היה במצב רע?', o:['כ־63%','כ־24%','כ־38%','80%'],
- e:SOL({ask:'הסתברות "הפוכה": יודעים שהקרן הפסידה, ושואלים מה הסיכוי שהסיבה הייתה מצב שוק רע.',
+ e:SOL({ask:'הסתברות "הפוכה": יודעים שהקרן הפסידה, ושואלים מה הסיכוי שהסיבה הייתה מצב שוק רע. בנוסחה R מסמן מצב שוק רע, ו־L מסמן הפסד.',
    f:'<bdi dir="ltr">P(R|L) = P(R)·P(L|R) / P(L)</bdi>',
    why:'זו נוסחת בייס. מתוך כל המקרים שבהם הקרן הפסידה (המכנה), בודקים איזה חלק הגיע ממצב רע (המונה).',
    steps:['הפסד במצב רע: <bdi dir="ltr">0.3·0.8 = 0.24</bdi>', 'הפסד במצב טוב: <bdi dir="ltr">0.7·0.2 = 0.14</bdi>', 'ההסתברות הכוללת להפסד: <bdi dir="ltr">0.24 + 0.14 = 0.38</bdi>', 'בייס: <bdi dir="ltr">0.24/0.38 ≈ 0.632</bdi>'],
@@ -1272,7 +1369,7 @@ s2:[
    '80% היא <bdi dir="ltr">P(L|R)</bdi>, הסיכוי להפסיד בהינתן מצב רע. שואלים על הכיוון ההפוך, <bdi dir="ltr">P(R|L)</bdi>, ולשם כך צריך את בייס.']},
 {q:'מטילים שתי קוביות הוגנות. מה ההסתברות שסכומן 7?', o:['1/6','1/12','7/36','1/36'],
  e:SOL({ask:'כמה מתוך כל התוצאות האפשריות של שתי קוביות נותנות סכום 7.',
-   f:'P = מספר התוצאות הרצויות / מספר כל התוצאות',
+   f:'ההסתברות היא מספר התוצאות הרצויות חלקי מספר כל התוצאות.',
    why:'כל זוג סדור (קובייה ראשונה, קובייה שנייה) שווה הסתברות, ולכן מספיק לספור.',
    steps:['כל התוצאות: <bdi dir="ltr">6·6 = 36</bdi>', 'סכום 7: <bdi dir="ltr">(1,6), (2,5), (3,4), (4,3), (5,2), (6,1)</bdi>, כלומר 6 תוצאות', 'ההסתברות: <bdi dir="ltr">6/36 = 1/6</bdi>'],
    res:'ההסתברות היא 1/6.',
@@ -1375,7 +1472,7 @@ s4:[
 {q:'איזו טענה נכונה לגבי ההתפלגות הנורמלית?', o:['הממוצע, החציון והשכיח שווים','הממוצע גדול מהחציון','השונות שווה לממוצע','היא מוגדרת רק לערכים חיוביים'],
  e:SOL({ask:'איזו תכונה מתקיימת תמיד בהתפלגות נורמלית.',
    why:'העקומה הנורמלית היא פעמון סימטרי סביב μ. השיא שלה (השכיח) נמצא ב־μ, חצי מהשטח משני צדי μ (החציון), ובגלל הסימטריה גם הממוצע הוא μ.',
-   steps:['סימטריה סביב μ ולכן החציון = μ.', 'השיא של הפעמון ב־μ ולכן השכיח = μ.', 'הממוצע של התפלגות סימטרית הוא מרכז הסימטריה, μ.'],
+   steps:['ההתפלגות סימטרית סביב μ, ולכן החציון שווה ל־μ.', 'השיא של הפעמון נמצא ב־μ, ולכן גם השכיח שווה ל־μ.', 'הממוצע של התפלגות סימטרית הוא מרכז הסימטריה, μ.'],
    res:'בהתפלגות נורמלית הממוצע, החציון והשכיח שווים.',
    tip:'ממוצע ≠ חציון הוא סימן לאסימטריה, ולכן לא יכול לקרות בהתפלגות נורמלית.'}),
  w:[null,
@@ -1408,9 +1505,9 @@ s4:[
 s5:[
 {q:'כדי להקטין פי 2 את רוחב רווח הסמך, באותה רמת ביטחון, יש להגדיל את גודל המדגם פי:', o:['4','2','√2','8'],
  e:SOL({ask:'פי כמה צריך להגדיל את n כדי שרוחב רווח הסמך יקטן פי 2.',
-   f:'<bdi dir="ltr">width = 2·z·σ/√n</bdi>',
+   f:'<bdi dir="ltr">2E = 2·z·σ/√n</bdi>',
    why:'n נמצא בנוסחה מתחת לשורש. כדי לחלק את הרוחב ב־2 צריך ש־√n יגדל פי 2, ולכן n עצמו צריך לגדול פי <bdi dir="ltr">2² = 4</bdi>.',
-   steps:['רוצים: <bdi dir="ltr">√n<sub>new</sub> = 2·√n</bdi>', 'מעלים בריבוע: <bdi dir="ltr">n<sub>new</sub> = 4·n</bdi>'],
+   steps:['הרוחב (2E) תלוי ב־n רק דרך המכנה √n. מסמנים ב־n<sub>2</sub> את גודל המדגם החדש.', 'כדי שהרוחב יקטן פי 2, המכנה צריך לגדול פי 2: <bdi dir="ltr">√n<sub>2</sub> = 2·√n</bdi>', 'מעלים בריבוע: <bdi dir="ltr">n<sub>2</sub> = 4·n</bdi>'],
    res:'יש להגדיל את המדגם פי 4.',
    tip:'כדי להקטין את הרוחב פי k, מגדילים את המדגם פי k².'}),
  w:[null,
@@ -1506,9 +1603,9 @@ s6:[
    'אין קשר של שוויון בין α ל־β. הם הסתברויות של שתי טעויות שונות, וכשאחת קטנה השנייה גדלה.']},
 {q:'מהי עוצמת המבחן?', o:['ההסתברות לדחות את H₀ כשהיא לא נכונה','ההסתברות לדחות את H₀ כשהיא נכונה','ההסתברות לא לדחות את H₀ כשהיא נכונה','ה־p-value'],
  e:SOL({ask:'ההגדרה של עוצמת המבחן.',
-   f:'<bdi dir="ltr">power = 1 − β</bdi>',
+   f:'העוצמה היא <bdi dir="ltr">1 − β</bdi>.',
    why:'העוצמה מודדת עד כמה המבחן מצליח לזהות מצב שבו H₀ שגויה. β היא ההסתברות לפספס את זה, ולכן העוצמה היא המשלים שלה.',
-   steps:['β = הסתברות לא לדחות H₀ שגויה.', 'העוצמה = <bdi dir="ltr">1 − β</bdi> = הסתברות לדחות H₀ שגויה.'],
+   steps:['β היא ההסתברות לא לדחות H₀ שגויה.', 'העוצמה היא <bdi dir="ltr">1 − β</bdi>, כלומר ההסתברות לדחות H₀ שגויה.'],
    res:'עוצמת המבחן היא ההסתברות לדחות את H₀ כשהיא לא נכונה.',
    tip:'עוצמה = החלטה נכונה כש־H₀ שגויה.'}),
  w:[null,
@@ -1517,7 +1614,7 @@ s6:[
    'ה־p-value מחושב מהמדגם בהנחה ש־H₀ נכונה. העוצמה היא תכונה של המבחן כולו, ומחושבת בהנחה ש־H₀ שגויה.']},
 {q:'סטטיסטי המבחן שהתקבל הוא Z = 2.2, בכיוון ההשערה החלופית. באיזה מקרה <u>לא</u> נדחה את H₀?', o:['מבחן חד־צדדי ברמת 1%','מבחן דו־צדדי ברמת 5%','מבחן חד־צדדי ברמת 5%','מבחן דו־צדדי ברמת 10%'],
  e:SOL({ask:'באיזה מבחן הערך הקריטי גבוה מ־2.2, כך ש־2.2 לא מספיק כדי לדחות.',
-   f:'דוחים כאשר <bdi dir="ltr">Z > z<sub>crit</sub></bdi>',
+   f:'דוחים כאשר Z גדול מהערך הקריטי z<sub>α</sub>',
    why:'במבחן חד־צדדי כל α נמצא בזנב אחד. במבחן דו־צדדי α מתחלק לשני זנבות, ולכן בכל זנב <bdi dir="ltr">α/2</bdi>. ככל שהשטח בזנב קטן יותר, הערך הקריטי גבוה יותר.',
    steps:['חד־צדדי 1%: זנב 1%, <bdi dir="ltr">z = 2.33</bdi>. <bdi dir="ltr">2.2 < 2.33</bdi>, ולכן לא דוחים.', 'דו־צדדי 5%: זנב 2.5%, <bdi dir="ltr">z = 1.96</bdi>. דוחים.', 'חד־צדדי 5%: זנב 5%, <bdi dir="ltr">z = 1.645</bdi>. דוחים.', 'דו־צדדי 10%: זנב 5%, <bdi dir="ltr">z = 1.645</bdi>. דוחים.'],
    res:'רק במבחן חד־צדדי ברמת 1% לא דוחים את H₀.',
@@ -1765,11 +1862,11 @@ f2:[
    'הכיוון הפוך. צבירה תכופה יותר מוסיפה ריבית על ריבית, ולכן האפקטיבית עולה ולא יורדת.',
    'הריבית האפקטיבית תלויה ב־m, מספר הצבירות בשנה. למשל 12% נקובה נותנת 12.55% ברבעונית ו־12.68% בחודשית.',
    'האפקטיבית שווה לנקובה רק בצבירה שנתית אחת. בכל צבירה תכופה יותר היא גבוהה מהנקובה.']},
-{q:'התשואה לפדיון של אג"ח שקלית היא 4%, ושל אג"ח צמודה למדד 1.5%. משקיע צופה אינפלציה של 3%. באיזו אג"ח כדאי לו להשקיע?', o:['הצמודה, כי אינפלציית האיזון היא 2.46% בלבד','השקלית, כי התשואה שלה גבוהה יותר','הן שקולות','השקלית, כי האינפלציה הצפויה נמוכה מ־4%'],
+{q:'התשואה לפדיון של אג״ח שקלית היא 4%, ושל אג״ח צמודה למדד 1.5%. משקיע צופה אינפלציה של 3%. באיזו אג״ח כדאי לו להשקיע?', o:['הצמודה, כי אינפלציית האיזון היא 2.46% בלבד','השקלית, כי התשואה שלה גבוהה יותר','הן שקולות','השקלית, כי האינפלציה הצפויה נמוכה מ־4%'],
  e:SOL({ask:'איזו אג״ח תיתן יותר, בהינתן הציפייה לאינפלציה של 3%.',
-   f:'<bdi dir="ltr">1 + π<sub>BE</sub> = (1 + y<sub>nom</sub>)/(1 + y<sub>real</sub>)</bdi>',
+   f:'<bdi dir="ltr">1 + π* = (1 + n)/(1 + r)</bdi>',
    why:'אינפלציית האיזון היא האינפלציה שבה שתי האג״ח מניבות בדיוק אותו דבר. אם האינפלציה בפועל גבוהה ממנה, הצמודה עדיפה, כי היא מקבלת פיצוי מלא על האינפלציה.',
-   steps:['מחשבים: <bdi dir="ltr">1.04/1.015 = 1.0246</bdi>, ולכן אינפלציית האיזון היא 2.46%.',
+   steps:['הסימנים: n = 4% היא התשואה של השקלית, r = 1.5% היא התשואה של הצמודה, ו־π* היא אינפלציית האיזון.', 'מחשבים: <bdi dir="ltr">1.04/1.015 = 1.0246</bdi>, ולכן אינפלציית האיזון היא 2.46%.',
      'משווים: הצפי (3%) גבוה מ־2.46%.',
      'בדיקה: הצמודה צפויה לתת <bdi dir="ltr">1.015·1.03 − 1 = 4.545%</bdi> נומינלית, יותר מ־4% של השקלית.'],
    res:'<b>הצמודה</b>, כי אינפלציית האיזון היא 2.46% בלבד.',
@@ -1830,7 +1927,7 @@ f3:[
    'זה הפוך. בשפיצר רוב התשלומים הראשונים הם ריבית, ולכן הקרן נפרעת לאט יותר מאשר בקרן שווה.']},
 {q:'מה היחס בין הערך הנוכחי של סדרת תשלומים בתחילת כל תקופה לבין הערך הנוכחי של סדרה רגילה (תשלומים בסוף כל תקופה)?', o:['גבוה פי (1 + r)','נמוך פי (1 + r)','שווה','גבוה ב־C'],
  e:SOL({ask:'כמה שווה יותר סדרה שבה כל תשלום מגיע תקופה אחת מוקדם יותר.',
-   f:'<bdi dir="ltr">PV<sub>due</sub> = PV<sub>ord</sub>·(1 + r)</bdi>',
+   f:'הערך של סדרה בתחילת תקופה גבוה פי <bdi dir="ltr">(1 + r)</bdi> מהערך של סדרה רגילה.',
    why:'כל תשלום בסדרה של תחילת תקופה מגיע תקופה אחת לפני התשלום המקביל בסדרה הרגילה. לכן מהוונים אותו תקופה אחת פחות, כלומר מחלקים ב־(1 + r) פעם אחת פחות.',
    steps:['סדרה רגילה: <bdi dir="ltr">C/(1+r) + C/(1+r)² + … + C/(1+r)<sup>n</sup></bdi>.',
      'סדרה בתחילת תקופה: <bdi dir="ltr">C + C/(1+r) + … + C/(1+r)<sup>n−1</sup></bdi>.',
@@ -1840,7 +1937,7 @@ f3:[
  w:[null,
    'הכיוון הפוך. התשלומים מגיעים מוקדם יותר, ולכן הם שווים יותר, לא פחות.',
    'הן שוות רק אם הריבית אפס. בכל ריבית חיובית תשלום מוקדם שווה יותר.',
-   'ההפרש אינו בדיוק C. כל אחד מ־n התשלומים גדל פי (1 + r), ולכן היחס הוא כפלי: <bdi dir="ltr">PV<sub>ord</sub>·(1 + r)</bdi>.']},
+   'ההפרש אינו בדיוק C. כל אחד מ־n התשלומים גדל פי (1 + r), ולכן היחס הוא כפלי: הערך הנוכחי של הסדרה הרגילה כפול <bdi dir="ltr">(1 + r)</bdi>.']},
 {q:'מהו הערך הנוכחי של 1,000 ₪ שיתקבלו בסוף כל שנה במשך 3 שנים, בריבית של 10%?', o:['2,486.85 ₪','3,000 ₪','2,735.54 ₪','3,310 ₪'],
  e:SOL({ask:'כמה שווה היום סדרה של שלושה תשלומים שנתיים שווים, בסוף כל שנה.',
    f:'<bdi dir="ltr">PV = C·(1 − (1 + r)<sup>−n</sup>)/r</bdi>',
@@ -1938,18 +2035,18 @@ f4:[
    'ה־NPV תלוי בריבית: ב־0% הוא ‎−2, ב־10% ו־20% הוא אפס, וביניהם הוא חיובי. לכן הוא לא "תמיד" חיובי.']}
 ],
 f5:[
-{q:'שיעור הקופון של אג"ח הוא 5%, והתשואה לפדיון שלה 7%. כיצד היא נסחרת?', o:['בניכיון, מתחת לערך הנקוב','בפרמיה, מעל הערך הנקוב','בדיוק בערך הנקוב','אי אפשר לדעת'],
+{q:'שיעור הקופון של אג״ח הוא 5%, והתשואה לפדיון שלה 7%. כיצד היא נסחרת?', o:['בניכיון, מתחת לערך הנקוב','בפרמיה, מעל הערך הנקוב','בדיוק בערך הנקוב','אי אפשר לדעת'],
  e:SOL({ask:'האם מחיר האג״ח מעל או מתחת ל־100, לפי היחס בין הקופון לתשואה לפדיון.',
    f:'<bdi dir="ltr">P = Σ C/(1 + y)<sup>t</sup> + F/(1 + y)<sup>n</sup></bdi>',
    why:'האג״ח משלמת 5%, אבל השוק דורש 7%. כדי שמשקיע יקבל 7% על אג״ח שמשלמת רק 5%, הוא צריך לקנות אותה בזול, מתחת לערך הנקוב.',
-   steps:['תשואה לפדיון = קופון: המחיר שווה לערך הנקוב.', 'תשואה לפדיון > קופון: מהוונים בריבית גבוהה יותר, והמחיר מתחת לערך הנקוב.', 'כאן <bdi dir="ltr">7% > 5%</bdi>.'],
+   steps:['כשהתשואה לפדיון שווה לקופון, המחיר שווה לערך הנקוב.', 'כשהתשואה לפדיון גבוהה מהקופון, מהוונים בריבית גבוהה יותר, והמחיר מתחת לערך הנקוב.', 'כאן <bdi dir="ltr">7% > 5%</bdi>.'],
    res:'נסחרת <b>בניכיון, מתחת לערך הנקוב</b>.',
    tip:'תשואה גבוהה מהקופון: ניכיון. תשואה נמוכה מהקופון: פרמיה.'}),
  w:[null,
    'פרמיה מתקבלת כשהתשואה לפדיון נמוכה מהקופון. כאן היא גבוהה (7% מול 5%), ולכן המחיר מתחת ל־100.',
    'המחיר שווה לערך הנקוב רק כשהתשואה לפדיון שווה לשיעור הקופון. כאן 7% שונה מ־5%.',
    'מספיק להשוות את התשואה לפדיון לשיעור הקופון כדי לדעת את הכיוון. תשואה גבוהה יותר פירושה מחיר נמוך מהנקוב.']},
-{q:'אג"ח ללא קופון ל־5 שנים, ערך נקוב 100, תשואה לפדיון 5%. מהו מחירה?', o:['78.35','75.00','95.24','127.63'],
+{q:'אג״ח ללא קופון ל־5 שנים, ערך נקוב 100, תשואה לפדיון 5%. מהו מחירה?', o:['78.35','75.00','95.24','127.63'],
  e:SOL({ask:'מחיר של אג״ח שמשלמת רק תשלום אחד, 100 בעוד 5 שנים.',
    f:'<bdi dir="ltr">P = F/(1 + y)<sup>n</sup></bdi>',
    why:'אין קופונים, ולכן המחיר הוא פשוט הערך הנוכחי של הערך הנקוב, מהוון בתשואה לפדיון.',
@@ -1961,7 +2058,7 @@ f5:[
    '75 מתקבל בהיוון פשוט: <bdi dir="ltr">100·(1 − 5·0.05)</bdi>. בהיוון מחלקים ב־1.05 חמש פעמים.',
    '95.24 הוא היוון של שנה אחת בלבד (<bdi dir="ltr">100/1.05</bdi>). הפדיון בעוד 5 שנים, ולכן החזקה היא 5.',
    '127.63 הוא <bdi dir="ltr">100·1.05<sup>5</sup></bdi>: כפלו במקום לחלק. זה ערך עתידי, ומחיר אג״ח הוא ערך נוכחי.']},
-{q:'מהו המח"מ של אג"ח ללא קופון שנפדית בעוד 7 שנים?', o:['7 שנים','3.5 שנים','פחות מ־7 שנים','תלוי בתשואה'],
+{q:'מהו המח״מ של אג״ח ללא קופון שנפדית בעוד 7 שנים?', o:['7 שנים','3.5 שנים','פחות מ־7 שנים','תלוי בתשואה'],
  e:SOL({ask:'מח״מ (משך חיים ממוצע) של אג״ח שיש לה תשלום אחד בלבד.',
    f:'<bdi dir="ltr">D = Σ t·w<sub>t</sub></bdi>, כאשר w<sub>t</sub> הוא חלק התשלום בזמן t מהמחיר',
    why:'המח״מ הוא ממוצע משוקלל של מועדי התשלום. כשיש תשלום אחד בלבד, כל המשקל (100%) נמצא בשנה 7.',
@@ -1972,29 +2069,29 @@ f5:[
    '3.5 שנים הוא חצי מהזמן לפדיון, ואין לו בסיס בנוסחה. כל התשלום מגיע בשנה 7, ולכן כל המשקל שם.',
    'מח״מ קצר מהזמן לפדיון רק כשיש קופונים לפני הפדיון. כאן אין קופונים.',
    'עם תשלום יחיד המשקל שלו הוא 100% בכל תשואה, ולכן המח״מ לא תלוי בתשואה.']},
-{q:'המח"מ המתואם של אג"ח הוא 4. התשואה לפדיון עולה ב־0.5%. מהו השינוי המשוער במחיר?', o:['−2%','+2%','−4%','−0.5%'],
+{q:'המח״מ המתוקן של אג״ח הוא 4. התשואה לפדיון עולה ב־0.5%. מהו השינוי המשוער במחיר?', o:['−2%','+2%','−4%','−0.5%'],
  e:SOL({ask:'בכמה אחוזים ישתנה מחיר האג״ח כשהתשואה עולה ב־0.5%.',
    f:'<bdi dir="ltr">ΔP/P ≈ −D*·Δy</bdi>',
-   why:'המח״מ המתואם (D*) הוא הרגישות של המחיר לתשואה: כמה אחוזים זז המחיר על כל אחוז שינוי בתשואה. הסימן שלילי כי מחיר ותשואה זזים בכיוונים הפוכים.',
+   why:'המח״מ המתוקן (D*) הוא הרגישות של המחיר לתשואה: כמה אחוזים זז המחיר על כל אחוז שינוי בתשואה. הסימן שלילי כי מחיר ותשואה זזים בכיוונים הפוכים.',
    steps:['מציבים: <bdi dir="ltr">D* = 4</bdi>, <bdi dir="ltr">Δy = 0.5% = 0.005</bdi>.', 'מחשבים: <bdi dir="ltr">−4·0.005 = −0.02</bdi>.'],
    res:'המחיר יורד בכ־2%: <b><bdi dir="ltr">−4·0.5% = −2%</bdi></b>.',
-   tip:'עם מח״מ מתואם לא מחלקים ב־(1 + y). זה כבר בתוכו.'}),
+   tip:'עם מח״מ מתוקן לא מחלקים ב־(1 + y). זה כבר בתוכו.'}),
  w:[null,
    '+2% מתעלם מסימן המינוס. כשהתשואה עולה, המחיר יורד.',
    '‎−4% הוא המח״מ בלבד, בלי הכפלה בגודל השינוי. התשואה עלתה ב־0.5% ולא ב־1%, ולכן <bdi dir="ltr">−4·0.5% = −2%</bdi>.',
    '‎−0.5% הוא שינוי התשואה עצמו, בלי הכפלה במח״מ. המחיר רגיש פי 4 לשינוי.']},
-{q:'אג"ח משלמת קופון 6 ₪ ומחירה 120 ₪. מהי התשואה השוטפת?', o:['5%','6%','7.2%','20%'],
+{q:'אג״ח משלמת קופון 6 ₪ ומחירה 120 ₪. מהי התשואה השוטפת?', o:['5%','6%','7.2%','20%'],
  e:SOL({ask:'כמה אחוזים מהמחיר ששולם מתקבלים כקופון בכל שנה.',
-   f:'<bdi dir="ltr">CY = C/P</bdi>',
+   f:'התשואה השוטפת היא הקופון חלקי המחיר: <bdi dir="ltr">C/P</bdi>.',
    why:'התשואה השוטפת מודדת את ההכנסה מהקופון ביחס למחיר שהמשקיע שילם בפועל, ולא ביחס לערך הנקוב.',
    steps:['מציבים: <bdi dir="ltr">6/120</bdi>.', 'מחשבים: <bdi dir="ltr">6/120 = 0.05</bdi>.'],
    res:'<b><bdi dir="ltr">6/120 = 5%</bdi></b>.',
    tip:'תשואה שוטפת: חלקי המחיר. שיעור קופון: חלקי הערך הנקוב.'}),
  w:[null,
    '6% הוא שיעור הקופון (<bdi dir="ltr">6/100</bdi>), ביחס לערך הנקוב. התשואה השוטפת מחושבת ביחס למחיר, 120.',
-   '7.2 מתקבל מכפל <bdi dir="ltr">120·0.06</bdi> או <bdi dir="ltr">6·1.2</bdi>. צריך לחלק את הקופון במחיר, לא לכפול.',
+   '7.2% מתקבל מכפל <bdi dir="ltr">120·0.06</bdi> או <bdi dir="ltr">6·1.2</bdi>. צריך לחלק את הקופון במחיר, לא לכפול.',
    '20% הוא הפרמיה (<bdi dir="ltr">(120 − 100)/100</bdi>), לא ההכנסה מהקופון. התשואה השוטפת היא <bdi dir="ltr">6/120</bdi>.']},
-{q:'לאיזו אג"ח המח"מ הגבוה ביותר?', o:['ארוכה, קופון נמוך, תשואה נמוכה','קצרה, קופון גבוה, תשואה גבוהה','ארוכה, קופון גבוה, תשואה גבוהה','קצרה, קופון נמוך, תשואה גבוהה'],
+{q:'לאיזו אג״ח המח״מ הגבוה ביותר?', o:['ארוכה, קופון נמוך, תשואה נמוכה','קצרה, קופון גבוה, תשואה גבוהה','ארוכה, קופון גבוה, תשואה גבוהה','קצרה, קופון נמוך, תשואה גבוהה'],
  e:SOL({ask:'אילו מאפיינים של אג״ח מאריכים את המח״מ.',
    why:'המח״מ הוא ממוצע משוקלל של מועדי התשלום. כל מה שמעביר משקל לתשלומים המאוחרים מאריך אותו.',
    steps:['זמן ארוך לפדיון: התשלום הגדול (הקרן) רחוק יותר, ולכן המח״מ עולה.',
@@ -2006,13 +2103,13 @@ f5:[
    'זה השילוב שנותן את המח״מ הנמוך ביותר: כל שלושת המאפיינים מקצרים אותו.',
    'הזמן הארוך מאריך את המח״מ, אבל קופון גבוה ותשואה גבוהה מעבירים משקל לתשלומים המוקדמים ומקצרים אותו.',
    'קופון נמוך מאריך, אבל זמן קצר לפדיון ותשואה גבוהה מקצרים. לכן המח״מ כאן נמוך.']},
-{q:'איזו טענה נכונה לגבי הקמירות של אג"ח רגילה?', o:['קירוב המח"מ מעריך בחסר את עליית המחיר כשהתשואה יורדת','קירוב המח"מ מעריך ביתר את עליית המחיר כשהתשואה יורדת','קמירות גבוהה היא חיסרון למשקיע','קמירות חשובה רק לשינויי ריבית קטנים'],
+{q:'איזו טענה נכונה לגבי הקמירות של אג״ח רגילה?', o:['קירוב המח״מ מעריך בחסר את עליית המחיר כשהתשואה יורדת','קירוב המח״מ מעריך ביתר את עליית המחיר כשהתשואה יורדת','קמירות גבוהה היא חיסרון למשקיע','קמירות חשובה רק לשינויי ריבית קטנים'],
  e:SOL({ask:'מה הקשר בין הקירוב הלינארי של המח״מ לבין המחיר האמיתי של אג״ח.',
    f:'<bdi dir="ltr">ΔP/P ≈ −D*·Δy + ½·C·(Δy)²</bdi>',
    why:'עקומת המחיר־תשואה קמורה ונמצאת מעל הקו המשיק, שהוא קירוב המח״מ. לכן המחיר האמיתי תמיד גבוה מהקירוב.',
    steps:['תשואה יורדת: המחיר עולה יותר ממה שהמח״מ חוזה, כלומר הקירוב מעריך בחסר.',
      'תשואה עולה: המחיר יורד פחות ממה שהמח״מ חוזה.',
-     'רכיב הקמירות <bdi dir="ltr">½·C·(Δy)²</bdi> חיובי תמיד ומתקן כלפי מעלה.'],
+     'רכיב הקמירות <bdi dir="ltr">½·C·(Δy)²</bdi> (כאן C היא הקמירות) חיובי תמיד, כי <bdi dir="ltr">(Δy)²</bdi> חיובי, ולכן הוא מתקן כלפי מעלה.'],
    res:'קירוב המח״מ <b>מעריך בחסר את עליית המחיר כשהתשואה יורדת</b>.',
    tip:'קמירות טובה למשקיע: מרוויחים יותר בירידת ריבית ומפסידים פחות בעלייה.'}),
  w:[null,
@@ -2026,15 +2123,15 @@ Object.assign(QB_RAW, {
 f6:[
 {q:'ריבית הספוט לשנה היא 3%, ולשנתיים 4%. מהי ריבית הפורוורד לשנה השנייה?', o:['5.01%','4%','3.5%','1%'],
  e:SOL({ask:'איזו ריבית לשנה השנייה בלבד (משנה 1 עד שנה 2) משתמעת מריביות הספוט.',
-   f:'<bdi dir="ltr">(1 + f<sub>1,2</sub>) = (1 + r<sub>2</sub>)² / (1 + r<sub>1</sub>)</bdi>',
-   why:'השקעה לשנתיים בריבית 4% צריכה להניב בדיוק כמו השקעה לשנה ב־3% ואחריה עוד שנה בריבית הפורוורד. אחרת יש ארביטראז׳. לכן מחלקים את הצמיחה לשנתיים בצמיחה של השנה הראשונה.',
+   f:'<bdi dir="ltr">(1 + f<sub>1,2</sub>) = (1 + s<sub>2</sub>)² / (1 + s<sub>1</sub>)</bdi>',
+   why:'השקעה לשנתיים בריבית 4% צריכה להניב בדיוק כמו השקעה לשנה ב־3% ואחריה עוד שנה בריבית הפורוורד. אחרת אפשר היה להרוויח בלי סיכון (ארביטראז׳). לכן מחלקים את הצמיחה לשנתיים בצמיחה של השנה הראשונה.',
    steps:['צמיחה לשנתיים: <bdi dir="ltr">1.04² = 1.0816</bdi>','מחלקים בצמיחה של השנה הראשונה: <bdi dir="ltr">1.0816 / 1.03 = 1.0501</bdi>','מחסירים 1: <bdi dir="ltr">1.0501 − 1 = 5.01%</bdi>'],
    res:'ריבית הפורוורד לשנה השנייה היא כ־5.01%.',
    tip:'קירוב מהיר: <bdi dir="ltr">2·4% − 3% = 5%</bdi>. ריבית הפורוורד גבוהה מהספוט כשהעקום עולה.'}),
  w:[null,
    '4% היא ריבית הספוט לשנתיים, כלומר ממוצע על פני שתי השנים. השאלה היא על השנה השנייה לבדה, ובה הריבית צריכה "לפצות" על השנה הראשונה הנמוכה.',
    '3.5% הוא ממוצע של 3% ו־4%. ריבית הפורוורד אינה ממוצע הספוטים: מחלקים <bdi dir="ltr">1.04² / 1.03</bdi> ומקבלים כ־5.01%.',
-   '1% הוא ההפרש בין שתי ריביות הספוט. זה לא ריבית של שנה כלשהי; צריך לחלק <bdi dir="ltr">1.04² / 1.03</bdi> ולהחסיר 1.']},
+   '1% הוא ההפרש בין שתי ריביות הספוט. זו לא ריבית של שנה כלשהי. צריך לחלק <bdi dir="ltr">1.04² / 1.03</bdi> ולהחסיר 1.']},
 {q:'מהו עקום תשואות הפוך?', o:['ריבית קצרה גבוהה מריבית ארוכה','ריבית ארוכה גבוהה מקצרה','עקום שטוח לחלוטין','עקום של אג״ח צמודות בלבד'],
  e:SOL({ask:'מה מאפיין עקום תשואות "הפוך", כלומר הפוך לצורה הרגילה.',
    why:'בדרך כלל ריבית ארוכה גבוהה מקצרה (עקום עולה). עקום "הפוך" הוא המצב ההפוך: ככל שהזמן לפדיון מתארך, הריבית יורדת.',
@@ -2091,13 +2188,13 @@ f7:[
    '9.2% מתקבל אם מכפילים את הדיבידנד ב־1.05 (<bdi dir="ltr">2.1 / 50 + 5%</bdi>). הדיבידנד הנתון כבר צפוי בעוד שנה, ולכן משתמשים בו כמו שהוא.']},
 {q:'התשואה על ההון (ROE) היא 15%, ושיעור חלוקת הדיבידנד 40%. מהו שיעור הצמיחה?', o:['9%','6%','15%','40%'],
  e:SOL({ask:'כמה החברה תצמח, כשהיא משקיעה מחדש חלק מהרווח בתשואה של ROE.',
-   f:'<bdi dir="ltr">g = b · ROE,  b = 1 − d</bdi>',
+   f:'<bdi dir="ltr">g = b · ROE,  b = 1 − d</bdi> (d הוא שיעור החלוקה, b שיעור העיכוב)',
    why:'רק הרווח שנשאר בחברה (לא חולק) מושקע ומייצר צמיחה. כל שקל כזה מניב ROE. לכן הצמיחה היא שיעור העיכוב כפול ROE.',
    steps:['שיעור העיכוב: <bdi dir="ltr">b = 1 − 0.4 = 0.6</bdi>','מכפילים: <bdi dir="ltr">g = 0.6 · 15% = 9%</bdi>'],
    res:'שיעור הצמיחה הוא 9%.',
    tip:'משתמשים בחלק שנשאר בחברה (b), לא בחלק שמחולק (d).'}),
  w:[null,
-   '6% מתקבל אם מכפילים את שיעור החלוקה (<bdi dir="ltr">0.4 · 15%</bdi>). הכסף שמחולק יוצא מהחברה ואינו מייצר צמיחה; משתמשים ב־<bdi dir="ltr">b = 0.6</bdi>.',
+   '6% מתקבל אם מכפילים את שיעור החלוקה (<bdi dir="ltr">0.4 · 15%</bdi>). הכסף שמחולק יוצא מהחברה ואינו מייצר צמיחה. משתמשים ב־<bdi dir="ltr">b = 0.6</bdi>.',
    '15% הוא ה־ROE עצמו. הוא שווה לצמיחה רק אם החברה לא מחלקת כלום (<bdi dir="ltr">b = 1</bdi>).',
    '40% הוא שיעור החלוקה, לא קצב צמיחה. צריך <bdi dir="ltr">g = (1 − 0.4) · 15% = 9%</bdi>.']},
 {q:'מתי מודל גורדון אינו ישים?', o:['כששיעור הצמיחה שווה לתשואה הנדרשת או גבוה ממנה','כשהדיבידנד קבוע','כשהצמיחה שלילית','כשהחברה רווחית'],
@@ -2148,11 +2245,11 @@ f8:[
    '75% נותן <bdi dir="ltr">0.75·10 − 0.25·20 = 2.5%</bdi>, ולא 0. המשקל הנכון הוא <bdi dir="ltr">20/30</bdi>.']},
 {q:'תשואת קרן 12%, הריבית חסרת הסיכון 4%, וסטיית התקן של הקרן 16%. מהו מדד שארפ?', o:['0.5','0.75','0.25','8'],
  e:SOL({ask:'כמה תשואה עודפת הקרן מייצרת על כל יחידה של סיכון כולל.',
-   f:'<bdi dir="ltr">Sharpe = (R<sub>p</sub> − r<sub>f</sub>) / σ<sub>p</sub></bdi>',
-   why:'תשואה גבוהה לבדה לא מספיקה; משווים אותה לסיכון שנלקח. מחסירים את r<sub>f</sub> כי אותה אפשר לקבל בלי סיכון.',
+   f:'מדד שארפ: <bdi dir="ltr">(R<sub>p</sub> − r<sub>f</sub>) / σ<sub>p</sub></bdi>',
+   why:'תשואה גבוהה לבדה לא מספיקה. משווים אותה לסיכון שנלקח. מחסירים את r<sub>f</sub> כי אותה אפשר לקבל בלי סיכון.',
    steps:['תשואה עודפת: <bdi dir="ltr">12% − 4% = 8%</bdi>','מחלקים בסטיית התקן: <bdi dir="ltr">8 / 16 = 0.5</bdi>'],
    res:'מדד שארפ הוא 0.5.',
-   tip:'שארפ = עודף תשואה חלקי σ. טריינור = אותו מונה חלקי β.'}),
+   tip:'שארפ מחלק את התשואה העודפת ב־σ. טריינור מחלק את אותו מונה ב־β.'}),
  w:[null,
    '0.75 מתקבל אם לא מחסירים את הריבית חסרת הסיכון (<bdi dir="ltr">12 / 16</bdi>). המדד מודד רק את התשואה העודפת.',
    '0.25 מתקבל אם מחלקים את r<sub>f</sub> במקום את התשואה העודפת (<bdi dir="ltr">4 / 16</bdi>). המונה הוא <bdi dir="ltr">12 − 4 = 8</bdi>.',
@@ -2178,7 +2275,7 @@ f8:[
    '20% היא סטיית התקן של תיק השוק כולו. רק חצי מהכסף בשוק, ולכן <bdi dir="ltr">0.5·20% = 10%</bdi>.',
    '14.1% מתקבל אם מוציאים שורש מחצי השונות (<bdi dir="ltr">√(0.5·400)</bdi>). את המשקל מעלים בריבוע: <bdi dir="ltr">√(0.5²·400) = 10%</bdi>.',
    '5% מתקבל אם שוכחים את התשואה של הנכס חסר הסיכון (<bdi dir="ltr">0.5·10%</bdi>). גם החצי הזה מניב 4%: <bdi dir="ltr">2% + 5% = 7%</bdi>.']},
-{q:'תיק מורכב מ־30% בנכס עם תשואה צפויה של 6%, ומ־70% בנכס עם תשואה צפויה של 12%. מהי התשואה הצפויה של התיק?', o:['10.2%','9%','8%','10.8%'],
+{q:'תיק מורכב מ־30% בנכס עם תשואה צפויה של 6%, ומ־70% בנכס עם תשואה צפויה של 12%. מהי התשואה הצפויה של התיק?', o:['10.2%','9%','7.8%','10.8%'],
  e:SOL({ask:'התשואה הצפויה של תיק משני נכסים.',
    f:'<bdi dir="ltr">E(R<sub>p</sub>) = w<sub>1</sub>·E(R<sub>1</sub>) + w<sub>2</sub>·E(R<sub>2</sub>)</bdi>',
    why:'כל שקל בתיק מניב את התשואה של הנכס שבו הוא מושקע. לכן התשואה של התיק היא ממוצע משוקלל לפי המשקלות.',
@@ -2187,8 +2284,8 @@ f8:[
    tip:'בתשואה תמיד ממוצע משוקלל פשוט, בלי קשר למתאם. המתאם משפיע רק על הסיכון.'}),
  w:[null,
    '9% הוא ממוצע פשוט של 6% ו־12%. המשקלות לא שווים: 70% מושקע בנכס של 12%.',
-   '8% קרוב לתוצאה של משקלות הפוכים (<bdi dir="ltr">0.7·6% + 0.3·12% = 7.8%</bdi>). המשקל 70% שייך לנכס של 12%.',
-   '10.8% מתקבל רק אם המשקלות מסתכמים ליותר מ־100% (למשל <bdi dir="ltr">0.4·6% + 0.7·12%</bdi>). עם 30% ו־70% יוצא 10.2%.']}
+   '7.8% מתקבל אם מחליפים בין המשקלות: <bdi dir="ltr">0.7·6% + 0.3·12% = 7.8%</bdi>. המשקל 70% שייך לנכס של 12%, ולא לנכס של 6%.',
+   '10.8% מתקבל במשקלות 20% ו־80%: <bdi dir="ltr">0.2·6% + 0.8·12% = 10.8%</bdi>. המשקלות בשאלה הם 30% ו־70%, ולכן <bdi dir="ltr">1.8% + 8.4% = 10.2%</bdi>.']}
 ],
 f9:[
 {q:'הריבית חסרת הסיכון 4%, תשואת השוק הצפויה 10% והבטא של המניה 1.5. מהי התשואה הנדרשת לפי מודל CAPM?', o:['13%','19%','15%','9%'],
@@ -2199,7 +2296,7 @@ f9:[
    res:'התשואה הנדרשת היא 13%.',
    tip:'מכפילים בבטא את פרמיית השוק (<bdi dir="ltr">R<sub>m</sub> − r<sub>f</sub></bdi>), לא את תשואת השוק.'}),
  w:[null,
-   '19% מתקבל אם מכפילים את תשואת השוק כולה (<bdi dir="ltr">4% + 1.5·10%</bdi>). את r<sub>f</sub> סופרים כך פעמיים; מכפילים רק את הפרמיה <bdi dir="ltr">10% − 4%</bdi>.',
+   '19% מתקבל אם מכפילים את תשואת השוק כולה (<bdi dir="ltr">4% + 1.5·10%</bdi>). את r<sub>f</sub> סופרים כך פעמיים. מכפילים רק את הפרמיה <bdi dir="ltr">10% − 4%</bdi>.',
    '15% מתקבל מ־<bdi dir="ltr">1.5·10%</bdi>, בלי ריבית חסרת סיכון ובלי להחסיר אותה מתשואת השוק.',
    '9% הוא פרמיית הסיכון של המניה בלבד (<bdi dir="ltr">1.5·6%</bdi>). צריך להוסיף את הריבית חסרת הסיכון: <bdi dir="ltr">4% + 9% = 13%</bdi>.']},
 {q:'תיק מורכב מ־40% במניה שהבטא שלה 0.8, ומ־60% במניה שהבטא שלה 1.3. מהי הבטא של התיק?', o:['1.1','1.05','2.1','1.0'],
@@ -2224,7 +2321,7 @@ f9:[
    'מניה יקרה נמצאת מתחת לקו: התשואה הצפויה שלה נמוכה ממה שמגיע לה.',
    'מתומחרת נכון פירושו בדיוק על הקו. מעל הקו יש תשואה עודפת (אלפא חיובית).',
    'המיקום ביחס לקו מעיד על התמחור, לא על סימן הבטא. בטא היא ציר ה־x, ואפשר להיות מעל הקו בכל בטא.']},
-{q:'השונות המשותפת של המניה עם השוק היא 0.018, וסטיית התקן של השוק 15%. מהי הבטא של המניה?', o:['0.8','0.12','1.2','0.0018'],
+{q:'השונות המשותפת של המניה עם השוק היא 0.018, וסטיית התקן של השוק 15%. מהי הבטא של המניה?', o:['0.8','0.12','1.2','0.0027'],
  e:SOL({ask:'הבטא של מניה מתוך השונות המשותפת שלה עם השוק.',
    f:'<bdi dir="ltr">β = Cov(R<sub>i</sub>, R<sub>m</sub>) / σ<sub>m</sub>²</bdi>',
    why:'בטא היא שיפוע הרגרסיה של המניה על השוק: כמה המניה זזה ביחידה של תנועת שוק. שיפוע = שונות משותפת חלקי שונות המשתנה המסביר.',
@@ -2234,14 +2331,14 @@ f9:[
  w:[null,
    '0.12 מתקבל אם מחלקים בסטיית התקן ולא בשונות (<bdi dir="ltr">0.018 / 0.15</bdi>). צריך להעלות בריבוע: <bdi dir="ltr">0.15² = 0.0225</bdi>.',
    '1.2 מתקבל אם מחשבים את <bdi dir="ltr">0.15²</bdi> בטעות כ־0.015 (<bdi dir="ltr">0.018 / 0.015</bdi>). הנכון: <bdi dir="ltr">0.15² = 0.0225</bdi>.',
-   '0.0018 הוא בסדר גודל של שונות, לא של בטא. בטא היא יחס של Cov לשונות השוק: <bdi dir="ltr">0.018 / 0.0225 = 0.8</bdi>.']},
-{q:'מה ההבדל בין מדד שארפ למדד טריינור?', o:['שארפ מחלק בסטיית התקן וטריינור בבטא','שארפ מחלק בבטא וטריינור בסטיית התקן','שניהם מחלקים בבטא','טריינור לא מחסר את r_f'],
+   '0.0027 מתקבל אם כופלים בסטיית התקן של השוק במקום לחלק בשונות שלו: <bdi dir="ltr">0.018·0.15 = 0.0027</bdi>. בטא היא Cov חלקי שונות השוק: <bdi dir="ltr">0.018 / 0.0225 = 0.8</bdi>.']},
+{q:'מה ההבדל בין מדד שארפ למדד טריינור?', o:['שארפ מחלק בסטיית התקן וטריינור בבטא','שארפ מחלק בבטא וטריינור בסטיית התקן','שניהם מחלקים בבטא','טריינור לא מחסר את הריבית חסרת הסיכון'],
  e:SOL({ask:'במה נבדלים שני מדדי הביצוע המותאמים לסיכון.',
-   f:'<bdi dir="ltr">Sharpe = (R<sub>p</sub> − r<sub>f</sub>) / σ<sub>p</sub>,  Treynor = (R<sub>p</sub> − r<sub>f</sub>) / β<sub>p</sub></bdi>',
+   f:'מדד שארפ: <bdi dir="ltr">(R<sub>p</sub> − r<sub>f</sub>) / σ<sub>p</sub></bdi>. מדד טריינור: <bdi dir="ltr">(R<sub>p</sub> − r<sub>f</sub>) / β<sub>p</sub></bdi>.',
    why:'המונה זהה: התשואה העודפת. ההבדל הוא איזה סיכון שמים במכנה. שארפ מודד ביחס לסיכון הכולל (σ), וטריינור ביחס לסיכון השיטתי בלבד (β).',
    steps:['שארפ: מתאים לתיק שהוא כל ההשקעה של המשקיע, כי אז כל הסיכון רלוונטי.','טריינור: מתאים לתיק שהוא חלק מתיק מפוזר, כי אז רק הסיכון השיטתי נשאר.'],
    res:'שארפ מחלק בסטיית התקן, וטריינור מחלק בבטא.',
-   tip:'Sharpe = Sigma (שניהם ב־S). Treynor = בטא.'}),
+   tip:'דרך לזכור: Sharpe ו־Sigma מתחילים שניהם באות S, ולכן שארפ מחלק ב־σ. טריינור מחלק בבטא.'}),
  w:[null,
    'זה הפוך: שארפ משתמש בסיכון הכולל (σ), וטריינור בסיכון השיטתי (β).',
    'רק טריינור מחלק בבטא. שארפ מחלק בסטיית התקן.',
@@ -2268,6 +2365,8 @@ const GB = s => `<bdi dir="ltr">${String(s).replace(/(^|[^\w.])-(?=\d)/g, '$1−
 const GR = s => `<bdi dir="ltr">${s}</bdi>`;
 // a number in parentheses when negative, for substitutions like 30 − (−2)·5
 const GP = x => x < 0 ? `(${x})` : `${x}`;
+// G for a probability: retry until no range option runs past 0 or 1 (or 100%), e.g. "between 1.00 and 1.05"
+const GPr = (...a) => { const off = s => (String(s).replace(/<[^>]+>/g, '').replace(/−/g, '-').match(/-?\d[\d.,]*/g) || []).some(x => { const v = +x.replace(/,/g, ''); return /%/.test(s) ? v > 100 || v < 0 : v > 1 || v < 0; }); for (let i = 0; i < 40; i++) { const q = G(...a); if (!q.fixed || !q.o.some(off)) return q; } return G(...a); };
 const GEN = {
 s1:[() => {
   let xs; do { xs = Array.from({length: 5}, () => ri(1, 20)); } while (new Set(xs).size < 3);
@@ -2275,7 +2374,7 @@ s1:[() => {
   const s = Math.sqrt(ss2 / (n - 1));
   const sp = Math.sqrt(ss2 / n);
   const F = x => nf(x, 3);
-  return G('s1', `נתונות 5 תצפיות: ${xs.join(', ')}. מהי סטיית התקן (לפי דף הנוסחאות, P<sub>i</sub> = 1/n)?`, sp,
+  return G('s1', `נתונות 5 תצפיות: ${xs.join(', ')}. מהי סטיית התקן לפי דף הנוסחאות, כלומר בחלוקה ב־n?`, sp,
     [s, ss2 / n, ss2 / (n - 1), Math.sqrt(ss2) / n, xs.reduce((a, x) => a + Math.abs(x - m2), 0) / n, Math.max(...xs) - Math.min(...xs)], F,
     SOL({ask: 'כמה בממוצע התצפיות רחוקות מהממוצע שלהן, כלומר סטיית התקן של 5 המספרים.',
       f: GB('σ = √( Σ(x<sub>i</sub> − x̄)² / n )'),
@@ -2287,7 +2386,7 @@ s1:[() => {
         `סטיית תקן: ${GB(`√${F(ss2 / 5)} = ${F(sp)}`)}`],
       res: `סטיית התקן היא ${GR(F(sp))}.`,
       tip: 'לפי דף הנוסחאות מחלקים ב־n (כאן 5) ולא ב־n − 1, ולא שוכחים להוציא שורש מהשונות.'}),
-    [`${F(s)} מתקבל מחלוקה ב־4 (n − 1, נוסחת המדגם): ${GB(`√(${nf(ss2, 2)} / 4)`)}. בבחינה, לפי דף הנוסחאות, מחלקים ב־n = 5.`,
+    [`${F(s)} מתקבל מחלוקה ב־4, כלומר ב־<bdi dir="ltr">n − 1</bdi> כמו בנוסחת המדגם: ${GB(`√(${nf(ss2, 2)} / 4)`)}. בבחינה, לפי דף הנוסחאות, מחלקים ב־n = 5.`,
      `${F(ss2 / n)} היא השונות (${GB(`${nf(ss2, 2)} / 5`)}), לא סטיית התקן. צריך להוציא ממנה שורש.`,
      `${F(ss2 / (n - 1))} היא השונות בחלוקה ב־4, בלי שורש. יש כאן שתי טעויות: חילקו ב־4 במקום ב־5, ולא הוציאו שורש.`,
      `${F(Math.sqrt(ss2) / n)} מתקבל אם מוציאים שורש מסכום הריבועים ורק אחר כך מחלקים ב־5 (${GB(`√${nf(ss2, 2)} / 5`)}). הסדר הנכון: קודם מחלקים ב־5, ואז מוציאים שורש מהתוצאה.`,
@@ -2311,7 +2410,7 @@ s3:[() => {
      `${GB(F(a + b * sx))} מתקבל אם מפעילים על σ את כל הטרנספורמציה, כמו על התוחלת (${GB(`${a} + ${GP(b)}·${sx}`)}). הקבוע ${GB(a)} לא משנה את הפיזור, וסטיית התקן מוכפלת ב־|b| בלבד.`,
      `${F(sx)} היא סטיית התקן של X עצמו. שכחו להכפיל ב־|b| = ${ab}.`,
      `${GB(F(b * sx))} מתקבל מהכפלה ב־b עם הסימן שלו. סטיית תקן לעולם אינה שלילית, ולכן מכפילים בערך המוחלט |b|.`,
-     `${F(b * b * sx)} מתקבל מהכפלת סטיית התקן ב־b² (${GB(`${GP(b)}²·${sx}`)}). ב־b² מכפילים את השונות; את סטיית התקן מכפילים ב־|b|.`,
+     `${F(b * b * sx)} מתקבל מהכפלת סטיית התקן ב־b² (${GB(`${GP(b)}²·${sx}`)}). ב־b² מכפילים את השונות, ואת סטיית התקן מכפילים ב־|b|.`,
      `${GB(F(a + b * m))} היא התוחלת של Y (${GB(`${a} + ${GP(b)}·${m}`)}), לא סטיית התקן.`,
      `${F(v)} היא השונות של X עצמו. היא לא מושפעת מ־Y = a + bX, ובנוסף זו שונות ולא סטיית תקן.`,
      `${F(Math.sqrt(ab * v))} מתקבל מהכפלת השונות ב־|b| ואז הוצאת שורש (${GB(`√(${ab}·${v})`)}). את השונות מכפילים ב־b², ולכן אחרי השורש נשאר |b|·σ(X).`]);
@@ -2319,7 +2418,7 @@ s3:[() => {
   const n = ri(4, 8), p = pick([0.2, 0.3, 0.4, 0.6]), k = ri(1, n - 1);
   const pr = comb(n, k) * p ** k * (1 - p) ** (n - k), q1 = nf(1 - p, 1), F = x => nf(x, 4), sg = x => String(+x.toPrecision(4));
   let cum = 0; for (let j = 0; j <= k; j++) cum += comb(n, j) * p ** j * (1 - p) ** (n - j);
-  return G('s3', `X ~ Bin(n = ${n}, p = ${p}). מהי P(X = ${k})?`, pr,
+  return GPr('s3', `X ~ Bin(n = ${n}, p = ${p}). מהי P(X = ${k})?`, pr,
     [p ** k * (1 - p) ** (n - k), comb(n, k) * p ** (n - k) * (1 - p) ** k, comb(n, k) * p ** k, cum, 1 - cum + pr, cum - pr, 1 - pr], F,
     SOL({ask: `מה ההסתברות לקבל בדיוק ${k} הצלחות ב־${n} ניסויים בלתי תלויים, כשההסתברות להצלחה בכל ניסוי היא ${p}.`,
       f: GB('P(X = k) = C(n,k)·p<sup>k</sup>·(1 − p)<sup>n−k</sup>'),
@@ -2343,7 +2442,7 @@ s4:[() => {
   const x = mu + z * sg, above = Math.random() < 0.5, p = above ? 1 - Phi(z) : Phi(z);
   const F = v => nf(v, 4), az = Math.abs(z), pa = Phi(az), zv = z / sg, pv = above ? 1 - Phi(zv) : Phi(zv);
   const sgn = above ? '&gt;' : '&lt;', inclMean = above ? z < 0 : z > 0;
-  return G('s4', `X ~ N(μ = ${mu}, σ = ${sg}). מהי P(X ${above ? '>' : '<'} ${x})?`, p,
+  return GPr('s4', `X ~ N(μ = ${mu}, σ = ${sg}). מהי P(X ${above ? '>' : '<'} ${x})?`, p,
     [1 - p, pa - 0.5, 2 * (1 - pa), pv], F,
     SOL({ask: `מה השטח מתחת לעקומה הנורמלית ${above ? 'מימין' : 'משמאל'} לערך ${x}.`,
       f: GB('Z = (X − μ) / σ'),
@@ -2529,7 +2628,7 @@ f3:[() => {
      `${N(c * ((1 + r) ** n - 1) / r)} ₪ הוא הערך העתידי של הסדרה (${GB(`C·(${R}<sup>${n}</sup> − 1)/r`)}), כלומר כמה יצטבר בסוף שנה ${n}. השאלה על ערך נוכחי.`,
      `${N(pv * (1 + r))} ₪ הוא הערך אם התקבולים בתחילת כל שנה (${GB(`${N(pv)}·${R}`)}). כאן הם בסוף כל שנה.`,
      `${N(c / r)} ₪ הוא ערך של תקבול אינסופי (צמיתה, ${GB(`${nf(c, 0)}/${r}`)}). כאן יש רק ${n} תקבולים.`,
-     `${N(c * n / R ** n)} ₪ מתקבל מהיוון סכום כל התקבולים ${n} שנים (${GB(`${nf(c * n, 0)}/${R}<sup>${n}</sup>`)}). רק התקבול האחרון מגיע בעוד ${n} שנים; כל תקבול מהוון לפי המועד שלו.`]);
+     `${N(c * n / R ** n)} ₪ מתקבל מהיוון סכום כל התקבולים ${n} שנים (${GB(`${nf(c * n, 0)}/${R}<sup>${n}</sup>`)}). רק התקבול האחרון מגיע בעוד ${n} שנים. כל תקבול מהוון לפי המועד שלו.`]);
 }],
 f4:[() => {
   const I = pick([1000, 2000, 5000]), r = pick([0.08, 0.1, 0.12]);
@@ -2546,18 +2645,18 @@ f4:[() => {
         `מורידים את ההשקעה: ${GB(`${F(npv + I)} − ${nf(I, 0)} = ${F(npv)}`)}`],
       res: `${GR(`NPV = ${F(npv)}`)}. ${npv > 0 ? 'ה־NPV חיובי, ולכן מקבלים את הפרויקט.' : 'ה־NPV שלילי, ולכן דוחים את הפרויקט.'}`,
       tip: 'ההשקעה היא בזמן 0 ולא מהוונים אותה. כל תקבול מהוון בחזקה של השנה שלו.'}),
-    [`${GB(F(sum - I))} מתקבל מחיבור התקבולים בלי היוון (${GB(`${sum} − ${nf(I, 0)}`)}). תקבול בעוד שנתיים או שלוש שווה היום פחות.`,
+    [`${GB(F(sum - I))} מתקבל מחיבור התקבולים בלי היוון (${GB(`${nf(sum, 0)} − ${nf(I, 0)}`)}). תקבול בעוד שנתיים או שלוש שווה היום פחות.`,
      `${GB(F(-I + cf.reduce((a, c) => a + c / R, 0)))} מתקבל מהיוון כל התקבולים בשנה אחת בלבד (חלוקה ב־${R}). תקבול של שנה t מהוונים ב־${GB(`${R}<sup>t</sup>`)}.`,
      `${GB(F(npv + I))} הוא הערך הנוכחי של התקבולים בלבד. שכחו להוריד את ההשקעה ${nf(I, 0)}.`,
      `${GB(F(-I / R + npv + I))} מתקבל מהיוון גם של ההשקעה (${GB(`${nf(I, 0)}/${R}`)}). ההשקעה משולמת היום, ולכן לא מהוונים אותה.`,
-     `${GB(F(sum / R ** 3 - I))} מתקבל מהיוון כל התקבולים 3 שנים (${GB(`${sum}/${R}<sup>3</sup>`)}). רק התקבול האחרון מתקבל בעוד 3 שנים; כל תקבול מהוון לפי השנה שלו.`]);
+     `${GB(F(sum / R ** 3 - I))} מתקבל מהיוון כל התקבולים 3 שנים (${GB(`${nf(sum, 0)}/${R}<sup>3</sup>`)}). רק התקבול האחרון מתקבל בעוד 3 שנים. כל תקבול מהוון לפי השנה שלו.`]);
 }],
 f5:[() => {
   const c = pick([0.03, 0.04, 0.05, 0.06, 0.07]), y = pick([0.03, 0.04, 0.05, 0.06, 0.08].filter(v => v !== c)), n = ri(2, 5);
   let p = 0; for (let t = 1; t <= n; t++) p += c * 100 / (1 + y) ** t; p += 100 / (1 + y) ** n;
   let pw = 0; for (let t = 1; t <= n; t++) pw += y * 100 / (1 + c) ** t; pw += 100 / (1 + c) ** n;
   const F = x => nf(x, 2), Y = 1 + y, C = nf(c * 100, 0), pc = p - 100 / Y ** n;
-  return G('f5', `אג"ח ל־${n} שנים, ערך נקוב 100, קופון שנתי של ${pct(c, 0)} ותשואה לפדיון של ${pct(y, 0)}. מהו מחירה?`, p,
+  return G('f5', `אג״ח ל־${n} שנים, ערך נקוב 100, קופון שנתי של ${pct(c, 0)} ותשואה לפדיון של ${pct(y, 0)}. מהו מחירה?`, p,
     [100, 100 / (1 + y) ** n, pw, 100 + (c - y) * 100], F,
     SOL({ask: 'כמה שווה היום האג״ח: כל הקופונים והקרן, מהוונים בתשואה לפדיון.',
       f: GB('P = Σ C / (1 + y)<sup>t</sup> + 100 / (1 + y)<sup>n</sup>'),
@@ -2570,23 +2669,23 @@ f5:[() => {
     [`${F(100)} הוא הערך הנקוב. המחיר שווה לו רק כשהקופון שווה לתשואה לפדיון. כאן הקופון ${pct(c, 0)} והתשואה ${pct(y, 0)}.`,
      `${F(100 / Y ** n)} הוא הערך הנוכחי של הקרן בלבד. שכחו להוסיף את הערך הנוכחי של הקופונים (${F(pc)}).`,
      `${F(pw)} מתקבל מהחלפת התפקידים: קופון של ${nf(y * 100, 0)} והיוון ב־${pct(c, 0)}. הקופון הוא ${C}, ומהוונים בתשואה לפדיון ${pct(y, 0)}.`,
-     `${F(100 + (c - y) * 100)} מתקבל מהוספת ההפרש בין הקופון לתשואה לשנה אחת בלבד, בלי היוון. ההפרש חוזר ${n} שנים, וצריך להוון כל תשלום.`]);
+     `${F(100 + (c - y) * 100)} מתקבל מתיקון הערך הנקוב בהפרש בין הקופון לתשואה, ${GB(`100 + (${nf(c * 100, 0)} − ${nf(y * 100, 0)})`)}, לשנה אחת בלבד ובלי היוון. ההפרש חוזר ${n} שנים, וצריך להוון כל תשלום.`]);
 }, () => {
   const D = pick([3, 4, 5, 6, 8]), y = pick([0.04, 0.05, 0.06, 0.08]), dy = pick([0.005, 0.01, -0.005, -0.01]);
   const ch = -D / (1 + y) * dy;
   const F = x => (x > 0 ? '+' : '') + pct(x, 2), Ds = D / (1 + y);
-  return G('f5', `המח"מ (מקולי) של אג"ח הוא ${D} שנים, והתשואה לפדיון שלה ${pct(y, 0)}. התשואה ${dy > 0 ? 'עולה' : 'יורדת'} ב־${pct(Math.abs(dy), 1)}. מהו השינוי המשוער במחיר?`, ch,
+  return G('f5', `המח״מ (מקולי) של אג״ח הוא ${D} שנים, והתשואה לפדיון שלה ${pct(y, 0)}. התשואה ${dy > 0 ? 'עולה' : 'יורדת'} ב־${pct(Math.abs(dy), 1)}. מהו השינוי המשוער במחיר?`, ch,
     [-D * dy, -ch, -D * dy / (1 + dy), -D * (1 + y) * dy], F,
     SOL({ask: 'בכמה אחוזים ישתנה מחיר האג״ח כשהתשואה לפדיון משתנה.',
       f: `${GB('D* = D / (1 + y)')}, ${GB('ΔP/P ≈ −D*·Δy')}`,
-      why: 'המח״מ המתואם (D*) מודד את רגישות המחיר לשינוי בתשואה. הסימן שלילי: כשהתשואה עולה, המחיר יורד, ולהפך.',
-      steps: [`מח״מ מתואם: ${GB(`D* = ${D} / ${1 + y} = ${nf(Ds, 3)}`)}`,
+      why: 'המח״מ המתוקן (D*) מודד את רגישות המחיר לשינוי בתשואה. הסימן שלילי: כשהתשואה עולה, המחיר יורד, ולהפך.',
+      steps: [`מח״מ מתוקן: ${GB(`D* = ${D} / ${1 + y} = ${nf(Ds, 3)}`)}`,
         `שינוי המחיר: ${GB(`ΔP/P ≈ −${nf(Ds, 3)}·(${pct(dy, 1)}) = ${F(ch)}`)}`],
       res: `המחיר ${ch > 0 ? 'עולה' : 'יורד'} בכ־${GR(F(ch))}.`,
       tip: 'קודם מחלקים את מח״מ מקולי ב־(1 + y), ורק אז מכפילים בשינוי בתשואה, עם סימן מינוס.'}),
-    [`${GB(F(-D * dy))} מתקבל משימוש במח״מ מקולי (${D}) ישירות. בנוסחה משתמשים במח״מ המתואם: ${GB(`${D}/${1 + y} = ${nf(Ds, 3)}`)}.`,
+    [`${GB(F(-D * dy))} מתקבל משימוש במח״מ מקולי (${D}) ישירות. בנוסחה משתמשים במח״מ המתוקן: ${GB(`${D}/${1 + y} = ${nf(Ds, 3)}`)}.`,
      `${GB(F(-ch))} הוא הגודל הנכון עם סימן הפוך. כשהתשואה ${dy > 0 ? 'עולה, המחיר יורד' : 'יורדת, המחיר עולה'}: יש מינוס בנוסחה.`,
-     `${GB(F(-D * dy / (1 + dy)))} מתקבל מחלוקה ב־${GB(`(1 + Δy)`)} במקום ב־${GB(`(1 + y) = ${1 + y}`)}. המח״מ המתואם מחושב עם התשואה לפדיון עצמה.`,
+     `${GB(F(-D * dy / (1 + dy)))} מתקבל מחלוקה ב־${GB(`(1 + Δy)`)} במקום ב־${GB(`(1 + y) = ${1 + y}`)}. המח״מ המתוקן מחושב עם התשואה לפדיון עצמה.`,
      `${GB(F(-D * (1 + y) * dy))} מתקבל מהכפלה ב־${GB(`(1 + y)`)} במקום חלוקה. ${GB('D* = D/(1 + y)')}, ולכן הוא קטן ממח״מ מקולי.`]);
 }],
 f6:[() => {
@@ -2606,7 +2705,7 @@ f6:[() => {
      `${F((s1 + s2) / 2)} הוא ממוצע של שתי ריביות הספוט. ריבית הספוט לשנתיים היא בעצמה מעין ממוצע של השנה הראשונה והשנייה, ולכן f רחוקה יותר מ־${pct(s1, 1)}.`,
      `${F(s1 + s2)} הוא סכום שתי הריביות, שאין לו משמעות כריבית לשנה אחת.`,
      `${F(s2 - s1)} הוא ההפרש בין הריביות. הפורוורד היא ריבית שלמה לשנה השנייה, לא רק התוספת.`,
-     `${F(2 * s2 - s1)} הוא קירוב ליניארי (${GB('2·s<sub>2</sub> − s<sub>1</sub>')}). הוא מתעלם מריבית על ריבית; החישוב המדויק עם גורמי צבירה נותן ${F(f)}.`]);
+     `${F(2 * s2 - s1)} הוא קירוב ליניארי (${GB('2·s<sub>2</sub> − s<sub>1</sub>')}). הוא מתעלם מריבית על ריבית. החישוב המדויק עם גורמי צבירה נותן ${F(f)}.`]);
 }],
 f7:[() => {
   const D0 = pick([1, 1.5, 2, 2.5, 3, 4]), g = pick([0.02, 0.03, 0.04, 0.05]), k = g + pick([0.04, 0.05, 0.06, 0.07]);
@@ -2617,10 +2716,10 @@ f7:[() => {
       f: GB('P<sub>0</sub> = D<sub>1</sub> / (k − g)'),
       why: `המחיר היום הוא הערך הנוכחי של כל הדיבידנדים העתידיים. הנוסחה משתמשת בדיבידנד של השנה הבאה (D<sub>1</sub>). הדיבידנד ${nf(D0, 2)} ₪ כבר חולק ולא שייך לקונה החדש, ולכן מגדילים אותו בשנה אחת של צמיחה.`,
       steps: [`הדיבידנד הבא: ${GB(`D<sub>1</sub> = ${nf(D0, 2)}·${1 + g} = ${nf(D1, 3)}`)}`,
-        `המכנה: ${GB(`k − g = ${k} − ${g} = ${nf(k - g, 2)}`)}`,
+        `המכנה: ${GB(`k − g = ${+k.toFixed(2)} − ${g} = ${nf(k - g, 2)}`)}`,
         `מחלקים: ${GB(`${nf(D1, 3)} / ${nf(k - g, 2)} = ${N(p)}`)}`],
       res: `מחיר המניה הוא ${GR(N(p))} ₪.`,
-      tip: '"חולק זה עתה" = D<sub>0</sub>. מכפילים ב־(1 + g) לפני שמציבים בנוסחה.'}),
+      tip: '"חולק זה עתה" פירושו D<sub>0</sub>. מכפילים אותו ב־<bdi dir="ltr">(1 + g)</bdi> לפני שמציבים בנוסחה.'}),
     [`${N(D0 / (k - g))} ₪ מתקבל מהצבת ${GB(`D<sub>0</sub> = ${nf(D0, 2)}`)} בנוסחה. הדיבידנד הזה כבר חולק. צריך את הדיבידנד הבא: ${GB(`D<sub>1</sub> = ${nf(D1, 3)}`)}.`,
      `${N(D1 / k)} ₪ מתקבל מחלוקה ב־k בלבד, בלי להוריד את g. כך מתייחסים לדיבידנד כאילו הוא לא צומח.`,
      `${N(D0 * (1 + g) ** 2 / (k - g))} ₪ מתקבל מהגדלת הדיבידנד פעמיים (${GB(`D<sub>2</sub> = ${nf(D0 * (1 + g) ** 2, 3)}`)}). המחיר היום מחושב עם D<sub>1</sub>, הדיבידנד של השנה הבאה בלבד.`,
@@ -2695,7 +2794,7 @@ lesson:`
 <h4>קריטריונים לבחירה בין השקעות</h4>
 <ul>
 <li><b>תוחלת מקסימלית</b>: מתאים למשקיע אדיש לסיכון, ומתעלם מהפיזור.</li>
-<li><b>תוחלת־שונות (מרקוביץ)</b>: A <b>שולטת</b> ב־B אם E(A) ≥ E(B) וגם σ(A) ≤ σ(B), כשלפחות אחד מאי־השוויונים חזק. כל משקיע שונא סיכון יעדיף את A.</li>
+<li><b>תוחלת־שונות (מרקוביץ)</b>: A <b>שולטת</b> ב־B אם <bdi dir="ltr">E(A) ≥ E(B)</bdi> וגם <bdi dir="ltr">σ(A) ≤ σ(B)</bdi>, כשלפחות אחד מאי־השוויונים חזק. כל משקיע שונא סיכון יעדיף את A.</li>
 <li>כשאין שליטה, כלומר כשתשואה גבוהה יותר באה עם סיכון גבוה יותר, הבחירה תלויה בהעדפות המשקיע. מקדם ההשתנות מבטא את הסיכון ליחידת תשואה.</li>
 </ul>
 <h4>היחס לסיכון ופונקציית התועלת</h4>
@@ -2705,13 +2804,16 @@ lesson:`
 <li><b>אדיש לסיכון</b>: פונקציית תועלת לינארית. מחליט לפי התוחלת בלבד.</li>
 <li><b>אוהב סיכון</b>: פונקציית תועלת קמורה (למשל x²). השווה הוודאי שלו גבוה מהתוחלת.</li>
 </ul>
-<div class="fx" dir="ltr">CE: U(CE) = E[U(X)]<br>risk premium = E(X) − CE</div>
+<div class="fx" dir="ltr">CE: U(CE) = E[U(X)]<br>RP = E(X) − CE</div>
+<p>CE הוא השווה הוודאי: הסכום הוודאי שנותן למשקיע אותה תועלת כמו ההימור. RP היא פרמיית הסיכון: כמה מהתוחלת המשקיע מוותר כדי להיפטר מהסיכון.</p>
 <div class="ex"><b>דוגמה פתורה.</b> הימור: 50% לקבל 100 ו־50% לקבל 0. פונקציית התועלת: U = √x.<br>
-E(X) = 50. E[U] = 0.5·10 + 0.5·0 = 5. השווה הוודאי: √CE = 5 ⇒ CE = 25.<br>
-פרמיית הסיכון: 50 − 25 = 25. המשקיע שונא סיכון, ולכן יסכים לקבל 25 בוודאות במקום ההימור.</div>
+התוחלת: <bdi dir="ltr">E(X) = 0.5·100 + 0.5·0 = 50</bdi>.<br>
+תוחלת התועלת: <bdi dir="ltr">E[U] = 0.5·√100 + 0.5·√0 = 0.5·10 = 5</bdi>.<br>
+השווה הוודאי הוא הסכום שהתועלת שלו 5: <bdi dir="ltr">√CE = 5</bdi>, ולכן <bdi dir="ltr">CE = 5² = 25</bdi>.<br>
+פרמיית הסיכון: <bdi dir="ltr">RP = 50 − 25 = 25</bdi>. המשקיע שונא סיכון, ולכן יסכים לקבל 25 בוודאות במקום ההימור.</div>
 <div class="ex"><b>דוגמה פתורה (שליטה).</b> A: תוחלת 10%, סטיית תקן 8%. B: תוחלת 9%, סטיית תקן 12%. C: תוחלת 14%, סטיית תקן 20%.<br>
 A שולטת ב־B (תשואה צפויה גבוהה יותר וסיכון נמוך יותר), ולכן B נפסלת. בין A ל־C אין שליטה. מקדם ההשתנות של A הוא 0.8, ושל C הוא 1.43.</div>
-<div class="plain"><b>במילים פשוטות:</b> רוב האנשים מעדיפים 25 ₪ בוודאות על פני הטלת מטבע על 100 ₪. הפער בין מה שההימור שווה בממוצע לבין הסכום הוודאי שתסכים לקבל במקומו הוא פרמיית הסיכון.</div>
+<div class="plain"><b>במילים פשוטות:</b> רוב האנשים מעדיפים 25 ₪ בוודאות על פני הטלת מטבע על 100 ₪. הפער בין מה שההימור שווה בממוצע לבין הסכום הוודאי שמוכנים לקבל במקומו הוא פרמיית הסיכון.</div>
 <div class="trap"><b>מלכודות נפוצות</b><ul>
 <li>לחשב שונות בלי לשקלל לפי ההסתברויות.</li>
 <li>לקבוע ש־C עדיפה על A רק כי התוחלת שלה גבוהה יותר. כשאין שליטה, אין תשובה חד־משמעית.</li>
@@ -2732,18 +2834,18 @@ lesson:`
 <li>C(n,k) = C(n,n−k), ו־C(n,0) = C(n,n) = 1.</li>
 </ul>
 <h4>חישוב הסתברות בעזרת ספירה (התפלגות היפרגאומטרית)</h4>
-<div class="fx">P = מספר התוצאות הרצויות / מספר כל התוצאות</div>
+<p>כשלכל התוצאות אותו סיכוי, ההסתברות היא מספר התוצאות הרצויות חלקי מספר כל התוצאות.</p>
 <div class="fx" dir="ltr">P(X = k) = C(K,k)·C(N−K, n−k) / C(N,n)</div>
 <p>כאן N הוא גודל האוכלוסייה, K מספר הפריטים ה״מיוחדים״ בה, n גודל המדגם, ו־k מספר הפריטים המיוחדים שרוצים במדגם.</p>
 <div class="ex"><b>דוגמה פתורה.</b> בתיק 10 מניות, 4 מהן מניות טכנולוגיה. בוחרים באקראי 3 מניות.<br>
-מספר האפשרויות הכולל: C(10,3) = 120.<br>
-בדיוק 2 מניות טכנולוגיה: C(4,2)·C(6,1) = 6·6 = 36 ⇒ P = 36/120 = 0.3.<br>
-אף לא מניית טכנולוגיה אחת: C(6,3) = 20 ⇒ P = 1/6.<br>
-בכמה דרכים לבחור יו"ר, סגן וגזבר מתוך 10 אנשים? כאן הסדר חשוב: 10·9·8 = 720.</div>
-<div class="plain"><b>במילים פשוטות:</b> אם החלפה בין שניים מהנבחרים יוצרת תוצאה חדשה (למשל יו"ר וסגן), הסדר חשוב. אם מתקבלת אותה תוצאה (למשל ועדה של שלושה), הסדר אינו חשוב, ומחלקים ב־k!.</div>
+מספר האפשרויות הכולל: <bdi dir="ltr">C(10,3) = (10·9·8)/(3·2·1) = 120</bdi>.<br>
+בדיוק 2 מניות טכנולוגיה: בוחרים 2 מתוך 4 מניות הטכנולוגיה ו־1 מתוך 6 האחרות: <bdi dir="ltr">C(4,2)·C(6,1) = 6·6 = 36</bdi>, ולכן <bdi dir="ltr">P = 36/120 = 0.3</bdi>.<br>
+אף לא מניית טכנולוגיה אחת: בוחרים את כל 3 המניות מתוך 6 האחרות: <bdi dir="ltr">C(6,3) = 20</bdi>, ולכן <bdi dir="ltr">P = 20/120 = 1/6</bdi>.<br>
+בכמה דרכים לבחור יו״ר, סגן וגזבר מתוך 10 אנשים? כאן הסדר חשוב: ליו״ר 10 אפשרויות, לסגן 9 ולגזבר 8, ובסך הכול <bdi dir="ltr">10·9·8 = 720</bdi>.</div>
+<div class="plain"><b>במילים פשוטות:</b> אם החלפה בין שניים מהנבחרים יוצרת תוצאה חדשה (למשל יו״ר וסגן), הסדר חשוב. אם מתקבלת אותה תוצאה (למשל ועדה של שלושה), הסדר אינו חשוב, ומחלקים ב־k!.</div>
 <div class="trap"><b>מלכודות נפוצות</b><ul>
 <li>להשתמש בצירופים כשיש תפקידים שונים, או להפך.</li>
-<li>לשכוח לחלק במספר הסידורים של העצמים הזהים. למשל, מספר הסידורים של האותיות במילה "ABBA" הוא 4!/2!2! = 6.</li>
+<li>לשכוח לחלק במספר הסידורים של העצמים הזהים. למשל, מספר הסידורים של האותיות במילה ABBA (שתי A ושתי B) הוא <bdi dir="ltr">4!/(2!·2!) = 24/4 = 6</bdi>.</li>
 <li>להכפיל במקום לחבר כשיש מקרים נפרדים ("בדיוק 2 <u>או</u> בדיוק 3").</li>
 </ul></div>`}
 );
@@ -2795,7 +2897,7 @@ f10:[
    '11% הוא <bdi dir="ltr">6 + 5</bdi>, בלי התרחיש השלילי. צריך להוסיף גם <bdi dir="ltr">0.2·(−10) = −2</bdi>.']},
 {q:'אצל משקיע אוהב סיכון, מה הקשר בין השווה הוודאי של הימור לבין התוחלת שלו?', o:['השווה הוודאי גבוה מהתוחלת','השווה הוודאי נמוך מהתוחלת','הם שווים','השווה הוודאי שלילי'],
  e:SOL({ask:'האם אוהב סיכון ידרוש בוודאות יותר או פחות מהתוחלת כדי לוותר על ההימור.',
-   f:'<bdi dir="ltr">risk premium = E(X) − CE</bdi>',
+   f:'פרמיית הסיכון: <bdi dir="ltr">RP = E(X) − CE</bdi>',
    why:'לאוהב סיכון ההימור עצמו מוסיף תועלת. כדי שיוותר עליו, צריך לתת לו בוודאות סכום <u>גבוה</u> מהתוחלת. לכן פרמיית הסיכון שלו שלילית.',
    steps:['אוהב סיכון: פונקציית תועלת קמורה (למשל <bdi dir="ltr">U = x²</bdi>).', 'דוגמה: 50% ל־10 ו־50% ל־0 עם <bdi dir="ltr">U = x²</bdi>: <bdi dir="ltr">E[U] = 50</bdi>, <bdi dir="ltr">CE = √50 ≈ 7.07</bdi>, ואילו <bdi dir="ltr">E(X) = 5</bdi>.', 'כלומר <bdi dir="ltr">CE > E(X)</bdi>.'],
    res:'השווה הוודאי גבוה מהתוחלת.',
@@ -2828,16 +2930,16 @@ s8:[
    '210 הוא <bdi dir="ltr">7·6·5</bdi>, מספר האפשרויות כשהסדר חשוב (תפקידים שונים). בוועדה הסדר לא חשוב, ולכן מחלקים ב־<bdi dir="ltr">3! = 6</bdi>.',
    '21 הוא <bdi dir="ltr">C(7,2)</bdi>, בחירה של 2 ולא של 3. כאן בוחרים 3: <bdi dir="ltr">C(7,3) = 35</bdi>.',
    '343 הוא <bdi dir="ltr">7³</bdi>, כלומר בחירה עם חזרות ועם סדר. אותו אדם לא יכול לשבת בוועדה פעמיים.']},
-{q:'בכמה דרכים אפשר לבחור יו"ר, סגן ומזכיר מתוך 7 אנשים?', o:['210','35','343','5,040'],
+{q:'בכמה דרכים אפשר לבחור יו״ר, סגן ומזכיר מתוך 7 אנשים?', o:['210','35','343','5,040'],
  e:SOL({ask:'בכמה דרכים אפשר לחלק 3 תפקידים שונים בין 7 אנשים, תפקיד אחד לכל אדם לכל היותר.',
    f:'<bdi dir="ltr">n! / (n − k)! = n·(n − 1)·…·(n − k + 1)</bdi>',
-   why:'התפקידים שונים, ולכן החלפה בין היו"ר לסגן יוצרת תוצאה אחרת: הסדר חשוב. אדם אחד לא יכול למלא שני תפקידים, ולכן אין חזרות.',
-   steps:['ליו"ר 7 אפשרויות, לסגן 6 (כל השאר), למזכיר 5.', 'עיקרון הכפל: <bdi dir="ltr">7·6·5 = 210</bdi>'],
+   why:'התפקידים שונים, ולכן החלפה בין היו״ר לסגן יוצרת תוצאה אחרת: הסדר חשוב. אדם אחד לא יכול למלא שני תפקידים, ולכן אין חזרות.',
+   steps:['ליו״ר 7 אפשרויות, לסגן 6 (כל השאר), למזכיר 5.', 'עיקרון הכפל: <bdi dir="ltr">7·6·5 = 210</bdi>'],
    res:'יש 210 דרכים.',
    tip:'תפקידים שונים = הסדר חשוב, ולא מחלקים ב־k!.'}),
  w:[null,
    '35 הוא <bdi dir="ltr">C(7,3)</bdi>, כאילו מדובר בוועדה בלי תפקידים. כאן יש תפקידים שונים, ולכן כל שלישייה נספרת <bdi dir="ltr">3! = 6</bdi> פעמים.',
-   '343 הוא <bdi dir="ltr">7³</bdi>, כלומר כאילו אותו אדם יכול למלא כמה תפקידים. אחרי שבחרו יו"ר נשארים רק 6 מועמדים לסגן.',
+   '343 הוא <bdi dir="ltr">7³</bdi>, כלומר כאילו אותו אדם יכול למלא כמה תפקידים. אחרי שבחרו יו״ר נשארים רק 6 מועמדים לסגן.',
    '5,040 הוא <bdi dir="ltr">7!</bdi>, מספר הסידורים של כל 7 האנשים. מחלקים רק 3 תפקידים, ולכן עוצרים אחרי 3 גורמים: <bdi dir="ltr">7·6·5</bdi>.']},
 {q:'קוד בן 4 ספרות (0–9), וחזרות מותרות. כמה קודים אפשריים?', o:['10,000','5,040','210','40'],
  e:SOL({ask:'מספר הרצפים באורך 4 מתוך 10 ספרות, כשהסדר חשוב ומותר לחזור על ספרה.',
@@ -2950,7 +3052,7 @@ GEN.s8 = [() => {
   const N = ri(8, 12), K = ri(3, 5), n = 3, k = ri(1, 2);
   const a = comb(K, k), b = comb(N - K, n - k), c = comb(N, n), p = a * b / c;
   const pb = comb(n, k) * (K / N) ** k * (1 - K / N) ** (n - k), pp = perm(N, n);
-  return G('s8', `מתוך ${N} מניות, ${K} הן מניות בנקים. בוחרים באקראי ${n} מניות. מה ההסתברות שבדיוק ${k} מהן מניות בנקים?`, p,
+  return GPr('s8', `מתוך ${N} מניות, ${K} הן מניות בנקים. בוחרים באקראי ${n} מניות. מה ההסתברות שבדיוק ${k} מהן מניות בנקים?`, p,
     [a / c, pb, a * b / pp], x => nf(x, 4),
     SOL({ask: `מה הסיכוי שבבחירה אקראית של ${n} מניות, מספר מניות הבנקים יהיה בדיוק ${k}, והשאר (${n - k}) מניות אחרות.`,
       f: '<bdi dir="ltr">P = C(K,k)·C(N − K, n − k) / C(N,n)</bdi>',
@@ -2965,7 +3067,7 @@ GEN.s8 = [() => {
 // ---------- lesson 0: math basics, and a "from zero" layer for every topic ----------
 TOPICS.unshift({id:'f0', area:'base', title:'יסודות: אחוזים, חזקות ושורשים', short:'יסודות',
 lesson:`
-<p>כל המבחן נשען על ארבע פעולות החשבון ועל חזקות. מי ששולט בשיעור הזה יתקדם בשאר החומר הרבה יותר בקלות. מי שכבר מרגיש בטוח בחומר יכול לדלג עליו.</p>
+<p>כל המבחן נשען על ארבע פעולות החשבון ועל חזקות. שליטה בשיעור הזה תקל מאוד על כל שאר החומר. אם החשבון הבסיסי כבר מוכר לכם היטב, אפשר לדלג עליו.</p>
 <h4>1. אחוזים ושברים עשרוניים</h4>
 <p>אחוז הוא חלק אחד ממאה, ולכן 5% הם 0.05. בנוסחאות מציבים תמיד את המספר העשרוני ולא את האחוז: ריבית של 5% מוצבת כ־0.05.</p>
 <div class="fx" dir="ltr">5% = 0.05 &nbsp;·&nbsp; 0.4% = 0.004 &nbsp;·&nbsp; 130% = 1.3</div>
@@ -2976,14 +3078,14 @@ lesson:`
 <h4>3. חזקות</h4>
 <p>החזקה <bdi dir="ltr">(1.05)<sup>3</sup></bdi> פירושה <bdi dir="ltr">1.05 × 1.05 × 1.05 = 1.157625</bdi>. חזקה שלילית היא אחד חלקי החזקה החיובית: <bdi dir="ltr">(1.05)<sup>−3</sup> = 1/(1.05)<sup>3</sup> = 0.8638</bdi>. זה בדיוק מה שעושים בהיוון: סכום שיתקבל בעוד 3 שנים מכפילים ב־<bdi dir="ltr">(1.05)<sup>−3</sup></bdi> כדי לדעת כמה הוא שווה היום.</p>
 <h4>4. שורשים וחזקה שברית</h4>
-<p>חזקה של <bdi dir="ltr">1/12</bdi> היא שורש מסדר 12: המספר שאם מכפילים אותו בעצמו 12 פעמים, חוזרים למספר המקורי. כך הופכים ריבית שנתית אפקטיבית לריבית חודשית. למשל, ריבית שנתית של 10%:</p>
+<p>חזקה של <bdi dir="ltr">1/12</bdi> היא שורש מסדר 12: המספר שאם כופלים 12 עותקים שלו זה בזה, מתקבל המספר המקורי. כך הופכים ריבית שנתית אפקטיבית לריבית חודשית. למשל, ריבית שנתית של 10%:</p>
 <div class="fx" dir="ltr">(1.10)<sup>1/12</sup> − 1 = 0.797%</div>
 <p>כלומר 0.797% לחודש. במחשבון מקישים 1.1, אחר כך x<sup>y</sup>, ואז <bdi dir="ltr">(1÷12)</bdi>.</p>
 <h4>5. הסימן Σ (סיגמה)</h4>
 <p>הסימן Σ פירושו "סכום של כל האיברים". למשל, <bdi dir="ltr">Σ p·x</bdi> פירושו: מכפילים כל ערך x בהסתברות שלו p, ומחברים את כל המכפלות.</p>
 <div class="ex"><b>תרגיל חימום.</b> מניה עלתה ב־20% ואחר כך ירדה ב־20%. היכן היא עומדת ביחס לנקודת ההתחלה?<br>
 מכפילים את גורמי הצמיחה: <bdi dir="ltr">1.2 × 0.8 = 0.96</bdi>, כלומר ירידה של 4%. זו בדיוק המלכודת של ממוצע חשבוני מול ממוצע גיאומטרי, שמופיעה במבחן.</div>
-<div class="plain"><b>במילים פשוטות:</b> בכל פעם שמשהו גדל באחוז מסוים, מכפילים ב־(1 + האחוז). כך כמעט כל שאלה במימון הופכת לשרשרת של הכפלות וחילוקים.</div>
+<div class="plain"><b>במילים פשוטות:</b> בכל פעם שמשהו גדל באחוז מסוים, מכפילים ב־1 ועוד האחוז (כמספר עשרוני). למשל, עלייה של 5% היא הכפלה ב־1.05. כך כמעט כל שאלה במימון הופכת לשרשרת של הכפלות וחילוקים.</div>
 <div class="trap"><b>מלכודות נפוצות</b><ul>
 <li>להציב 5 במקום 0.05.</li>
 <li>לחבר אחוזים של תקופות שונות במקום להכפיל את גורמי הצמיחה.</li>
@@ -2994,10 +3096,10 @@ const ZERO = {
 f0:{why:'רוב הטעויות במבחן מתחילות בחשבון: אחוז שלא הומר למספר עשרוני, או חזקה שהוצבה הפוך. עשר דקות כאן יחסכו לכם נקודות יקרות.',
  words:[['גורם צמיחה','המספר שמכפילים בו: 1 ועוד שיעור השינוי (עלייה של 5% היא גורם של 1.05)'],['חזקה','הכפלה חוזרת של מספר בעצמו'],['חזקה שברית','שורש: x בחזקת 1/n הוא שורש מסדר n של x']],
  steps:['ממירים כל אחוז למספר עשרוני.','הופכים כל שינוי לגורם צמיחה (1 + r).','שינויים ברצף מכפילים זה בזה. כדי לחזור אחורה בזמן, מחלקים.']},
-f1:{why:'זהו הבסיס של כל חלק המימון. מי שמבין איך "מזיזים כסף בזמן" יפתור גם שאלות על הלוואות, אג״ח, NPV ומניות.',
+f1:{why:'זהו הבסיס של כל חלק המימון. כשמבינים איך "מזיזים כסף בזמן", אפשר לפתור גם שאלות על הלוואות, אג״ח, NPV ומניות.',
  words:[['PV','ערך נוכחי: כמה שווה היום סכום שיתקבל בעתיד'],['FV','ערך עתידי: לכמה יגדל סכום שמושקע היום'],['ריבית דריבית','ריבית שמחושבת גם על הריבית שכבר נצברה'],['היוון','חישוב ערך נוכחי: חלוקה ב־(1 + r) על כל תקופה']],
  steps:['משרטטים ציר זמן ומסמנים עליו כל תשלום.','מוודאים שהריבית ומספר התקופות מתייחסים לאותה יחידת זמן.','מעבירים כל סכום לנקודת זמן אחת, בדרך כלל להיום.','רק כשכל הסכומים נמצאים באותה נקודת זמן, אפשר לחבר אותם או להשוות ביניהם.']},
-f2:{why:'במבחן מציגים ריביות בצורות שונות (נקובה, אפקטיבית, חודשית, מצטברת) ומבקשים להשוות ביניהן. מי שיודע להמיר מצורה לצורה, פותר את השאלה.',
+f2:{why:'במבחן מציגים ריביות בצורות שונות (נקובה, אפקטיבית, חודשית, מצטברת) ומבקשים להשוות ביניהן. אחרי שממירים את כולן לאותה צורה, נשארת השוואה פשוטה.',
  words:[['ריבית נקובה','הריבית השנתית המוצהרת, לפני השפעת הצבירה'],['ריבית אפקטיבית','הריבית שמתקבלת בפועל בשנה, כולל ריבית על ריבית'],['ריבית ריאלית','הגידול בכוח הקנייה, אחרי ניכוי האינפלציה'],['ממוצע גיאומטרי','הריבית הקבועה שהייתה מביאה לאותה תוצאה מצטברת']],
  steps:['מזהים באיזו צורה נתונה כל ריבית.','ממירים את כולן לאותה תקופה בעזרת גורם הצמיחה.','משווים גורמי צבירה, לא אחוזים.','אינפלציה: מחלקים ולא מחסרים (משוואת פישר).']},
 f3:{why:'הלוואה היא בסך הכול סדרה של תשלומים לאורך זמן. נוסחת האנונה חוסכת את הצורך להוון כל תשלום בנפרד.',
@@ -3005,10 +3107,10 @@ f3:{why:'הלוואה היא בסך הכול סדרה של תשלומים לאו
  steps:['בודקים אם התשלומים מתבצעים בסוף כל תקופה או בתחילתה.','בודקים אם התשלומים קבועים, גדלים או נמשכים לנצח.','בוחרים נוסחה מדף הנוסחאות. אם אין נוסחה מתאימה, מהוונים כל תשלום בנפרד.','בהלוואה עם תשלומים חודשיים: ריבית חודשית ומספר חודשים.']},
 f4:{why:'מנהלים צריכים להחליט באיזה פרויקט להשקיע. ה־NPV עונה על השאלה אם הפרויקט מייצר ערך.',
  words:[['NPV','ערך נוכחי נקי: הערך הנוכחי של כל התקבולים פחות ההשקעה'],['IRR','שיעור תשואה פנימי: הריבית שבה ה־NPV שווה לאפס'],['PI','מדד רווחיות. לפי הדף הרשמי: NPV חלקי ההשקעה'],['מחיר ההון','התשואה שאפשר לקבל בהשקעה חלופית. משמש כשיעור ההיוון']],
- steps:['מהוונים כל תקבול עתידי במחיר ההון.','מחסרים את ההשקעה, וכך מקבלים את ה־NPV.','פרויקטים מוציאים זה את זה, ולכן בוחרים לפי NPV.','התקציב מוגבל, ולכן מדרגים לפי PI וממלאים את התקציב.']},
+ steps:['מהוונים כל תקבול עתידי במחיר ההון.','מחסרים את ההשקעה, וכך מקבלים את ה־NPV.','אם הפרויקטים מוציאים זה את זה, בוחרים לפי NPV.','אם התקציב מוגבל, מדרגים לפי PI וממלאים את התקציב מהגבוה לנמוך.']},
 f5:{why:'אג״ח היא בעצם סדרת תשלומים ועוד תשלום גדול אחד בסוף. הכלל "המחיר נע בכיוון הפוך לריבית" חוזר בשאלות רבות.',
  words:[['קופון','הריבית שהאג״ח משלמת מדי שנה'],['ערך נקוב','הסכום שמוחזר במועד הפדיון'],['תשואה לפדיון','שיעור ההיוון שמשווה את הערך הנוכחי של התזרימים למחיר'],['מח״מ','משך החיים הממוצע של התשלומים, וגם מדד לרגישות לריבית']],
- steps:['רושמים את כל התזרימים: הקופונים, והקרן בסוף.','מהוונים בתשואה לפדיון.','משווים לערך הנקוב: האג״ח נסחרת בניכיון או בפרמיה?','הריבית משתנה, ולכן מחשבים את שינוי המחיר לפי המח״מ המתוקן, עם סימן מינוס.']},
+ steps:['רושמים את כל התזרימים: הקופונים, והקרן בסוף.','מהוונים בתשואה לפדיון.','משווים לערך הנקוב: האג״ח נסחרת בניכיון או בפרמיה?','אם הריבית משתנה, מחשבים את שינוי המחיר לפי המח״מ המתוקן, עם סימן מינוס.']},
 f6:{why:'מסביר מדוע הריביות לטווחים שונים אינן שוות זו לזו. הנושא מופיע במבחן פחות מנושאים אחרים.',
  words:[['ספוט','הריבית מהיום ועד מועד מסוים'],['פורוורד','ריבית שנקבעת היום לתקופה עתידית'],['עקום תשואות','גרף הריבית לפי הזמן לפדיון']],
  steps:['כותבים שוויון: השקעה ארוכה = השקעה קצרה ואחריה השקעה בריבית הפורוורד.','מחלצים את ריבית הפורוורד.']},
@@ -3017,13 +3119,13 @@ f7:{why:'כמה שווה מניה? לפי מודל גורדון, היא שווה
  steps:['בודקים אם נתון D₀ (ששולם זה עתה) או D₁ (הצפוי).','אם נתון D₀, מכפילים אותו ב־(1 + g).','מציבים ב־<bdi dir="ltr">P = D₁/(k − g)</bdi>.','מוודאים ש־<bdi dir="ltr">k &gt; g</bdi>.']},
 f8:{why:'זו השאלה הנפוצה ביותר במבחן: איך שילוב של נכסים מקטין את הסיכון. במבחן 09/2025 עסקו 9 מתוך 20 השאלות בנושא הזה ובמודל CAPM.',
  words:[['תוחלת','התשואה הממוצעת הצפויה'],['סטיית תקן','מדד לסיכון: עד כמה התשואה תנודתית'],['מקדם מתאם (ρ)','עד כמה שני נכסים נעים יחד: ממינוס 1 (בכיוונים הפוכים לגמרי) ועד 1 (יחד לגמרי)'],['פיזור','שילוב של נכסים כדי להקטין סיכון'],['תיק מינימום שונות','השילוב שהסיכון שלו הוא הנמוך ביותר האפשרי']],
- steps:['תוחלת התיק היא תמיד ממוצע משוקלל.','סיכון התיק: הנוסחה עם השורש, אלא אם <bdi dir="ltr">ρ = 1</bdi>.','בתיק עם נכס חסר סיכון: σ = משקל החלק המסוכן × סטיית התקן שלו.','ככל ש־ρ נמוך יותר, הסיכון קטן יותר.']},
+ steps:['תוחלת התיק היא תמיד ממוצע משוקלל.','סיכון התיק: הנוסחה עם השורש, אלא אם <bdi dir="ltr">ρ = 1</bdi>.','בתיק עם נכס חסר סיכון, סטיית התקן של התיק היא המשקל של החלק המסוכן כפול סטיית התקן שלו.','ככל ש־ρ נמוך יותר, הסיכון קטן יותר.']},
 f9:{why:'CAPM עונה על השאלה "איזו תשואה מגיעה לי על הסיכון הזה". זה הנושא הגדול ביותר במבחן, ויש בו שאלות רבות מסוג "איזו מהטענות נכונה".',
  words:[['β (בטא)','עד כמה המניה נעה ביחס לשוק'],['סיכון שיטתי','סיכון של השוק כולו, שאי אפשר לפזר'],['סיכון ספציפי','סיכון של חברה מסוימת, שאפשר לפזר'],['CML','קו שוק ההון: קו התיקים היעילים, לפי σ'],['SML','קו שוק ניירות הערך: קו לכל נכס, לפי β'],['אלפא','התשואה העודפת של המניה מעבר למה שמגיע לה לפי CAPM']],
  steps:['מזהים: השאלה עוסקת בתיק יעיל (CML) או בנכס כלשהו (SML)?','מציבים בנוסחה המתאימה מדף הנוסחאות.','בשאלות טענות: בודקים כל טענה בנפרד, ורק אחר כך בוחרים תשובה.','מעל ה־SML המניה זולה. מתחת ל־SML היא יקרה.']},
 f10:{why:'כשהעתיד אינו ידוע, מנתחים תרחישים. זה הבסיס להבנת הקשר בין סיכון לתשואה, ולהבדלים בין משקיעים.',
  words:[['תרחיש','מצב עתידי אפשרי, שלו הסתברות מסוימת'],['שליטה','מצב שבו להשקעה אחת תשואה צפויה גבוהה יותר וסיכון נמוך יותר מאשר לאחרת'],['שווה ודאי','הסכום הוודאי ששקול בעיני המשקיע להימור'],['פרמיית סיכון','ההפרש בין תוחלת ההימור לבין השווה הוודאי שלו']],
- steps:['מחשבים את התוחלת: Σ הסתברות × תשואה.','מחשבים את סטיית התקן, משוקללת בהסתברויות.','בודקים אם אחת האפשרויות שולטת באחרת.','אם אין שליטה, הבחירה תלויה ביחס של המשקיע לסיכון.']},
+ steps:['מחשבים את התוחלת: כופלים כל תשואה בהסתברות שלה ומחברים.','מחשבים את סטיית התקן, משוקללת בהסתברויות.','בודקים אם אחת האפשרויות שולטת באחרת.','אם אין שליטה, הבחירה תלויה ביחס של המשקיע לסיכון.']},
 s1:{why:'לפני שמנתחים נתונים צריך לסכם אותם: היכן נמצא המרכז, ועד כמה הנתונים מפוזרים.',
  words:[['ממוצע','סכום התצפיות חלקי מספרן'],['חציון','הערך האמצעי לאחר מיון'],['שונות','הממוצע של ריבועי הסטיות מהממוצע'],['אסימטריה','התפלגות עם "זנב" לצד אחד']],
  steps:['ממיינים את הנתונים.','מחשבים ממוצע, ואם צריך גם חציון.','שונות: לפי הדף הרשמי מחלקים ב־n.','צורת ההתפלגות: משווים את הממוצע לחציון, או בודקים היכן מרוכזת רוב השכיחות.']},
@@ -3088,7 +3190,7 @@ QB_F0.forEach((x, i) => QB.push({id: 'f0-' + (i + 1), t: 'f0', q: x.q, o: x.o, e
 // study book (ספר לימוד 2026 מימון) chapters; len = estimated exam weight in %
 const CHAPTERS = [
   {n: 1, title: 'ערך הזמן של הכסף', pages: '3–24', len: 20, topics: ['f1', 'f2']},
-  {n: 2, title: 'לוחות סילוקין ואג"ח', pages: '25–32', len: 5, topics: ['f3', 'f5']},
+  {n: 2, title: 'לוחות סילוקין ואג״ח', pages: '25–32', len: 5, topics: ['f3', 'f5']},
   {n: 3, title: 'קריטריונים להשקעה', pages: '33–41', len: 6, topics: ['f4']},
   {n: 4, title: 'החלטות בתנאי אי־ודאות', pages: '42–55', len: 20, topics: ['f10', 'f8']},
   {n: 5, title: 'מודל CAPM', pages: '56–73', len: 22, topics: ['f9']},
@@ -3141,7 +3243,7 @@ f3: [
  e:SOL({ask:'כמה חוב נשאר אחרי שכבר שולמו k תשלומים קבועים.',
    f:'<bdi dir="ltr">B<sub>k</sub> = PMT·(1 − (1 + r)<sup>−(n−k)</sup>) / r</bdi>',
    why:'ביום ההלוואה הקרן שווה לערך הנוכחי של כל התשלומים. אותו היגיון נכון בכל רגע: החוב שנותר הוא בדיוק הסכום שהתשלומים שעוד לא שולמו מחזירים, מהוונים בריבית ההלוואה.',
-   steps:['נשארו n − k תשלומים שווים של PMT.', 'מהוונים אותם בריבית ההלוואה לפי נוסחת האנונה.', 'התוצאה היא יתרת הקרן.'],
+   steps:['הסימנים: <bdi dir="ltr">B<sub>k</sub></bdi> היא יתרת הקרן אחרי k תשלומים, PMT הוא התשלום הקבוע, r הריבית לתקופה ו־n מספר התשלומים הכולל.', 'נשארו <bdi dir="ltr">n − k</bdi> תשלומים שווים של PMT.', 'מהוונים אותם בריבית ההלוואה לפי נוסחת האנונה.', 'התוצאה היא יתרת הקרן.'],
    res:'יתרת הקרן היא הערך הנוכחי של התשלומים שנותרו.',
    tip:'בשפיצר רכיב הקרן בתשלום גדל עם הזמן, ולכן היתרה יורדת לאט בהתחלה ומהר בסוף.'}),
  w:[null,
@@ -3150,8 +3252,8 @@ f3: [
    'סכום הריבית ששולמה לא מקטין את החוב בכלל. הוא מה ששולם על השימוש בכסף, ואין לו קשר ישיר ליתרה.']},
 {q:'הלוואה של 120,000 ₪ ל־10 שנים בשיטת קרן שווה, בריבית שנתית של 5% ובתשלומים שנתיים. מהו התשלום השלישי?', o:['16,800 ₪','18,000 ₪','12,000 ₪','16,200 ₪'],
  e:SOL({ask:'כמה משלמים בשנה השלישית, כשכל שנה מחזירים אותו סכום קרן ועוד ריבית על היתרה.',
-   f:'<bdi dir="ltr">Pay<sub>k</sub> = L/n + r·(L − (k − 1)·L/n)</bdi>',
-   why:'בקרן שווה רכיב הקרן קבוע. הריבית מחושבת על החוב שהיה פתוח במהלך השנה, כלומר על היתרה אחרי k − 1 התשלומים הקודמים.',
+   f:'<bdi dir="ltr">PMT<sub>k</sub> = L/n + r·(L − (k − 1)·L/n)</bdi>',
+   why:'בנוסחה L הוא סכום ההלוואה, n מספר התשלומים, r הריבית ו־k מספר התשלום המבוקש. בקרן שווה רכיב הקרן קבוע (L/n). הריבית מחושבת על החוב שהיה פתוח במהלך השנה, כלומר על היתרה אחרי k − 1 התשלומים הקודמים.',
    steps:['רכיב הקרן: <bdi dir="ltr">120,000 / 10 = 12,000</bdi>', 'יתרה בתחילת השנה השלישית: <bdi dir="ltr">120,000 − 2·12,000 = 96,000</bdi>', 'ריבית: <bdi dir="ltr">96,000·0.05 = 4,800</bdi>', 'התשלום: <bdi dir="ltr">12,000 + 4,800 = 16,800</bdi>'],
    res:'התשלום השלישי הוא 16,800 ₪.',
    tip:'בתשלום ה־k הריבית היא על היתרה אחרי k − 1 תשלומים, לא אחרי k.'}),
@@ -3177,7 +3279,7 @@ f4: [
    why:'התקבולים שווים ומתקבלים כל שנה, ולכן מהוונים את כולם יחד בנוסחת האנונה. ההשקעה משולמת היום, ולא מהוונים אותה.',
    steps:['מקדם האנונה: <bdi dir="ltr">(1 − 1.1<sup>−5</sup>) / 0.1 = 3.79079</bdi>', 'ערך נוכחי של התקבולים: <bdi dir="ltr">3,000·3.79079 = 11,372.36</bdi>', 'מורידים את ההשקעה: <bdi dir="ltr">11,372.36 − 10,000 = 1,372.36</bdi>'],
    res:'ה־NPV הוא 1,372.36. הוא חיובי, ולכן הפרויקט כדאי.',
-   tip:'NPV = ערך נוכחי של התקבולים פחות ההשקעה. לא שוכחים להוריד את ההשקעה.'}),
+   tip:'ה־NPV הוא הערך הנוכחי של התקבולים פחות ההשקעה. לא שוכחים להוריד את ההשקעה.'}),
  w:[null,
    '5,000 מתקבל מחיבור התקבולים בלי היוון (<bdi dir="ltr">5·3,000 − 10,000</bdi>). כסף שמתקבל בעוד כמה שנים שווה היום פחות.',
    '<bdi dir="ltr">−1,372.36</bdi> מתקבל מהחיסור ההפוך (ההשקעה פחות הערך הנוכחי). ה־NPV הוא הערך הנוכחי של התקבולים פחות ההשקעה, וכאן הוא חיובי.',
@@ -3275,7 +3377,7 @@ f9: [
    'הבטא כבר "נמצאת" בתשואה הנדרשת הנתונה (10%). כל מה שצריך הוא להשוות אליה את התשואה הצפויה.']},
 {q:'מדד טריינור של קרן A הוא 6 ושל קרן B הוא 8. מדד שארפ של A גבוה מזה של B. מה ניתן להסיק?', o:['ל־B יותר סיכון ספציפי: היא מפוזרת פחות מ־A','A עדיפה בכל מקרה','B עדיפה בכל מקרה','לשתיהן אותה בטא'],
  e:SOL({ask:'מה מסבירים שני מדדים שמדרגים את הקרנות בסדר הפוך.',
-   f:'<bdi dir="ltr">Treynor = (R<sub>p</sub> − r<sub>f</sub>)/β</bdi>, <bdi dir="ltr">Sharpe = (R<sub>p</sub> − r<sub>f</sub>)/σ<sub>p</sub></bdi>',
+   f:'מדד טריינור: <bdi dir="ltr">(R<sub>p</sub> − r<sub>f</sub>)/β</bdi>. מדד שארפ: <bdi dir="ltr">(R<sub>p</sub> − r<sub>f</sub>)/σ<sub>p</sub></bdi>.',
    why:'טריינור מחלק בסיכון השיטתי (β) בלבד, ושארפ בסיכון הכולל (σ), שכולל גם סיכון ספציפי. B מנצחת כשמודדים רק סיכון שיטתי ומפסידה כשמודדים סיכון כולל, ולכן יש לה הרבה סיכון ספציפי.',
    steps:['ביחס לבטא, B טובה יותר (8 > 6).', 'ביחס לסטיית התקן, A טובה יותר.', 'ההבדל בין σ ל־β הוא הסיכון הספציפי, ולכן ל־B יש יותר ממנו.'],
    res:'ל־B יותר סיכון ספציפי: היא מפוזרת פחות מ־A.',
@@ -3292,7 +3394,7 @@ f7: [
    why:'אם החברה הייתה מחלקת את כל הרווח ולא צומחת, המניה הייתה שווה E<sub>1</sub>/k (צמיתה). כל מה שהמשקיעים משלמים מעבר לזה הוא על הזדמנויות הצמיחה.',
    steps:['ערך בלי צמיחה: <bdi dir="ltr">5 / 0.1 = 50</bdi>', 'PVGO: <bdi dir="ltr">70 − 50 = 20</bdi>'],
    res:'PVGO הוא 20 ₪.',
-   tip:'PVGO = מחיר פחות E<sub>1</sub>/k.'}),
+   tip:'PVGO הוא מחיר המניה פחות <bdi dir="ltr">E<sub>1</sub>/k</bdi>.'}),
  w:[null,
    '50 ₪ הוא ערך המניה בלי צמיחה (<bdi dir="ltr">5/0.1</bdi>). ה־PVGO הוא מה שנשאר מהמחיר מעבר לסכום הזה.',
    '70 ₪ הוא מחיר המניה כולו. הוא כולל גם את ערך הרווחים הנוכחיים (50), ולכן צריך להוריד אותו.',
@@ -3359,7 +3461,7 @@ GEN.f3.push(() => {
   return G('f3', `הלוואה של ${nf(L, 0)} ₪ ל־${n} שנים בשיטת קרן שווה, בריבית ${pct(r, 0)} ובתשלומים שנתיים. מהו גובה התשלום ה־${k}?`, pay,
     [L / n + r * L, L / n + r * (L - k * L / n), L * r / (1 - (1 + r) ** -n), r * bk, L / n], F,
     SOL({ask: `כמה משלמים בתשלום ה־${k}, כשכל שנה מחזירים אותו סכום קרן ועוד ריבית על היתרה.`,
-      f: GB('Pay<sub>k</sub> = L/n + r·(L − (k − 1)·L/n)'),
+      f: GB('PMT<sub>k</sub> = L/n + r·(L − (k − 1)·L/n)'),
       why: `בקרן שווה רכיב הקרן קבוע. הריבית מחושבת על החוב שהיה פתוח במהלך השנה, כלומר על היתרה אחרי ${k - 1} התשלומים הקודמים.`,
       steps: [`רכיב הקרן: ${GB(`${nf(L, 0)} / ${n} = ${N(L / n)}`)}`,
         `יתרה בתחילת התקופה ה־${k}: ${GB(`${nf(L, 0)} − ${k - 1}·${N(L / n)} = ${N(bk)}`)}`,
@@ -3470,7 +3572,7 @@ GEN.f9.push(() => {
   return G('f9', `לקרן תשואה של ${pct(rp, 0)}, סטיית תקן של ${pct(sp, 0)} ובטא של ${b}. הריבית חסרת הסיכון ${pct(rf, 0)}. מהו מדד ${sharpe ? 'שארפ' : 'טריינור'}?`, v,
     [other, rp / risk, (rp + rf) / risk, sharpe ? (rp - rf) / (sp * sp) : (rp - rf) * b], F,
     SOL({ask: `כמה תשואה עודפת הקרן מייצרת על כל יחידת ${sharpe ? 'סיכון כולל (סטיית תקן)' : 'סיכון שיטתי (בטא)'}.`,
-      f: GB(sharpe ? 'Sharpe = (R<sub>p</sub> − r<sub>f</sub>) / σ<sub>p</sub>' : 'Treynor = (R<sub>p</sub> − r<sub>f</sub>) / β<sub>p</sub>'),
+      f: (sharpe ? 'מדד שארפ: ' + GB('(R<sub>p</sub> − r<sub>f</sub>) / σ<sub>p</sub>') : 'מדד טריינור: ' + GB('(R<sub>p</sub> − r<sub>f</sub>) / β<sub>p</sub>')),
       why: sharpe ? 'שארפ מודד תגמול על הסיכון הכולל, ולכן מחלקים בסטיית התקן. הוא מתאים למשקיע שזו כל ההשקעה שלו.' : 'טריינור מודד תגמול על הסיכון השיטתי בלבד, ולכן מחלקים בבטא. הוא מתאים למשקיע שמחזיק תיק מפוזר.',
       steps: [`תשואה עודפת: ${GB(`${nf(rp, 2)} − ${nf(rf, 2)} = ${ex}`)}`,
         `מחלקים ב${sharpe ? 'סטיית התקן' : 'בטא'}: ${GB(`${ex} / ${rk} = ${F(v)}`)}`],
@@ -3511,7 +3613,7 @@ GEN.f7.push(() => {
         `תשואת הדיבידנד: ${GB(`${nf(D1, 3)} / ${P} = ${F(D1 / P)}`)}`,
         `מוסיפים את הצמיחה: ${GB(`${F(D1 / P)} + ${pct(g, 0)} = ${F(k)}`)}`],
       res: `התשואה הנדרשת היא ${GR(F(k))}.`,
-      tip: '"חולק זה עתה" = D<sub>0</sub>. בנוסחה משתמשים ב־D<sub>1</sub> = D<sub>0</sub>·(1 + g).'}),
+      tip: '"חולק זה עתה" פירושו D<sub>0</sub>. בנוסחה משתמשים ב־<bdi dir="ltr">D<sub>1</sub> = D<sub>0</sub>·(1 + g)</bdi>.'}),
     [`${F(D0 / P + g)} מתקבל מהדיבידנד שכבר חולק (${GB(`${nf(D0, 2)}/${P}`)}). הקונה היום יקבל את הדיבידנד הבא, ${nf(D1, 3)}.`,
      `${F(D1 / P)} היא תשואת הדיבידנד בלבד. שכחו להוסיף את הצמיחה ${pct(g, 0)}: המחיר צפוי לעלות באותו קצב.`,
      `${F(D0 / P)} היא תשואת הדיבידנד שכבר חולק, בלי צמיחה. חסרים גם D<sub>1</sub> וגם g.`,
@@ -3532,7 +3634,7 @@ GEN.f7.push(() => {
         `הדיבידנד הבא: ${GB(`D<sub>1</sub> = ${E1}·${pay} = ${N(D1)}`)}`,
         `המחיר: ${GB(`${N(D1)} / (${k} − ${nf(g, 3)}) = ${N(p)}`)}`],
       res: `מחיר המניה הוא ${GR(N(p))} ₪.`,
-      tip: 'הצמיחה באה מהחלק שלא מחולק: (1 − שיעור החלוקה)·ROE. הדיבידנד הוא החלק שכן מחולק.'}),
+      tip: 'הצמיחה באה מהחלק שלא מחולק: שיעור העיכוב (1 פחות שיעור החלוקה) כפול ROE. הדיבידנד הוא החלק שכן מחולק.'}),
     [`${GB(N(D1 / (k - gw)))} ₪ מתקבל מחישוב הצמיחה עם שיעור החלוקה (${GB(`${pay}·${roe} = ${pct(gw, 1)}`)}) במקום שיעור העיכוב. רק הרווח שנשאר בחברה מושקע וצומח: ${GB(`${nf(1 - pay, 1)}·${roe}`)}.`,
      `${N(E1 / (k - g))} ₪ מתקבל מהצבת כל הרווח (${E1}) במקום הדיבידנד. רק ${pct(pay, 0)} מחולקים: ${GB(`D<sub>1</sub> = ${N(D1)}`)}.`,
      `${N(D1 / k)} ₪ מתקבל בלי הצמיחה (חלוקה ב־k בלבד). הרווח המעוכב מושקע ומייצר צמיחה של ${pct(g, 1)}, ומחסירים אותה במכנה.`,
@@ -3561,19 +3663,19 @@ const SHEKEL = q => ({...q, o: q.o.map(x => x + ' ש״ח')});
 const EXAM_2025 = [
 {t:'f8', q:'למניה ג׳ תוחלת תשואה של 12% וסטיית תקן של 25%. למניה ד׳ תוחלת תשואה של 8% וסטיית תקן של 20%. מקדם המתאם בין שתי המניות הוא 0.3. תשואת הנכס חסר הסיכון היא 3%.<br>ידוע כי סטיית התקן של התיק המנייתי (שילוב של מניה ג׳ ו־ד׳) היא 18%, ונעמה מעוניינת לבנות תיק כולל, כך שסטיית התקן הכוללת תהיה 9%.<br>בהתבסס על נתונים אלה, מהו משקל הנכס חסר הסיכון בתיק הכולל?', o:R('25%|40%|50%|60%|75%'), a:2,
  e:SOL({ask:'איזה חלק מהכסף צריך להעביר לנכס חסר הסיכון, כדי שסטיית התקן של התיק הכולל תרד מ־18% ל־9%.',
-   f:LR('σ<sub>total</sub> = w<sub>s</sub>·σ<sub>s</sub>'),
+   f:LR('σ<sub>p</sub> = w<sub>s</sub>·σ<sub>s</sub>'),
    why:'לנכס חסר הסיכון אין סטיית תקן, ואין לו מתאם עם המניות. לכן כל הסיכון של התיק הכולל מגיע מהחלק שבמניות, והוא גדל ביחס ישר למשקל של החלק הזה.',
    steps:['מסמנים ב־w<sub>s</sub> את המשקל של התיק המנייתי. סטיית התקן שלו נתונה: '+LR('σ<sub>s</sub> = 18%')+'.', 'מציבים את היעד: '+LR('9% = w<sub>s</sub>·18%'), 'מחלקים: '+LR('w<sub>s</sub> = 9/18 = 0.5'), 'משקל הנכס חסר הסיכון הוא היתרה: '+LR('1 − 0.5 = 0.5'), 'בדיקה: '+LR('0.5·18% = 9%')+', בדיוק היעד.'],
    res:'משקל הנכס חסר הסיכון בתיק הכולל הוא 50%.',
    tip:'התוחלות, סטיות התקן של כל מניה והמתאם הם נתונים מיותרים. כשסטיית התקן של התיק המנייתי נתונה, צריך רק אותה.'}),
- w:['25% מתקבל אם מעלים בריבוע: '+LR('(9/18)² = 0.25')+'. סטיית התקן (לא השונות) גדלה ביחס ישר למשקל, ולכן לא מעלים בריבוע. בבדיקה: 75% במניות נותנים '+LR('0.75·18% = 13.5%')+'.',
+ w:['25% מתקבל אם מעלים בריבוע, '+LR('(9/18)² = 0.25')+', ומתייחסים לתוצאה כמשקל הנכס חסר הסיכון. סטיית התקן (לא השונות) גדלה ביחס ישר למשקל המניות, ולכן לא מעלים בריבוע. בבדיקה: עם 25% בנכס חסר הסיכון נשארים 75% במניות, ו־'+LR('0.75·18% = 13.5%')+', יותר מ־9%.',
    'עם 40% בנכס חסר הסיכון נשארים 60% במניות, וסטיית התקן היא '+LR('0.6·18% = 10.8%')+', יותר מ־9%. צריך לחלק: '+LR('9/18 = 0.5')+' במניות.',
    null,
    'עם 60% בנכס חסר הסיכון נשארים 40% במניות, וסטיית התקן היא '+LR('0.4·18% = 7.2%')+', פחות מ־9%. המשקל במניות צריך להיות '+LR('9/18 = 0.5')+'.',
    '75% מתקבל אם מעלים בריבוע: '+LR('(9/18)² = 0.25')+' במניות, והיתרה 75%. אבל סטיית התקן (לא השונות) גדלה ביחס ישר למשקל. בבדיקה: '+LR('0.25·18% = 4.5%')+'.']},
 {t:'s2', q:'יעקב ודוד ממתינים לעלות לטיסה במטוס שיש בו 25 שורות, ובכל שורה 4 כיסאות צמודים זה לזה (מסומנים A-D). המקומות במטוס מוקצים באופן אקראי לחלוטין, בלי קשר בין הנוסעים.<br>מה ההסתברות שדוד ויעקב ימצאו את עצמם יושבים זה לצד זה באותה שורה?', o:R('נמוכה מ־1%|גבוהה מ־1.01% ונמוכה מ־2%|גבוהה מ־2.01% ונמוכה מ־3%|גבוהה מ־3.01% ונמוכה מ־4%|גבוהה מ־4.01%'), a:1,
  e:SOL({ask:'מה הסיכוי ששני אנשים שמקבלים מושבים באקראי יקבלו שני מושבים צמודים באותה שורה.',
-   f:'הסתברות = מספר הזוגות הצמודים ÷ מספר כל זוגות המושבים, כאשר '+LR('C(n,2) = n·(n − 1)/2'),
+   f:'ההסתברות היא מספר הזוגות הצמודים חלקי מספר כל זוגות המושבים. מספר הזוגות מתוך n מושבים: '+LR('C(n,2) = n·(n − 1)/2'),
    why:'ההקצאה אקראית לגמרי, ולכן לכל זוג מושבים אותו סיכוי להיות הזוג של יעקב ודוד. סופרים את הזוגות ה״טובים״ ומחלקים במספר כל הזוגות.',
    steps:['במטוס '+LR('25·4 = 100')+' מושבים.', 'מספר כל הזוגות: '+LR('C(100,2) = 100·99/2 = 4,950'), 'בשורה אחת (A, B, C, D) יש 3 זוגות צמודים: A-B, B-C, C-D. ב־25 שורות: '+LR('25·3 = 75')+' זוגות.', 'ההסתברות: '+LR('75/4,950 = 0.01515')+', כלומר כ־1.52%.', 'בדיקה בדרך אחרת: יעקב יושב ראשון. בחצי מהמקרים הוא בקצה (A או D) ויש לו שכן אחד, ובחצי השני הוא באמצע ויש לו שניים. לדוד נשארו 99 מושבים: '+LR('0.5·1/99 + 0.5·2/99 = 1.5/99 = 1.52%')],
    res:'כ־1.52%, כלומר בטווח שבין 1.01% ל־2%.',
@@ -3585,7 +3687,7 @@ const EXAM_2025 = [
    'גם ההסתברות לשבת באותה שורה, בלי לדרוש צמידות, היא רק '+LR('3/99 = 3.03%')+'. הסיכוי לשבת צמודים קטן ממנה, ולכן אינו יכול לעבור 4%.']},
 {t:'s2', q:'בקבוצה לגמילה מהתמכרות למשקאות ממותקים, נמצא כי: 20% מהמשתתפים היו מכורים לקולה, 30% היו מכורים לפנטה, והשאר היו מכורים לספרייט. ידוע כי כל משתתף היה מכור רק למשקה אחד.<br>כמו כן, ידוע כי: הסיכוי של נגמל מקולה לחזור לצרוך קולה בתוך שנה הוא 0.5. הסיכוי של נגמל מפנטה לחזור לצרוך פנטה בתוך שנה הוא 0.6. הסיכוי של נגמל מספרייט לחזור לצרוך ספרייט בתוך שנה הוא 0.9.<br>בהינתן שנגמל כלשהו בקבוצה חזר לשתות את המשקה האהוב עליו, מה ההסתברות שהוא היה מכור לפנטה?', o:R('נמוכה מ־20%|גבוהה מ־20.01% ונמוכה מ־25%|גבוהה מ־25.01% ונמוכה מ־30%|גבוהה מ־30.01% ונמוכה מ־35%|גבוהה מ־35.01%'), a:1,
  e:SOL({ask:'ידוע שהנגמל חזר לשתות. מה הסיכוי שהוא מקבוצת הפנטה? זו הסתברות ״הפוכה״: מהתוצאה (חזרה) אל הקבוצה.',
-   f:LR('P(F|R) = P(F)·P(R|F) / P(R)')+', כאשר F = מכור לפנטה, R = חזר לשתות',
+   f:LR('P(F|R) = P(F)·P(R|F) / P(R)')+'. כאן F מסמן מכור לפנטה, ו־R מסמן חזרה לשתייה.',
    why:'נתונים הסיכויים לחזור <u>בתוך</u> כל קבוצה, אבל שואלים על הכיוון ההפוך. נוסחת בייס הופכת את הכיוון: איזה חלק מכל החוזרים הגיע מקבוצת הפנטה.',
    steps:['החלק של מכורי הספרייט הוא היתרה: '+LR('1 − 0.2 − 0.3 = 0.5'), 'החוזרים מכל קבוצה (חלק הקבוצה כפול הסיכוי לחזור): קולה '+LR('0.2·0.5 = 0.10')+', פנטה '+LR('0.3·0.6 = 0.18')+', ספרייט '+LR('0.5·0.9 = 0.45'), 'כל החוזרים יחד (נוסחת ההסתברות השלמה): '+LR('P(R) = 0.10 + 0.18 + 0.45 = 0.73'), 'החלק של הפנטה מתוכם: '+LR('0.18/0.73 = 0.2466')],
    res:'כ־24.66%, כלומר בטווח שבין 20.01% ל־25%.',
@@ -3708,8 +3810,8 @@ const EXAM_2025 = [
    tip:'לגוש של שניים יש 2 סדרים פנימיים. לא לשכוח להכפיל ב־2.'}),
  w:['60 מתקבל אם מחלקים את 120 ב־2, כאילו סידור והשתקפות שלו (עם כיוון השעון ונגדו) הם אותו סידור. כאן ימין ושמאל חשובים, ולכן לא מחלקים.',
    null,
-   'כדי להגיע ל־76 עד 85 צריך להחסיר מ־120 רק 35 עד 44 סידורים. אבל מספר הסידורים האסורים הוא בדיוק '+LR('2·4! = 48')+', ולכן התשובה 72.',
-   'מגיעים לסביבה הזאת כשמחסירים פחות מדי סידורים אסורים. הטעות הנפוצה: שוכחים להכפיל את הגוש ב־2 ומקבלים '+LR('120 − 24 = 96')+'. צריך להחסיר 48.',
+   '80 מתקבל אם משתמשים בהסתברות לשבת צמודים בשורה (1/3) במקום במעגל (2/5): '+LR('120·(1 − 1/3) = 80')+'. במעגל לכל אחד שני שכנים, ומספר הסידורים האסורים הוא '+LR('2·4! = 48')+', ולכן התשובה 72.',
+   'אין חישוב סביר שנותן 86 עד 95. הטעות הקרובה, לשכוח להכפיל את הגוש ב־2, נותנת '+LR('120 − 24 = 96')+', וגם היא מחוץ לטווח. צריך להחסיר 48 ולקבל 72.',
    '120 הוא מספר כל הסידורים במעגל, בלי להחסיר את 48 הסידורים שבהם דנה ליד גיל. ו־480, שמתקבל מ־'+LR('6! − 2·5!')+', הוא ספירה בשורה ולא במעגל.']},
 {t:'f4', q:'להלן נתונים לגבי 4 פרויקטים:<div class="tbl-wrap"><table class="mini"><tr><th>פרויקט</th><th>השקעה (ש״ח)</th><th>IRR</th><th>NPV</th></tr><tr><td>א</td><td>40</td><td>22%</td><td>28</td></tr><tr><td>ב</td><td>80</td><td>20%</td><td>96</td></tr><tr><td>ג</td><td>60</td><td>17%</td><td>66</td></tr><tr><td>ד</td><td>100</td><td>15%</td><td>110</td></tr></table></div>בהינתן כי עומד לרשותו של אורי תקציב של 120 ש״ח בלבד וניתנה לו האפשרות להשקיע ביותר מפרויקט אחד וכן להשקיע גם בפרויקטים חלקיים, מה יהיה ה־NPV המקסימלי הכולל של השקעתו?', o:R('נמוך מ־110.0 ש״ח.|בין 110.01 ש״ח ל־122.00 ש״ח.|בין 122.01 ש״ח ל־134.00 ש״ח.|בין 134.01 ש״ח ל־145.00 ש״ח.|גבוה מ־145.01 ש״ח.'), a:3,
  e:SOL({ask:'איך לחלק תקציב של 120 ש״ח בין הפרויקטים, כדי לקבל NPV כולל מרבי, כשמותר לקחת גם חלק מפרויקט.',
@@ -3725,7 +3827,7 @@ const EXAM_2025 = [
    '162 מתקבל אם לוקחים את ב ואת ג במלואם: '+LR('96 + 66 = 162')+'. אבל זה דורש 140 ש״ח, יותר מהתקציב של 120.']},
 {t:'f1', q:'מלכה זכתה במקום הראשון של כרטיס הגירוד ״חיש־גד״. כאשר הלכה למשרדי החברה לקבל את הפרס, הוצע למלכה לבחור היום באחת מתוך חמש אלטרנטיבות.<br>בהנחה כי שיעור הריבית השנתית האפקטיבית בשוק הינה 5%, באיזה מבין המסלולים הבאים כדאי למלכה לבחור?', o:R('שמונה תשלומים שווים של 2,650 ש״ח בסוף כל חודש וחצי, כאשר התשלום הראשון יהיה בעוד חודש וחצי מהיום.|תשלום של 7,600 ש״ח בעוד שנה וחצי מהיום, תשלום נוסף של 7,650 בעוד שנתיים מהיום, ותשלום אחרון של 7,700 ש״ח בעוד שנתיים וחצי מהיום.|12 תשלומים חודשיים של 1,720 ש״ח בסוף כל חודש, כאשר התשלום הראשון הינו בסוף החודש השני מהיום.|שלושה תשלומים של 6,980 ש״ח בסוף כל ארבעה חודשים (סוף חודש 4, 8, ו־12).|תשלום חד־פעמי היום בסכום של 20,000 ש״ח.'), a:1,
  e:SOL({ask:'איזה מסלול שווה הכי הרבה <u>היום</u>. התשלומים מגיעים בזמנים שונים, ולכן משווים ערכים נוכחיים ולא סכומים.',
-   f:LR('PV = Σ C<sub>t</sub>/1.05<sup>t</sup>')+', כאשר t נמדד בשנים (חודש הוא 1/12 שנה)',
+   f:LR('PV = Σ C<sub>t</sub>/1.05<sup>t</sup>')+', כאשר t נמדד בשנים, וכל חודש הוא חלק אחד משנים־עשר בשנה',
    why:'שקל היום שווה יותר משקל בעתיד, כי אפשר להשקיע אותו בריבית. ההיוון מביא את כל המסלולים לאותה נקודת זמן, היום.',
    steps:['א: 8 תשלומים של 2,650 בחודשים 1.5, 3, …, 12: '+LR('PV = 20,628'), 'ב: '+LR('7,600/1.05<sup>1.5</sup> + 7,650/1.05² + 7,700/1.05<sup>2.5</sup>'), 'כלומר: <b>'+LR('7,063.7 + 6,938.8 + 6,815.8 ≈ 20,818')+'</b>', 'ג: 12 תשלומים של 1,720 בחודשים 2 עד 13: '+LR('PV = 20,022'), 'ד: 3 תשלומים של 6,980 בחודשים 4, 8 ו־12: '+LR('PV = 20,272'), 'ה: 20,000 היום, ולכן '+LR('PV = 20,000')],
    res:'מסלול ב, עם ערך נוכחי של כ־20,818 ש״ח.',
@@ -3785,7 +3887,7 @@ const EXAM_2025 = [
  e:SOL({ask:'מה צריך להיות מקדם המתאם, כדי שתיק מינימום השונות של שתי המניות יגיע לסטיית תקן של 8.67%.',
    f:LR('w<sub>A</sub> = (σ<sub>B</sub>² − σ<sub>A</sub>σ<sub>B</sub>ρ)/(σ<sub>A</sub>² + σ<sub>B</sub>² − 2σ<sub>A</sub>σ<sub>B</sub>ρ)')+', ואחר כך '+LR('σ<sub>p</sub>² = w<sub>A</sub>²σ<sub>A</sub>² + w<sub>B</sub>²σ<sub>B</sub>² + 2w<sub>A</sub>w<sub>B</sub>ρσ<sub>A</sub>σ<sub>B</sub>'),
    why:'קשה לחלץ את ρ אלגברית. לכן מציבים ערך מתוך כל טווח, מחשבים את משקל המינימום ואת סטיית התקן, ובודקים איזה ערך נותן 8.67%.',
-   steps:['מסמנים: A = רוס ('+LR('σ<sub>A</sub> = 0.28')+'), B = מוניקה ('+LR('σ<sub>B</sub> = 0.09')+').', 'בודקים '+LR('ρ = 0.043')+'. השונות המשותפת: '+LR('0.28·0.09·0.043 = 0.00108'), 'משקל רוס: '+LR('w<sub>A</sub> = (0.0081 − 0.00108)/(0.0784 + 0.0081 − 0.00217) = 8.32%'), 'סטיית התקן: '+LR('σ<sub>p</sub>² = 0.0832²·0.0784 + 0.9168²·0.0081 + 2·0.0832·0.9168·0.00108 = 0.007516')+', ולכן '+LR('σ<sub>p</sub> = 8.67%'), 'בגבולות טווח ב: '+LR('ρ = 0.040')+' נותן 8.663%, ו־'+LR('ρ = 0.046')+' נותן 8.676%. 8.67% נמצא ביניהם.', 'המפתח הרשמי קיבל גם את טווח ג (0.0461 עד 0.054), שבו סטיית התקן 8.676% עד 8.694%. ההפרש זעיר, ולכן שני הטווחים התקבלו.'],
+   steps:['מסמנים ב־A את רוס, '+LR('σ<sub>A</sub> = 0.28')+', וב־B את מוניקה, '+LR('σ<sub>B</sub> = 0.09')+'.', 'בודקים '+LR('ρ = 0.043')+'. השונות המשותפת: '+LR('0.28·0.09·0.043 = 0.00108'), 'משקל רוס: '+LR('w<sub>A</sub> = (0.0081 − 0.00108)/(0.0784 + 0.0081 − 0.00217) = 8.32%'), 'סטיית התקן: '+LR('σ<sub>p</sub>² = 0.0832²·0.0784 + 0.9168²·0.0081 + 2·0.0832·0.9168·0.00108 = 0.007516')+', ולכן '+LR('σ<sub>p</sub> = 8.67%'), 'בגבולות טווח ב: '+LR('ρ = 0.040')+' נותן 8.663%, ו־'+LR('ρ = 0.046')+' נותן 8.676%. 8.67% נמצא ביניהם.', 'המפתח הרשמי קיבל גם את טווח ג (0.0461 עד 0.054), שבו סטיית התקן 8.676% עד 8.694%. ההפרש זעיר, ולכן שני הטווחים התקבלו.'],
    res:'מקדם המתאם כ־0.043, בטווח שבין 0.040 ל־0.046. המפתח הרשמי קיבל גם את הטווח שבין 0.0461 ל־0.054.',
    tip:'אינטואיציה: מוניקה לבדה 9%. הפיזור מוריד רק מעט (ל־8.67%), ולכן המתאם חיובי וקטן. במתאם 0 סטיית התקן הייתה 8.57%.'}),
  w:['מתאם נמוך מ־0.039 נותן פיזור חזק יותר, וסטיית תקן נמוכה מ־8.661%. למשל, במתאם 0 מתקבל 8.57%, פחות מהנתון.',
@@ -3868,7 +3970,7 @@ GEN.f8.push(() => { // risky portfolio + risk-free to hit a target σ (Q1)
   return {t: 'f8', gen: true, fixed: true, a: W.indexOf(w), o: W.map(x => pct(x, 0)),
     q: `תיק מניות מורכב משתי מניות (מקדם המתאם ביניהן ${pick([0.2, 0.3, 0.4])}), וסטיית התקן שלו ${pct(sp, 0)}. הריבית חסרת הסיכון ${pct(pick([0.02, 0.03, 0.04]), 0)}. משקיעה רוצה לבנות תיק כולל שסטיית התקן שלו ${tf}. מהו משקל הנכס חסר הסיכון בתיק הכולל?`,
     e: SOL({ask: `איזה חלק מהכסף צריך להעביר לנכס חסר הסיכון, כדי שסטיית התקן תרד מ־${pct(sp, 0)} ל־${tf}.`,
-      f: LR('σ<sub>total</sub> = w<sub>s</sub>·σ<sub>s</sub>'),
+      f: LR('σ<sub>p</sub> = w<sub>s</sub>·σ<sub>s</sub>'),
       why: 'לנכס חסר הסיכון אין סטיית תקן ואין לו מתאם עם המניות. לכן סטיית התקן של התיק הכולל באה רק מהחלק שבמניות, ביחס ישר למשקל שלו.',
       steps: [`מציבים את היעד: ${LR(`${tf} = w<sub>s</sub>·${pct(sp, 0)}`)}`, `מחלקים: ${LR(`w<sub>s</sub> = ${tf}/${pct(sp, 0)} = ${nf(s, 2)}`)}`, `משקל הנכס חסר הסיכון הוא היתרה: ${LR(`1 − ${nf(s, 2)} = ${nf(w, 2)}`)}`],
       res: `משקל הנכס חסר הסיכון הוא ${pct(w, 0)}.`,
@@ -4009,7 +4111,7 @@ GEN.s2.push(() => { // Bayes with 3 groups (Q3)
   let a, b; do { a = pick([0.1, 0.2, 0.25, 0.3]); b = pick([0.2, 0.3, 0.35, 0.4]); } while (a + b >= 0.9);
   const ps = [a, b, 1 - a - b], qs = [pick([0.3, 0.4, 0.5]), pick([0.5, 0.6, 0.7]), pick([0.8, 0.9])], k = ri(0, 2), names = ['קבוצה א', 'קבוצה ב', 'קבוצה ג'];
   const parts = ps.map((p, i) => p * qs[i]), tot = parts.reduce((s, x) => s + x, 0), ans = parts[k] / tot;
-  return G('s2', `${pct(ps[0], 0)} מהלקוחות ב${names[0]}, ${pct(ps[1], 0)} ב${names[1]}, והשאר ב${names[2]}. ההסתברות שלקוח יחדש מנוי היא ${qs[0]} ב${names[0]}, ${qs[1]} ב${names[1]}, ו־${qs[2]} ב${names[2]}. ידוע שלקוח מסוים חידש מנוי. מה ההסתברות שהוא שייך ל${names[k]}?`, ans,
+  return GPr('s2', `${pct(ps[0], 0)} מהלקוחות ב${names[0]}, ${pct(ps[1], 0)} ב${names[1]}, והשאר ב${names[2]}. ההסתברות שלקוח יחדש מנוי היא ${qs[0]} ב${names[0]}, ${qs[1]} ב${names[1]}, ו־${qs[2]} ב${names[2]}. ידוע שלקוח מסוים חידש מנוי. מה ההסתברות שהוא שייך ל${names[k]}?`, ans,
     [parts[k], qs[k], ps[k], k < 2 ? parts[k] / (parts[0] + parts[1]) : NaN, qs[k] / (qs[0] + qs[1] + qs[2])], x => pct(x, 2),
     SOL({ask: `ידוע שהלקוח חידש. מה הסיכוי שהוא מ${names[k]}? זו הסתברות ״הפוכה״: מהתוצאה אל הקבוצה.`,
       f: LR('P(G|R) = P(G)·P(R|G) / P(R)'),
@@ -4026,7 +4128,7 @@ GEN.s2.push(() => { // Bayes with 3 groups (Q3)
 GEN.s3 = GEN.s3 || []; GEN.s3.push(() => { // geometric: play until first win (Q9, done right)
   const p = pick([0.2, 0.25, 0.3, 0.4]), n = pick([3, 4, 5]), q = 1 - p, kind = Math.random() < 0.5;
   const v = kind ? q ** (n - 1) : q ** (n - 1) * p;
-  return G('s3', kind ? `משחקים עד הזכייה הראשונה, אבל לכל היותר ${n} סיבובים. ההסתברות לזכות בכל סיבוב היא ${p}. מה ההסתברות לשחק את כל ${n} הסיבובים?` : `משחקים עד הזכייה הראשונה. ההסתברות לזכות בכל סיבוב היא ${p}. מה ההסתברות שהזכייה הראשונה תהיה בדיוק בסיבוב ה־${n}?`, v,
+  return GPr('s3', kind ? `משחקים עד הזכייה הראשונה, אבל לכל היותר ${n} סיבובים. ההסתברות לזכות בכל סיבוב היא ${p}. מה ההסתברות לשחק את כל ${n} הסיבובים?` : `משחקים עד הזכייה הראשונה. ההסתברות לזכות בכל סיבוב היא ${p}. מה ההסתברות שהזכייה הראשונה תהיה בדיוק בסיבוב ה־${n}?`, v,
     [kind ? q ** (n - 1) * p : q ** (n - 1), q ** n, 1 - q ** n, kind ? q ** (n - 2) : q ** (n - 2) * p], x => nf(x, 4),
     kind ? SOL({ask: `מה הסיכוי להגיע לסיבוב ה־${n}. מגיעים אליו רק אם לא זכו באף אחד מ־${n - 1} הסיבובים הקודמים.`,
         f: LR('P = (1 − p)<sup>n − 1</sup>'),
@@ -4153,10 +4255,10 @@ const statementPool = topics => QB.filter(q => topics.includes(q.t) && /^st/.tes
 const TWIN_NEW = {
   q2: () => { // two people seated next to each other
     const R = pick([20, 25, 30, 40]), k = pick([3, 4, 6]), N = R * k, pairs = R * (k - 1), C = comb(N, 2), p = pairs / C;
-    return {...G('s2', `במטוס ${R} שורות, ובכל שורה ${k} מושבים צמודים. המושבים מוקצים באקראי. מה ההסתברות ששני חברים ישבו זה לצד זה באותה שורה?`, p,
+    return {...GPr('s2', `במטוס ${R} שורות, ובכל שורה ${k} מושבים צמודים. המושבים מוקצים באקראי. מה ההסתברות ששני חברים ישבו זה לצד זה באותה שורה?`, p,
       [R / C, 2 / (N - 1), (k - 1) / (N - 1), 1 / (N - 1)], x => pct(x, 2),
       SOL({ask: 'מה הסיכוי ששני אנשים שמקבלים מושבים באקראי יקבלו שני מושבים צמודים באותה שורה.',
-        f: `הסתברות = מספר הזוגות הצמודים ÷ מספר כל זוגות המושבים, כאשר ${LR('C(n,2) = n·(n − 1)/2')}`,
+        f: `ההסתברות היא מספר הזוגות הצמודים חלקי מספר כל זוגות המושבים. מספר הזוגות מתוך n מושבים: ${LR('C(n,2) = n·(n − 1)/2')}`,
         why: 'ההקצאה אקראית, ולכן לכל זוג מושבים אותו סיכוי. סופרים את הזוגות ה״טובים״ ומחלקים במספר כל הזוגות.',
         steps: [`במטוס ${LR(`${R}·${k} = ${N}`)} מושבים.`, `מספר כל הזוגות: ${LR(`C(${N},2) = ${N}·${N - 1}/2 = ${nf(C, 0)}`)}`, `בשורה של ${k} מושבים יש ${k - 1} זוגות צמודים, ובכל המטוס ${LR(`${R}·${k - 1} = ${pairs}`)}`, `ההסתברות: ${LR(`${pairs}/${nf(C, 0)} = ${pct(p, 2)}`)}`],
         res: `ההסתברות היא ${pct(p, 2)}.`,
@@ -4210,7 +4312,7 @@ const TWIN_NEW = {
         trap: maxNom !== best ? `לבחור בחלופה ${HEB5[order.indexOf(maxNom)]} רק כי הסכום הנומינלי שלה (${nf(nom[maxNom], 0)} ש״ח) הוא הגבוה ביותר. משווים ערכים נוכחיים.` : 'לבחור לפי המועד המוקדם ביותר או לפי הסכום הנומינלי, בלי להוון כל תשלום לפי מועדו.',
         q: `זוכה בפרס יכול לבחור אחת מחמש החלופות. הריבית השנתית האפקטיבית בשוק ${pct(r, 0)}. איזו חלופה כדאית ביותר?`,
         e: SOL({ask: 'איזו חלופה שווה הכי הרבה <u>היום</u>. התשלומים מגיעים בזמנים שונים, ולכן משווים ערכים נוכחיים ולא סכומים.',
-          f: `${LR(`PV = Σ C<sub>t</sub>/${1 + r}<sup>t</sup>`)}, כאשר t נמדד בשנים (חודש הוא 1/12 שנה)`,
+          f: `${LR(`PV = Σ C<sub>t</sub>/${1 + r}<sup>t</sup>`)}, כאשר t נמדד בשנים, וכל חודש הוא חלק אחד משנים־עשר בשנה`,
           why: 'שקל היום שווה יותר משקל בעתיד, כי אפשר להשקיע אותו בריבית. ההיוון מביא את כל החלופות לאותה נקודת זמן, היום.',
           steps: order.map((i, k) => `${HEB5[k]}: ${how[i]}`),
           res: `חלופה ${HEB5[order.indexOf(best)]}, עם ערך נוכחי של ${nf(pv[best], 0)} ש״ח.`,
@@ -4319,7 +4421,7 @@ Object.assign(TWIN_NEW, {
       () => Math.random() < 0.5 ? T(true, 'ניתן לתמחר תיק יעיל באמצעות קו ה־CML.', 'תיק יעיל הוא שילוב של r<sub>f</sub> ו־M, ולכן הוא נמצא על ה־CML.') : T(false, 'כל נכס, יעיל או לא, נמצא על קו ה־CML.', 'על ה־CML נמצאים רק תיקים יעילים. לנכס לא יעיל יש סיכון ספציפי, ולכן הוא מתחת לקו.', 'לחשוב שכל נכס נמצא על ה־CML. על ה־CML רק תיקים יעילים, ועל ה־SML כל נכס.'),
       () => T(true, 'כאשר מודל ה־CAPM מתקיים, כל נכס, יעיל או לא, נמצא על קו ה־SML.', 'ה־SML מתמחר כל נכס לפי הבטא שלו.'),
       () => { const claim = Math.random() < 0.5; // true = "lender"
-        return T(claim === lend, `משקיע שתיק שלו נמצא על ה־CML עם סטיית תקן של ${pcT(sA)} הוא משקיע ${claim ? 'מלווה' : 'לווה'}.`,
+        return T(claim === lend, `משקיע שהתיק שלו נמצא על ה־CML עם סטיית תקן של ${pcT(sA)} הוא משקיע ${claim ? 'מלווה' : 'לווה'}.`,
           `המשקל של M בתיק הוא ${LR(`${pcT(sA)}/${pct(sm, 0)} = ${nf(wA, 2)}`)}. ${lend ? `המשקל קטן מ־1, והיתרה (${pct(1 - wA, 0)}) מושקעת בנכס חסר הסיכון. זה משקיע מלווה, בין r<sub>f</sub> ל־M.` : `המשקל גדול מ־1: המשקיע לווה ${pct(wA - 1, 0)} בריבית חסרת הסיכון. זה משקיע לווה, מעבר ל־M.`}`,
           'לבלבל בין מלווה ללווה. בין r<sub>f</sub> ל־M המשקיע מלווה (σ קטנה מ־σ<sub>m</sub>), ומעבר ל־M הוא לווה.'); },
       () => { const ok = Math.random() < 0.5, val = ok ? eA : wA * rm;
@@ -4456,6 +4558,12 @@ const EXAM_META = [
 // a twin always carries its own focus/trap (q.focus, q.trap); the EXAM_META ones describe the real question
 function twinQ(i) { const q = EXAM_META[i].twin(); return q.a !== undefined ? q : prep(q); }
 function twinExam() { return EXAM_META.map((_, i) => twinQ(i)); }
+// typography: in generated text a minus sign before a number is U+2212, not the ASCII hyphen
+// (text between tags only; tags and attributes are left alone)
+const MINUS = s => typeof s === 'string' ? s.replace(/(^|>)([^<]*)/g, (m, a, t) => a + t.replace(/(^|[^\w\-])-(?=\d)/g, '$1−')) : s;
+const fixMinus = q => ({...q, q: MINUS(q.q), o: q.o.map(MINUS), e: MINUS(q.e), w: q.w && q.w.map(MINUS)});
+for (const t in GEN) GEN[t] = GEN[t].map(g => () => fixMinus(g()));
+EXAM_META.forEach(m => { if (m.twin) { const g = m.twin; m.twin = () => fixMinus(g()); } });
 // ---------- animated, narrated explainer videos (SVG scenes + browser Hebrew TTS) ----------
 const VW = 640, VH = 360;
 const vg = (d, inner) => `<g class="vin" style="animation-delay:${d}s">${inner}</g>`;
@@ -4853,6 +4961,13 @@ function isoEl(el) {
 }
 function tidyMath(el) {
   el.querySelectorAll('bdi[dir="ltr"]:not(.mnw):not(.mlong)').forEach(b => { if (b.closest('.fxf, .tbl-wrap, svg')) return; b.classList.add(b.textContent.replace(/​/g, '').length <= 26 ? 'mnw' : 'mlong'); });
+  // a period or comma right after a formula stays on the formula's line
+  el.querySelectorAll('bdi[dir="ltr"], sup, sub').forEach(b => {
+    const nx = b.nextSibling; if (!nx || nx.nodeType !== 3 || b.parentElement.classList.contains('nobr')) return;
+    const m = nx.nodeValue.match(/^[.,:;!?)]+/); if (!m) return;
+    const glue = document.createElement('span'); glue.className = 'nobr'; b.before(glue); glue.appendChild(b);
+    glue.appendChild(document.createTextNode(m[0])); nx.nodeValue = nx.nodeValue.slice(m[0].length);
+  });
 }
 function fixBidi(root) {
   const el = root.nodeType === 1 ? root : root.parentElement; if (!el || !el.isConnected) return;
@@ -4942,8 +5057,8 @@ const fmtDate = d => d.toLocaleDateString('he-IL', {weekday: 'short', day: 'nume
 // Five tabs. Secondary pages live under a tab: videos → learn, mistakes → practice, tools → formulas.
 const VIEWS = [['dash', 'בית'], ['learn', 'לימוד'], ['practice', 'תרגול'], ['exam', 'מבחנים'], ['formulas', 'נוסחאות']];
 const PARENT = {videos: 'learn', mistakes: 'practice', tools: 'formulas', plan: 'dash'};
-const ROUTES = ['home', 'login', 'account', 'admin', 'dash', 'learn', 'practice', 'exam', 'formulas', 'videos', 'mistakes', 'tools'];
-const ACADEMY_VIEWS = ['home', 'login', 'account', 'admin'];
+const ROUTES = ['home', 'login', 'reset', 'account', 'admin', 'dash', 'learn', 'practice', 'exam', 'formulas', 'videos', 'mistakes', 'tools'];
+const ACADEMY_VIEWS = ['home', 'login', 'reset', 'account', 'admin'];
 let view = 'home', P = null, X = null, timerId = null;
 let bootTopic = null;
 try { const h = location.hash.slice(1), mm = h.match(/^learn-(\w+)$/); if (ROUTES.includes(h)) view = h; else if (mm && T[mm[1]]) { view = 'learn'; bootTopic = mm[1]; } } catch (e) {}
@@ -4954,7 +5069,7 @@ function nav() {
   const focus = (view === 'dash' && !S.started) || (view === 'exam' && X && X.running);
   $('#tabs').hidden = !inCourse || focus; $('#cbar').hidden = !inCourse;
   $('#tabs').innerHTML = VIEWS.map(([k, l]) => `<button data-go="${k}" aria-current="${active === k}">${l}</button>`).join('');
-  $('#user').innerHTML = u ? `<button class="ubtn" data-go="account" aria-label="החשבון שלי"><span class="uav">${esc(u.name[0] || '?')}</span><span class="uname">${esc(u.name)}</span></button>` : '';
+  $('#user').innerHTML = (u && u.isAdmin ? `<button class="adbtn" data-go="admin" aria-current="${view === 'admin'}">ניהול</button>` : '') + (u ? `<button class="ubtn" data-go="account" aria-label="החשבון שלי"><span class="uav">${esc(u.name[0] || '?')}</span><span class="uname">${esc(u.name)}</span></button>` : '');
   const dl = daysLeft();
   $('#cd').textContent = dl > 1 ? `${dl} ימים למבחן` : dl === 1 ? 'המבחן מחר' : dl === 0 ? 'המבחן היום. בהצלחה!' : 'מועד המבחן עבר';
   $('#cd').hidden = !inCourse || !S.started;
@@ -4962,17 +5077,69 @@ function nav() {
 }
 function go(v, opts) {
   if (v !== 'videos' && typeof stopVideo === 'function') stopVideo();
-  if (!ACC.user() && v !== 'login') v = 'login';
+  if (!ACC.user() && v !== 'login' && v !== 'reset') v = 'login';
   view = v; nav(); render(opts); window.scrollTo(0, 0);
   try { const h = v === 'learn' && opts && opts.topic ? `learn-${opts.topic}` : v; if (!go.pop && location.hash.slice(1) !== h) history.pushState({v, topic: opts && opts.topic}, '', '#' + h); } catch (e) {}
 }
 function render(opts = {}) {
   const m = $('#main');
-  ({home: vHome, login: vLogin, account: vAccount, admin: vAdmin, dash: vDash, learn: vLearn, practice: vPractice, exam: vExam, mistakes: vMistakes, formulas: vFormulas, tools: vTools, videos: vVideos})[view](m, opts);
+  const bu = ACC.user(); if (bu && bu.blocked && view !== 'login') { $('#tabs').hidden = true; $('#cbar').hidden = true; return vBlocked(m, bu); }
+  ({home: vHome, login: vLogin, reset: vReset, account: vAccount, admin: vAdmin, dash: vDash, learn: vLearn, practice: vPractice, exam: vExam, mistakes: vMistakes, formulas: vFormulas, tools: vTools, videos: vVideos})[view](m, opts);
 }
 const chipOf = t => `<span class="chip ${t.area === 'fin' ? 'fin' : ''}">${t.area === 'fin' ? 'מימון' : t.area === 'base' ? 'יסודות' : 'סטטיסטיקה'}</span>`;
 
+// ---------- date picker: day.month.year (20.6.2026), typed or picked from a Hebrew calendar ----------
+const dmy = iso => { if (!iso) return ''; const [y, m, d] = iso.split('-').map(Number); return `${d}.${m}.${y}`; };
+function parseDMY(t) {
+  const m = String(t || '').trim().match(/^(\d{1,2})[.\/\-](\d{1,2})[.\/\-](\d{2}|\d{4})$/); if (!m) return null;
+  let [, d, mo, y] = m.map(Number); if (y < 100) y += 2000;
+  const dt = new Date(Date.UTC(y, mo - 1, d)); if (dt.getUTCMonth() !== mo - 1 || dt.getUTCDate() !== d) return null;
+  return dt.toISOString().slice(0, 10);
+}
+const dateField = (id, label, iso) => `<div class="field dp"><label for="${id}">${label}</label>
+  <div class="dpwrap"><input id="${id}" type="text" inputmode="decimal" dir="ltr" placeholder="יום.חודש.שנה" value="${dmy(iso)}" autocomplete="off" aria-describedby="${id}-h">
+  <button type="button" class="dpbtn" data-dp="${id}" aria-label="בחירה מלוח השנה" aria-expanded="false" aria-controls="${id}-cal"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></button></div>
+  <span class="dphint" id="${id}-h">לדוגמה: 20.6.2026</span>
+  <div class="dpop" id="${id}-cal" role="dialog" aria-label="לוח שנה" hidden></div></div>`;
+const dateValue = id => parseDMY($('#' + id).value);
+const HMONTHS = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'];
+function dpDraw(id, y, mo) {
+  const box = $('#' + id + '-cal'), sel = dateValue(id), today = todayISO();
+  const first = new Date(Date.UTC(y, mo, 1)), lead = first.getUTCDay(), n = new Date(Date.UTC(y, mo + 1, 0)).getUTCDate();
+  const cells = [...Array(lead)].map(() => '<span></span>').concat([...Array(n)].map((_, i) => {
+    const iso = new Date(Date.UTC(y, mo, i + 1)).toISOString().slice(0, 10);
+    return `<button type="button" data-day="${iso}" class="${iso === sel ? 'sel' : ''} ${iso === today ? 'istoday' : ''}" aria-label="${i + 1} ב${HMONTHS[mo]} ${y}" ${iso === sel ? 'aria-current="date"' : ''}>${i + 1}</button>`;
+  }));
+  box.innerHTML = `<div class="dphead"><button type="button" data-nav="-1" aria-label="לחודש הקודם">›</button><b>${HMONTHS[mo]} ${y}</b><button type="button" data-nav="1" aria-label="לחודש הבא">‹</button></div>
+    <div class="dpgrid">${['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש'].map(d => `<span class="wd">${d}</span>`).join('')}${cells.join('')}</div>
+    <div class="dpfoot"><button type="button" data-day="${today}">היום</button><button type="button" data-close>סגירה</button></div>`;
+  box.dataset.y = y; box.dataset.m = mo;
+}
+function dpOpen(id, open) {
+  const box = $('#' + id + '-cal'), btn = document.querySelector(`[data-dp="${id}"]`); if (!box) return;
+  if (open) { const v = dateValue(id) || todayISO(), [y, m] = v.split('-').map(Number); dpDraw(id, y, m - 1); }
+  box.hidden = !open; btn.setAttribute('aria-expanded', open);
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-dp]'); if (b) { const box = $('#' + b.dataset.dp + '-cal'); dpOpen(b.dataset.dp, box.hidden); return; }
+  const pop = e.target.closest('.dpop');
+  if (!pop) { document.querySelectorAll('.dpop:not([hidden])').forEach(p => dpOpen(p.id.replace(/-cal$/, ''), false)); return; }
+  const id = pop.id.replace(/-cal$/, ''), inp = $('#' + id);
+  const nv = e.target.closest('[data-nav]'); if (nv) { let y = +pop.dataset.y, m = +pop.dataset.m + +nv.dataset.nav; if (m < 0) { m = 11; y--; } if (m > 11) { m = 0; y++; } dpDraw(id, y, m); return; }
+  const dy = e.target.closest('[data-day]'); if (dy) { inp.value = dmy(dy.dataset.day); dpOpen(id, false); inp.dispatchEvent(new Event('change', {bubbles: true})); inp.focus(); return; }
+  if (e.target.closest('[data-close]')) dpOpen(id, false);
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.dpop:not([hidden])').forEach(p => { const id = p.id.replace(/-cal$/, ''); dpOpen(id, false); $('#' + id).focus(); }); });
+
 // ---------- academy: catalog, sign-in, account ----------
+// password input with a show/hide toggle (the eye button flips the input type; it never sends anything)
+const pwField = (id, label, ac, hint = '') => `<label class="field" for="${id}">${label}${hint ? ` <span class="hint">${hint}</span>` : ''}</label>
+  <div class="pw"><input id="${id}" type="password" dir="ltr" autocomplete="${ac}" minlength="6" required><button type="button" class="eye" data-eye="${id}" aria-label="הצגת הסיסמה" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path class="slash" d="M4 4l16 16"/></svg></button></div>`;
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-eye]'); if (!b) return;
+  const i = document.getElementById(b.dataset.eye), show = i.type === 'password';
+  i.type = show ? 'text' : 'password'; b.setAttribute('aria-pressed', show); b.setAttribute('aria-label', show ? 'הסתרת הסיסמה' : 'הצגת הסיסמה'); i.focus();
+});
 const LOGO_S = `<svg class="alogo" viewBox="0 0 64 64" aria-hidden="true"><use href="#brandmark"/></svg>`;
 // course cover art: a bell curve over an answer-sheet row, the marked bubble in highlighter yellow
 const COVER = {'stats-finance': `<svg viewBox="0 0 400 112" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
@@ -5020,13 +5187,15 @@ function vLogin(m) {
     <form id="authf" class="authf" novalidate>
       ${signup ? '<label class="field">איך לקרוא לך?<input id="au_name" autocomplete="name" maxlength="30" placeholder="השם הפרטי" required></label>' : ''}
       <label class="field">אימייל<input id="au_email" type="text" inputmode="email" dir="ltr" autocomplete="username" autocapitalize="off" spellcheck="false" placeholder="name@example.com" required></label>
-      <label class="field">סיסמה${signup ? ' <span class="hint">(6 תווים לפחות)</span>' : ''}<input id="au_pw" type="password" dir="ltr" autocomplete="${signup ? 'new-password' : 'current-password'}" minlength="6" required></label>
+      ${pwField('au_pw', 'סיסמה', signup ? 'new-password' : 'current-password', signup ? '(6 תווים לפחות)' : '')}
+      ${!signup ? '<a href="#" class="forgot" id="au_forgot">שכחתי סיסמה</a>' : ''}
       <p class="auth-err" id="au_err" role="alert"></p>
       <button class="btn primary big">${signup ? 'התחל ללמוד בחינם' : 'כניסה'}</button>
     </form>
     <p class="auth-switch">${signup ? (ACC.count() || ACC.mode === 'cloud' ? 'כבר יש לך חשבון? <a href="#" id="au_sw">כניסה</a>' : '') : 'עוד אין לך חשבון? <a href="#" id="au_sw">התחל ללמוד בחינם</a>'}</p>
     ${ACC.mode === 'local' ? '<p class="note auth-local">ההתקדמות נשמרת בדפדפן הזה. במסך החשבון אפשר לגבות אותה לקובץ ולהמשיך ממכשיר אחר.</p>' : ''}
   </section></div>`;
+  const fg = $('#au_forgot'); if (fg) fg.onclick = e => { e.preventDefault(); vForgot(m, $('#au_email').value); };
   const sw = $('#au_sw'); if (sw) sw.onclick = e => { e.preventDefault(); vLogin.mode = signup ? 'login' : 'signup'; vLogin(m); };
   $('#authf').onsubmit = async e => {
     e.preventDefault(); const err = $('#au_err'); err.textContent = '';
@@ -5037,6 +5206,67 @@ function vLogin(m) {
     } catch (x) { err.textContent = x.message; }
   };
 }
+function vForgot(m, pre = '') {
+  m.innerHTML = `<div class="authwrap single"><section class="auth">
+    <div class="auth-brand">${LOGO_S}<div><b dir="ltr">silas academy</b><span>${BRAND.he}</span></div></div>
+    <h2>שכחתם סיסמה?</h2>
+    <p class="note">כתבו את האימייל שאיתו נרשמתם, ונשלח אליו קישור לבחירת סיסמה חדשה.</p>
+    <form id="fgf" class="authf" novalidate>
+      <label class="field">אימייל<input id="fg_email" type="text" inputmode="email" dir="ltr" autocomplete="username" autocapitalize="off" spellcheck="false" placeholder="name@example.com" value="${esc(pre)}"></label>
+      <p class="auth-err" id="fg_err" role="alert"></p>
+      <button class="btn primary big">שליחת קישור לאיפוס</button>
+    </form>
+    <p class="auth-switch"><a href="#" id="fg_back">חזרה לכניסה</a></p></section></div>`;
+  $('#fg_back').onclick = e => { e.preventDefault(); vLogin.mode = 'login'; vLogin(m); };
+  $('#fgf').onsubmit = async e => {
+    e.preventDefault(); const err = $('#fg_err'), btn = $('#fgf button'); err.textContent = ''; btn.disabled = true;
+    try {
+      await ACC.resetPassword($('#fg_email').value);
+      m.querySelector('.auth').innerHTML = `<div class="auth-brand">${LOGO_S}<div><b dir="ltr">silas academy</b><span>${BRAND.he}</span></div></div>
+        <h2>בדקו את תיבת הדואר</h2><p>אם יש חשבון עם הכתובת <b dir="ltr">${esc($('#fg_email').value.trim())}</b>, שלחנו אליה קישור לבחירת סיסמה חדשה. הקישור תקף לשעה.</p>
+        <p class="note">לא הגיע? בדקו גם בתיקיית הספאם ובקידומי מכירות.</p><p class="auth-switch"><a href="#" id="fg_back2">חזרה לכניסה</a></p>`;
+      $('#fg_back2').onclick = ev => { ev.preventDefault(); vLogin.mode = 'login'; vLogin(m); };
+    } catch (x) { err.textContent = x.message; btn.disabled = false; }
+  };
+}
+function vReset(m) {
+  m.innerHTML = `<div class="authwrap single"><section class="auth">
+    <div class="auth-brand">${LOGO_S}<div><b dir="ltr">silas academy</b><span>${BRAND.he}</span></div></div>
+    <h2>בחירת סיסמה חדשה</h2>
+    <p class="note">${ACC.user() ? `עבור החשבון <b dir="ltr">${esc(ACC.user().email)}</b>.` : 'הקישור לא תקף או שפג תוקפו. אפשר לבקש קישור חדש.'}</p>
+    ${ACC.user() ? `<form id="rsf" class="authf" novalidate>
+      ${pwField('rs_pw', 'סיסמה חדשה', 'new-password', '(6 תווים לפחות)')}
+      ${pwField('rs_pw2', 'הקלידו שוב', 'new-password')}
+      <p class="auth-err" id="rs_err" role="alert"></p>
+      <button class="btn primary big">שמירת הסיסמה</button></form>` : '<button class="btn primary" id="rs_again">לבקש קישור חדש</button>'}
+  </section></div>`;
+  const again = $('#rs_again'); if (again) again.onclick = () => vForgot(m);
+  const f = $('#rsf'); if (!f) return;
+  f.onsubmit = async e => {
+    e.preventDefault(); const err = $('#rs_err'); err.textContent = '';
+    if ($('#rs_pw').value !== $('#rs_pw2').value) { err.textContent = 'שתי הסיסמאות לא זהות.'; return; }
+    try { await ACC.updatePassword($('#rs_pw').value); loadCourse(); await syncCourse(); go('home'); toast('הסיסמה עודכנה. אתם מחוברים.'); }
+    catch (x) { err.textContent = x.message; }
+  };
+}
+// a blocked account sees only this screen, with the admin's message and how to reach the academy
+function vBlocked(m, u) {
+  const contact = (typeof CLOUD !== 'undefined' && CLOUD.support) || '';
+  m.innerHTML = `<div class="authwrap single"><section class="auth blocked">
+    <div class="lockic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg></div>
+    <h2>הגישה לחשבון הושהתה</h2>
+    <p>${u.blockMessage ? esc(u.blockMessage) : 'הגישה לחשבון שלכם הושהתה זמנית. כדי לחדש אותה, צרו קשר עם צוות האקדמיה.'}</p>
+    ${contact ? `<div class="contact"><span>יצירת קשר:</span> <b dir="ltr" class="sel">${esc(contact)}</b> <button class="btn ghost sm" id="bl_copy">העתקה</button></div>` : ''}
+    <p class="note">החשבון: <span dir="ltr">${esc(u.email)}</span>. ההתקדמות שלכם שמורה, ותחזור ברגע שהגישה תחודש.</p>
+    <button class="btn" id="bl_out">יציאה מהחשבון</button>
+  </section></div>`;
+  const cp = $('#bl_copy'); if (cp) cp.onclick = () => { try { navigator.clipboard.writeText(contact).then(() => toast('הכתובת הועתקה.'), () => {}); } catch (e) {} };
+  $('#bl_out').onclick = async () => { await ACC.logout(); S = blankS(); vLogin.mode = 'login'; go('login'); };
+}
+function toast(msg) {
+  const t = document.createElement('div'); t.className = 'toast'; t.setAttribute('role', 'status'); t.textContent = msg; document.body.appendChild(t);
+  setTimeout(() => t.classList.add('out'), 2800); setTimeout(() => t.remove(), 3400);
+}
 function vAccount(m) {
   const u = ACC.user();
   m.innerHTML = `<div class="crumbs"><a href="#" data-go="home">הקורסים</a><span aria-hidden="true">‹</span><span>החשבון שלי</span></div>
@@ -5044,8 +5274,10 @@ function vAccount(m) {
   <section class="panel"><h4>פרטים</h4><div class="fields" style="margin-top:10px"><label class="field">שם<input id="ac_name" value="${esc(u.name)}" maxlength="30"></label></div></section>
   <section class="panel"><h4>גיבוי ההתקדמות</h4><p class="note">כדי להמשיך ממכשיר אחר: מורידים קובץ גיבוי, ובמכשיר השני נכנסים לחשבון וטוענים אותו.</p>
     <div class="row"><button class="btn" id="ac_exp">הורדת קובץ גיבוי</button><label class="btn">טעינת קובץ גיבוי<input type="file" id="ac_imp" accept="application/json,.json" hidden></label></div><p class="note" id="ac_msg"></p></section>
+  <section class="panel"><h4>שינוי סיסמה</h4><form id="cpf" class="authf" novalidate style="max-width:360px">${pwField('cp_pw', 'סיסמה חדשה', 'new-password', '(6 תווים לפחות)')}<p class="auth-err" id="cp_err" role="alert"></p><button class="btn">עדכון הסיסמה</button></form></section>
   ${u.isAdmin ? '<section class="panel adminlink"><h4>ניהול</h4><p class="note">משתמשים, כניסות וזמן באתר.</p><button class="btn primary" data-go="admin">לוח הניהול</button></section>' : ''}
   <section class="panel"><div class="row"><button class="btn" id="ac_out">יציאה מהחשבון</button><button class="btn ghost danger" id="ac_del">מחיקת החשבון מהמכשיר</button></div></section>`;
+  $('#cpf').onsubmit = async e => { e.preventDefault(); const err = $('#cp_err'); err.textContent = ''; try { await ACC.updatePassword($('#cp_pw').value); $('#cp_pw').value = ''; toast('הסיסמה עודכנה.'); } catch (x) { err.textContent = x.message; } };
   $('#ac_name').onchange = e => { if (e.target.value.trim()) { ACC.rename(e.target.value); S.name = e.target.value.trim(); save(); nav(); } };
   $('#ac_exp').onclick = () => {
     const blob = new Blob([JSON.stringify({brand: BRAND.en, v: 1, course: COURSE, data: S})], {type: 'application/json'});
@@ -5063,66 +5295,109 @@ function vAccount(m) {
 // ---------- admin ----------
 const dur = sec => { sec = Math.round(sec || 0); const h = Math.floor(sec / 3600), m = Math.round(sec % 3600 / 60); return h ? `${h} ש׳ ${m} ד׳` : `${m} ד׳`; };
 const when = t => t ? new Date(t).toLocaleString('he-IL', {day: 'numeric', month: 'numeric', year: '2-digit', hour: '2-digit', minute: '2-digit'}) : '—';
+// readiness of any learner's saved progress (the same formula the learner sees)
+function readinessOf(data) { if (!data) return null; const keep = S; try { S = Object.assign(blankS(), data); return readiness(); } catch (e) { return null; } finally { S = keep; } }
+const ago = t => { if (!t) return '—'; const m = Math.round((Date.now() - Date.parse(t)) / 60000); if (m < 2) return 'עכשיו'; if (m < 60) return `לפני ${m} דק׳`; const h = Math.round(m / 60); if (h < 24) return h === 1 ? 'לפני שעה' : `לפני ${h} שעות`; const d = Math.round(h / 24); return d === 1 ? 'אתמול' : `לפני ${d} ימים`; };
 async function vAdmin(m) {
   const u = ACC.user();
-  const head = `<div class="crumbs"><a href="#" data-go="home">הקורסים</a><span aria-hidden="true">‹</span><span>לוח הניהול</span></div><header class="page"><h2>לוח הניהול</h2></header>`;
-  if (!ACC.admin) { m.innerHTML = head + `<section class="panel"><h4>צריך לחבר שרת</h4><p>כרגע החשבונות נשמרים רק במכשיר של כל משתמש, ולכן אין מקום אחד שבו רואים את כולם. אחרי חיבור Supabase (חינם) הלוח הזה יציג את כל הנרשמים.</p></section>`; return; }
+  const head = `<div class="crumbs"><a href="#" data-go="home">הקורסים</a><span aria-hidden="true">‹</span><span>לוח הניהול</span></div><header class="page row between"><h2>לוח הניהול</h2><button class="btn sm" id="ad_ref">רענון</button></header>`;
+  if (!ACC.admin) { m.innerHTML = head + `<section class="panel"><h4>צריך לחבר שרת</h4><p>כרגע החשבונות נשמרים רק במכשיר של כל משתמש, ולכן אין מקום אחד שבו רואים את כולם.</p></section>`; return; }
   if (!u || !u.isAdmin) { m.innerHTML = head + '<section class="panel"><p>הדף הזה פתוח רק למנהלים.</p></section>'; return; }
   m.innerHTML = head + '<p class="note">טוען נתונים…</p>';
-  let rows;
-  try { rows = await ACC.admin.users(); } catch (x) { m.innerHTML = head + `<section class="panel"><p>${esc(x.message)}</p></section>`; return; }
-  const day = 864e5, now = Date.now();
+  let rows, visits = [];
+  try { [rows, visits] = await Promise.all([ACC.admin.users(), ACC.admin.recent(30).catch(() => [])]); } catch (x) { m.innerHTML = head + `<section class="panel"><p>${esc(x.message)}</p></section>`; return; }
+  const day = 864e5, now = Date.now(), dkey = t => new Date(t).toISOString().slice(0, 10), today = dkey(now);
+  rows.forEach(r => { const d = r.progress && r.progress.data; r._ans = (d && d.answered) || 0; r._ready = readinessOf(d); r._exams = (d && d.exams) || []; r._last = r.last_seen || r.last_login; });
+  const learners = rows.filter(r => !r.is_admin);
   const k = {
-    all: rows.length,
-    week: rows.filter(r => now - Date.parse(r.created_at) < 7 * day).length,
-    today: rows.filter(r => r.last_seen && new Date(r.last_seen).toDateString() === new Date().toDateString()).length,
-    hours: rows.reduce((a, r) => a + (r.total_seconds || 0), 0)
+    all: learners.length,
+    week: learners.filter(r => now - Date.parse(r.created_at) < 7 * day).length,
+    today: learners.filter(r => r._last && dkey(r._last) === today).length,
+    active7: learners.filter(r => r._last && now - Date.parse(r._last) < 7 * day).length,
+    secs: learners.reduce((a, r) => a + (r.total_seconds || 0), 0),
+    ans: learners.reduce((a, r) => a + r._ans, 0)
   };
-  const ans = r => (r.progress && r.progress.data && r.progress.data.answered) || 0;
-  const state = {q: '', sort: 'created_at'};
+  // last 30 days: sign-ups and distinct active learners per day
+  const days = [...Array(30)].map((_, i) => dkey(now - (29 - i) * day));
+  const su = Object.fromEntries(days.map(d => [d, 0])), act = Object.fromEntries(days.map(d => [d, new Set()]));
+  learners.forEach(r => { const d = dkey(r.created_at); if (d in su) su[d]++; });
+  const adminIds = new Set(rows.filter(r => r.is_admin).map(r => r.id));
+  visits.forEach(v => { const d = dkey(v.started_at); if (d in act && !adminIds.has(v.user_id)) act[d].add(v.user_id); });
+  const maxY = Math.max(1, ...days.map(d => Math.max(su[d], act[d].size)));
+  const W = 600, H = 150, bw = W / 30;
+  const chart = `<svg viewBox="0 0 ${W} ${H + 22}" class="adchart" role="img" aria-label="הרשמות ופעילות ב־30 הימים האחרונים">
+    ${[0.5, 1].map(f => `<line x1="0" x2="${W}" y1="${H - f * H}" y2="${H - f * H}" class="grid"/><text x="${W - 2}" y="${H - f * H - 3}" class="ax" text-anchor="end">${Math.round(f * maxY)}</text>`).join('')}
+    ${days.map((d, i) => { const a = act[d].size / maxY * H, s2 = su[d] / maxY * H, x = (29 - i) * bw; return `<rect x="${x + 2}" y="${H - a}" width="${bw - 4}" height="${a}" rx="2" class="b-act"><title>${d}: ${act[d].size} פעילים</title></rect>${su[d] ? `<rect x="${x + bw / 2 - 2}" y="${H - s2}" width="4" height="${s2}" rx="2" class="b-su"><title>${d}: ${su[d]} נרשמו</title></rect>` : ''}`; }).join('')}
+    <line x1="0" x2="${W}" y1="${H}" y2="${H}" class="base"/>
+    <text x="${W - 2}" y="${H + 16}" class="ax" text-anchor="end">לפני 30 יום</text><text x="2" y="${H + 16}" class="ax">היום</text></svg>`;
+  const F = {all: ['הכל', () => true], today: ['פעילים היום', r => r._last && dkey(r._last) === today], week: ['פעילים השבוע', r => r._last && now - Date.parse(r._last) < 7 * day], gone: ['לא חזרו 7+ ימים', r => !r._last || now - Date.parse(r._last) >= 7 * day], fresh: ['חדשים השבוע', r => now - Date.parse(r.created_at) < 7 * day]};
+  const state = {q: '', sort: 'last', f: 'all'};
   m.innerHTML = head + `
-  <section class="kpis">
-    <div class="kpi"><b class="num">${k.all}</b><span>נרשמו</span></div>
+  <section class="kpis six">
+    <div class="kpi"><b class="num">${k.all}</b><span>לומדים רשומים</span></div>
     <div class="kpi"><b class="num">${k.week}</b><span>חדשים השבוע</span></div>
     <div class="kpi"><b class="num">${k.today}</b><span>פעילים היום</span></div>
-    <div class="kpi"><b>${dur(k.hours)}</b><span>זמן למידה כולל</span></div>
+    <div class="kpi"><b class="num">${k.active7}</b><span>פעילים השבוע</span></div>
+    <div class="kpi"><b>${dur(k.secs)}</b><span>זמן למידה כולל</span></div>
+    <div class="kpi"><b class="num">${k.ans}</b><span>שאלות שנפתרו</span></div>
   </section>
+  <section class="panel"><div class="row between"><h4>30 הימים האחרונים</h4><div class="legend"><span class="lg-act">לומדים פעילים</span><span class="lg-su">הרשמות</span></div></div>${chart}</section>
   <section class="panel">
-    <div class="row between"><input id="ad_q" type="search" placeholder="חיפוש לפי שם או אימייל" aria-label="חיפוש משתמשים">
-      <div class="row"><select id="ad_sort" aria-label="מיון"><option value="created_at">לפי הרשמה</option><option value="last_seen">לפי פעילות אחרונה</option><option value="total_seconds">לפי זמן באתר</option><option value="answered">לפי שאלות שנפתרו</option></select>
-      <button class="btn" id="ad_csv">ייצוא ל־CSV</button></div></div>
-    <div class="tbl-wrap"><table class="adm"><thead><tr><th>שם</th><th>אימייל</th><th>נרשם</th><th>כניסה אחרונה</th><th>כניסות</th><th>זמן באתר</th><th>שאלות</th></tr></thead><tbody id="ad_rows"></tbody></table></div>
+    <div class="chips" role="group" aria-label="סינון">${Object.entries(F).map(([key, [l]]) => `<button class="chipbtn" data-f="${key}" aria-pressed="${key === 'all'}">${l} <span class="cnt">${learners.filter(F[key][1]).length}</span></button>`).join('')}</div>
+    <div class="row between adtools"><input id="ad_q" type="search" placeholder="חיפוש לפי שם או אימייל" aria-label="חיפוש משתמשים">
+      <div class="row"><select id="ad_sort" aria-label="מיון"><option value="last">פעילות אחרונה</option><option value="created_at">הרשמה</option><option value="total_seconds">זמן באתר</option><option value="answered">שאלות שנפתרו</option><option value="ready">מוכנות</option></select>
+      <button class="btn sm" id="ad_csv">ייצוא ל־CSV</button></div></div>
+    <div class="tbl-wrap"><table class="adm"><thead><tr><th>שם</th><th>אימייל</th><th>נרשם</th><th>פעילות אחרונה</th><th>כניסות</th><th>זמן באתר</th><th>שאלות</th><th>מוכנות</th><th>מבחן אחרון</th></tr></thead><tbody id="ad_rows"></tbody></table></div>
   </section>
   <section class="panel" id="ad_one" hidden></section>`;
   const draw = () => {
-    const q = state.q.toLowerCase();
-    const list = rows.filter(r => !q || (r.name + ' ' + r.email).toLowerCase().includes(q)).sort((a, b) => {
-      if (state.sort === 'answered') return ans(b) - ans(a);
+    const q = state.q.toLowerCase(), fn = F[state.f][1];
+    const list = rows.filter(r => (state.f === 'all' || (!r.is_admin && fn(r))) && (!q || (r.name + ' ' + r.email).toLowerCase().includes(q))).sort((a, b) => {
+      if (state.sort === 'answered') return b._ans - a._ans;
+      if (state.sort === 'ready') return (b._ready || 0) - (a._ready || 0);
       if (state.sort === 'total_seconds') return (b.total_seconds || 0) - (a.total_seconds || 0);
+      if (state.sort === 'last') return Date.parse(b._last || 0) - Date.parse(a._last || 0);
       return Date.parse(b[state.sort] || 0) - Date.parse(a[state.sort] || 0);
     });
-    $('#ad_rows').innerHTML = list.map(r => `<tr data-uid="${r.id}" tabindex="0"><td><b>${esc(r.name || '—')}</b>${r.is_admin ? ' <span class="chip">מנהל</span>' : ''}</td><td dir="ltr">${esc(r.email)}</td><td>${when(r.created_at)}</td><td>${when(r.last_login)}</td><td class="num">${r.logins || 0}</td><td>${dur(r.total_seconds)}</td><td class="num">${ans(r)}</td></tr>`).join('') || '<tr><td colspan="7" class="note">אין משתמשים שמתאימים לחיפוש.</td></tr>';
+    $('#ad_rows').innerHTML = list.map(r => { const ex = r._exams[r._exams.length - 1], on = r._last && now - Date.parse(r._last) < 10 * 60000; return `<tr data-uid="${r.id}" tabindex="0"><td><span class="dotst ${on ? 'on' : ''}" title="${on ? 'מחובר עכשיו' : ''}"></span><b>${esc(r.name || '—')}</b>${r.is_admin ? ' <span class="chip">מנהל</span>' : ''}${r.blocked ? ' <span class="chip blk">חסום</span>' : ''}</td><td dir="ltr">${esc(r.email)}</td><td>${when(r.created_at)}</td><td>${ago(r._last)}</td><td class="num">${r.logins || 0}</td><td>${dur(r.total_seconds)}</td><td class="num">${r._ans}</td><td>${r._ready === null ? '—' : `<span class="minibar"><i style="width:${Math.round(r._ready * 100)}%"></i></span> ${Math.round(r._ready * 100)}%`}</td><td>${ex ? `${Math.round(ex.score * 100)}%` : '—'}</td></tr>`; }).join('') || '<tr><td colspan="9" class="note">אין משתמשים שמתאימים לסינון.</td></tr>';
   };
   draw();
+  m.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { state.f = b.dataset.f; m.querySelectorAll('[data-f]').forEach(x => x.setAttribute('aria-pressed', x === b)); draw(); });
   $('#ad_q').oninput = e => { state.q = e.target.value; draw(); };
   $('#ad_sort').onchange = e => { state.sort = e.target.value; draw(); };
+  $('#ad_ref').onclick = () => vAdmin(m);
   $('#ad_csv').onclick = () => {
     const cell = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
-    const csv = '﻿' + [['שם', 'אימייל', 'נרשם', 'כניסה אחרונה', 'נראה לאחרונה', 'כניסות', 'דקות באתר', 'שאלות שנפתרו'].map(cell).join(',')]
-      .concat(rows.map(r => [r.name, r.email, r.created_at, r.last_login, r.last_seen, r.logins, Math.round((r.total_seconds || 0) / 60), ans(r)].map(cell).join(','))).join('\n');
+    const csv = '﻿' + [['שם', 'אימייל', 'נרשם', 'כניסה אחרונה', 'פעילות אחרונה', 'כניסות', 'דקות באתר', 'שאלות שנפתרו', 'מוכנות %', 'מבחנים'].map(cell).join(',')]
+      .concat(rows.map(r => [r.name, r.email, r.created_at, r.last_login, r._last, r.logins, Math.round((r.total_seconds || 0) / 60), r._ans, r._ready === null ? '' : Math.round(r._ready * 100), r._exams.length].map(cell).join(','))).join('\n');
     const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], {type: 'text/csv'})); a.download = `silas-users-${todayISO()}.csv`; document.body.appendChild(a); a.click(); a.remove();
   };
-  $('#ad_rows').onclick = async e => {
-    const tr = e.target.closest('tr[data-uid]'); if (!tr) return; const r = rows.find(x => x.id === tr.dataset.uid), box = $('#ad_one');
-    box.hidden = false; box.innerHTML = `<h4>${esc(r.name)}</h4><p class="note" dir="ltr" style="text-align:right">${esc(r.email)}</p><p class="note">טוען כניסות…</p>`;
+  const open = async tr => {
+    const r = rows.find(x => x.id === tr.dataset.uid), box = $('#ad_one');
+    box.hidden = false; box.innerHTML = `<h4>${esc(r.name)}</h4><p class="note">טוען…</p>`;
     let ss = []; try { ss = await ACC.admin.sessions(r.id); } catch (x) {}
-    const d = r.progress && r.progress.data;
-    box.innerHTML = `<h4>${esc(r.name)}</h4><p class="note" dir="ltr" style="text-align:right">${esc(r.email)}</p>
-      <div class="kpis sm"><div class="kpi"><b class="num">${r.logins || 0}</b><span>כניסות</span></div><div class="kpi"><b>${dur(r.total_seconds)}</b><span>זמן באתר</span></div><div class="kpi"><b class="num">${ans(r)}</b><span>שאלות שנפתרו</span></div><div class="kpi"><b class="num">${d && d.exams ? d.exams.length : 0}</b><span>מבחנים</span></div></div>
+    const dev = d => /iPhone|iPad/.test(d) ? 'iPhone/iPad' : /Android/.test(d) ? 'Android' : /Mac/.test(d) ? 'Mac' : /Windows/.test(d) ? 'Windows' : 'אחר';
+    box.innerHTML = `<div class="row between"><div><h4>${esc(r.name)}</h4><p class="note" dir="ltr" style="text-align:right;margin:0">${esc(r.email)}</p></div><button class="btn ghost sm" id="ad_close">סגירה</button></div>
+      <div class="kpis sm"><div class="kpi"><b class="num">${r.logins || 0}</b><span>כניסות</span></div><div class="kpi"><b>${dur(r.total_seconds)}</b><span>זמן באתר</span></div><div class="kpi"><b class="num">${r._ans}</b><span>שאלות שנפתרו</span></div><div class="kpi"><b>${r._ready === null ? '—' : Math.round(r._ready * 100) + '%'}</b><span>מוכנות למבחן</span></div></div>
+      ${r._exams.length ? `<h4 style="margin-top:14px">מבחנים</h4><div class="tbl-wrap"><table class="adm"><thead><tr><th>תאריך</th><th>שאלות</th><th>ציון</th><th>דקות</th></tr></thead><tbody>${r._exams.slice().reverse().map(x => `<tr><td>${when(x.ts)}</td><td class="num">${x.n}</td><td class="num">${Math.round(x.score * 100)}%</td><td class="num">${Math.round((x.sec || 0) / 60)}</td></tr>`).join('')}</tbody></table></div>` : ''}
+      ${r.is_admin ? '' : `<div class="blockbox ${r.blocked ? 'on' : ''}"><h4>גישה לאתר</h4>
+        <p class="note">${r.blocked ? 'הגישה של המשתמש חסומה. הוא רואה את ההודעה שלמטה במקום התוכן.' : 'המשתמש פעיל. אם תחסמו אותו, הוא יראה את ההודעה שלמטה במקום התוכן, תוך דקה גם אם הוא באמצע.'}</p>
+        <label class="field">ההודעה שהמשתמש יראה<textarea id="bl_msg" rows="2" maxlength="500" placeholder="הגישה לחשבון שלכם הושהתה זמנית. כדי לחדש אותה, צרו קשר עם צוות האקדמיה.">${esc(r.block_message || '')}</textarea></label>
+        <div class="row"><button class="btn ${r.blocked ? 'primary' : 'danger'}" id="bl_toggle">${r.blocked ? 'החזרת הגישה' : 'חסימת הגישה'}</button>${r.blocked ? '<button class="btn ghost sm" id="bl_save">עדכון ההודעה</button>' : ''}<span class="note" id="bl_res"></span></div></div>`}
       <h4 style="margin-top:14px">כניסות אחרונות</h4>
-      <div class="tbl-wrap"><table class="adm"><thead><tr><th>התחלה</th><th>משך</th><th>מכשיר</th></tr></thead><tbody>${ss.map(x => `<tr><td>${when(x.started_at)}</td><td>${dur(x.seconds)}</td><td class="note">${/iPhone|iPad/.test(x.device) ? 'iPhone/iPad' : /Android/.test(x.device) ? 'Android' : /Mac/.test(x.device) ? 'Mac' : /Windows/.test(x.device) ? 'Windows' : 'אחר'}</td></tr>`).join('') || '<tr><td colspan="3" class="note">אין עדיין כניסות.</td></tr>'}</tbody></table></div>`;
+      <div class="tbl-wrap"><table class="adm"><thead><tr><th>התחלה</th><th>משך</th><th>מכשיר</th></tr></thead><tbody>${ss.map(x => `<tr><td>${when(x.started_at)}</td><td>${dur(x.seconds)}</td><td class="note">${dev(x.device)}</td></tr>`).join('') || '<tr><td colspan="3" class="note">אין עדיין כניסות.</td></tr>'}</tbody></table></div>`;
+    $('#ad_close').onclick = () => { box.hidden = true; };
+    const setB = async (blocked, label) => {
+      const res = $('#bl_res'); res.textContent = 'שומר…';
+      try { await ACC.admin.setBlock(r.id, blocked, $('#bl_msg').value.trim()); r.blocked = blocked; r.block_message = $('#bl_msg').value.trim(); draw(); toast(label); open(tr); }
+      catch (x) { res.textContent = x.message; }
+    };
+    const tg = $('#bl_toggle'); if (tg) tg.onclick = () => setB(!r.blocked, r.blocked ? 'הגישה הוחזרה.' : 'הגישה נחסמה.');
+    const sv = $('#bl_save'); if (sv) sv.onclick = () => setB(true, 'ההודעה עודכנה.');
     box.scrollIntoView({behavior: 'smooth', block: 'start'});
   };
+  $('#ad_rows').onclick = e => { const tr = e.target.closest('tr[data-uid]'); if (tr) open(tr); };
+  $('#ad_rows').onkeydown = e => { const tr = e.target.closest('tr[data-uid]'); if (tr && e.key === 'Enter') open(tr); };
 }
 
 // ---------- home ----------
@@ -5145,7 +5420,7 @@ function vDash(m) {
       </ul>
       <div class="wl-facts"><span>20 שאלות</span><span>120 דקות</span><span>5 תשובות לכל שאלה</span><span>מחשבון רגיל ודף נוסחאות</span></div>
       <form id="onb" class="onb">
-        <label class="field">מתי המבחן?<input type="date" id="onbDate" value="${S.examDate}"></label>
+        ${dateField('onbDate', 'מתי המבחן?', S.examDate)}
         <fieldset class="wl-level"><legend>מאיפה מתחילים?</legend>
           <label><input type="radio" name="lvl" value="zero" checked><span><b>מאפס</b>לא למדתי עדיין את החומר</span></label>
           <label><input type="radio" name="lvl" value="some"><span><b>יש לי בסיס</b>למדתי חלק, צריך סדר וחיזוק</span></label>
@@ -5156,7 +5431,7 @@ function vDash(m) {
       <p class="wl-note">שתי שאלות קצרות, ונבנה לכם תוכנית לימוד עד יום המבחן.</p></section>`;
     $('#onb').onsubmit = e => {
       e.preventDefault(); S.started = true;
-      if ($('#onbDate').value) S.examDate = $('#onbDate').value;
+      const ed = dateValue('onbDate'); if ($('#onbDate').value.trim() && !ed) { $('#onbDate').focus(); $('#onbDate').setAttribute('aria-invalid', 'true'); return; } if (ed) S.examDate = ed;
       S.level = (m.querySelector('input[name=lvl]:checked') || {}).value || 'zero'; save();
       if (S.level === 'exam') go('exam'); else if (S.level === 'zero') go('learn', {topic: 'f0'}); else go('dash');
     };
@@ -5195,12 +5470,12 @@ function vDash(m) {
   ${S.exams.length ? `<details class="more"><summary>היסטוריית מבחנים</summary><div class="tbl-wrap"><table class="mini"><tr><th>תאריך</th><th>שאלות</th><th>ציון</th><th>דקות</th></tr>${S.exams.slice(-10).reverse().map(x => `<tr><td>${new Date(x.ts).toLocaleDateString('he-IL')}</td><td>${x.n}</td><td>${Math.round(x.score * 100)}%</td><td>${Math.round(x.sec / 60)}</td></tr>`).join('')}</table></div></details>` : ''}
   <details class="more"><summary>הגדרות</summary>
     <div class="settings"><label class="field">השם<input id="setName" value="${esc(S.name)}" maxlength="30"></label>
-    <label class="field">תאריך המבחן<input type="date" id="examDate" value="${S.examDate}"></label></div>
+    ${dateField('examDate', 'תאריך המבחן', S.examDate)}</div>
     <p class="note">ההתקדמות נשמרת בדפדפן הזה בלבד. במכשיר אחר או בגלישה בסתר היא תתחיל מההתחלה.</p>
     <div id="resetWrap"><button class="btn ghost sm" id="resetBtn">איפוס ההתקדמות</button></div></details>`;
   vBook($('#bookWrap'));
   $('#dayDone').onchange = e => { S.plan[pi] = e.target.checked; save(); render(); };
-  $('#examDate').onchange = e => { if (e.target.value) { S.examDate = e.target.value; save(); nav(); render(); } };
+  $('#examDate').onchange = () => { const v = dateValue('examDate'); $('#examDate').setAttribute('aria-invalid', String(!v)); if (v) { S.examDate = v; save(); nav(); render(); } };
   $('#setName').onchange = e => { if (e.target.value.trim()) { ACC.rename(e.target.value); S.name = e.target.value.trim(); save(); nav(); render(); } };
   $('#resetBtn').onclick = () => {
     $('#resetWrap').innerHTML = `<div class="confirm">למחוק את כל ההתקדמות? <button class="btn danger sm" id="resetYes">למחוק</button><button class="btn sm" id="resetNo">ביטול</button></div>`;
@@ -5648,7 +5923,10 @@ window.addEventListener('popstate', e => {
 $('#main').innerHTML = '<p class="note" style="text-align:center;padding:40px 0">טוען…</p>';
 ACC.ready().catch(() => {}).then(async () => {
   loadCourse(); if (ACC.user()) await syncCourse();
-  if (!ACC.user()) view = 'login'; else if (view === 'admin' && !ACC.user().isAdmin) view = 'home';
+  if (ACC.recovering()) view = 'reset';
+  else if (!ACC.user()) view = 'login'; else if (view === 'admin' && !ACC.user().isAdmin) view = 'home';
+  ACC.onRecovery = () => go('reset');
+  ACC.onBlocked = () => { if (typeof stopVideo === 'function') stopVideo(); clearInterval(timerId); nav(); render(); };
   nav(); render(bootTopic ? {topic: bootTopic} : {}); setHdr(); fixBidi(document.getElementById('main'));
   try { history.replaceState({v: view, topic: bootTopic}, '', location.hash || '#' + view); } catch (e) {}
 });
