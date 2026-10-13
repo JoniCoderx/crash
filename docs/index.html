@@ -698,6 +698,11 @@ main{padding-bottom:96px}
 .brandlink{gap:12px}
 @media (max-width:520px){.top-in{padding:14px 18px 2px}.brand{min-height:48px}.brand .logo{width:42px;height:42px}.brand h1{font-size:1.4rem}.brandlink{gap:10px}.brand .cd{font-size:.74rem;padding:4px 9px}}
 @media (max-width:360px){.brand .logo{width:36px;height:36px}.brand h1{font-size:1.2rem}}
+/* the bar runs edge to edge, and the logo row sits exactly in its vertical middle */
+html,body{margin:0}
+.top-in{padding-top:14px;padding-bottom:14px}
+.top-in:has(> nav.tabs:not([hidden])){padding-bottom:0}
+.brand{align-items:center}
 /* on phones the exam countdown sits in the course row, so it never covers the logo */
 .cd2{display:none}
 .cbar a{white-space:nowrap}.cbar b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
