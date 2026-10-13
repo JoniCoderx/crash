@@ -672,6 +672,65 @@ nav.tabs{mask-image:linear-gradient(to left,#000 calc(100% - 28px),transparent);
 .ghost.sm[href]{text-decoration:none}
 .placebox{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;padding:12px 14px;border-radius:14px;background:var(--accent-soft)}
 .placebox .pl{font-weight:600}
+
+/* admin page layout: header, numbers, live + recent, chart, learners, side panel */
+.adhead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:6px 0 16px}
+.adhead h2{margin:0}
+.adhead .adlive{margin:4px 0 0;display:flex;align-items:center;gap:0;flex-wrap:wrap}
+.adacts{display:flex;gap:8px}
+.adkpis .kpi b{font-size:1.35rem;white-space:nowrap}
+.adgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.adgrid .panel{margin:0}
+.panel h4 .cnt,.adtitle .cnt{font:600 .75rem var(--mono);background:var(--good-soft);color:var(--good);border-radius:999px;padding:1px 8px;margin-inline-start:6px;vertical-align:2px}
+.adlist{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column}
+.adlist li{display:flex;align-items:center;gap:0;flex-wrap:wrap;padding:9px 8px;border-radius:10px;cursor:pointer;border-bottom:1px solid var(--line)}
+.adlist li:last-child{border-bottom:0}
+.adlist li:hover,.adlist li:focus-visible{background:var(--sunk)}
+.adlist li b{margin-inline-end:10px}
+.adlist li .note{margin:0;font-size:.82rem}
+.adempty{margin:10px 0 0}
+.adtitle{margin-bottom:10px}.adtitle h4{margin:0}.adtitle .note{margin:0;font-size:.8rem}
+.adtools select{flex:none}
+table.users td{vertical-align:middle}
+@media (min-width:641px){table.users td{white-space:normal}table.users td:first-child{min-width:190px}.adtools{flex-wrap:nowrap}#ad_q{flex:1;min-width:0}.adtools select{width:auto;min-width:220px}}
+table.users .minibar{width:44px}
+table.users .who{display:flex;align-items:center;gap:4px}
+table.users .sub{font-size:.78rem;color:var(--muted);margin-top:2px}
+table.users .off{color:var(--muted);font-size:.86rem}
+table.users .pl{margin-inline-end:2px}
+@media (max-width:820px){.adgrid{grid-template-columns:1fr}}
+@media (max-width:640px){
+  table.users td[data-l="מצב"],table.users td[data-l="מיקום"]{grid-column:1/-1;display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+  table.users td[data-l="מצב"]::before,table.users td[data-l="מיקום"]::before{margin-inline-end:-2px}
+  table.users td[data-l="פעילות"],table.users td[data-l="התקדמות"]{margin-top:4px;padding-top:8px;border-top:1px solid var(--line)}
+  table.users td.c-name{margin-bottom:4px}
+  table.users .sub{white-space:normal}
+  .adhead{align-items:flex-start}.adacts{width:100%}.adacts .btn{flex:1}
+}
+/* learner details */
+.addrawer{position:fixed;inset:0;z-index:40}
+.addrawer[hidden]{display:none}
+.adscrim{position:absolute;inset:0;background:rgb(8 12 30/.45);backdrop-filter:blur(2px);animation:fadein .2s ease}
+.adpanel{position:absolute;inset-block:0;right:0;width:min(520px,100%);background:var(--bg);box-shadow:-12px 0 40px rgb(0 0 0/.25);overflow-y:auto;padding:20px 22px 40px;display:flex;flex-direction:column;gap:12px;outline:none;animation:slidein .25s var(--ease,ease)}
+.adpanel h4{margin:6px 0 0}
+.adph{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;position:sticky;top:-20px;background:var(--bg);padding:6px 0 8px;margin-top:-6px;z-index:1}
+.adph h3{margin:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}.adph .note{margin:2px 0 0;text-align:right}
+.iconx{flex:none;width:40px;height:40px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-size:1rem;cursor:pointer}
+.iconx:hover{background:var(--sunk)}
+.adstat{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}.adstat .note{margin:0;font-size:.82rem}
+.adpanel .placebox{margin-top:0}
+.adpanel .kpis.sm{margin:0}
+.advisits{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.advisits li{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.advisits .vt{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.advisits .note{margin:2px 0 0;font-size:.82rem}
+.advisits .vp{display:flex;align-items:center;gap:6px;margin-top:4px;font-size:.88rem}
+.adpanel .blockbox{margin-top:4px}
+body.adlock{overflow:hidden}
+@keyframes slidein{from{transform:translateX(30px);opacity:0}to{transform:none;opacity:1}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@media (max-width:640px){.adpanel{width:100%;padding:16px 16px 90px}.adpanel .kpis.sm{grid-template-columns:repeat(2,1fr)}}
+@media (prefers-reduced-motion:reduce){.adpanel,.adscrim{animation:none}}
 .wabtn{background:#1fae55;border-color:#1fae55;color:#fff;justify-content:center;gap:8px}.wabtn:hover{background:#1a9a4b}
 .waic{width:20px;height:20px}
 .flink{color:inherit;text-decoration:underline;text-underline-offset:3px}
@@ -1279,8 +1338,8 @@ const ACC = (() => {
     noteVisit(id, Object.assign({c: country || '', ci: city || '', f: flag || ''}, lat != null ? {lat, lng} : {}));
   };
   const endVisit = id => { if (!id) return; sb.rpc('end_session', {p_session: id}).then(() => {}, () => {}); noteVisit(id, {e: new Date().toISOString()}); };
-  // where the visit comes from: first the city of the internet connection (no prompt),
-  // then, if the learner allows location in the browser, the exact city and neighborhood from the device
+  // where the visit comes from: the city of the internet connection (no prompt),
+  // or the exact city and neighborhood from the device where location is already allowed
   function locate(id) {
     let flag = '', precise = false;
     fetch('https://ipwho.is/?fields=success,country,city,flag.emoji').then(r => r.json()).then(g => { if (g && g.success) { flag = (g.flag && g.flag.emoji) || ''; if (!precise) putGeo(id, g.country, g.city, flag); } }).catch(() => {});
@@ -1296,9 +1355,8 @@ const ACC = (() => {
         precise = true; putGeo(id, g.countryName, place, fl, Math.round(latitude * 100) / 100, Math.round(longitude * 100) / 100);
       }).catch(() => {});
     }, err => { try { if (err && err.code === 1) localStorage.setItem(GEO_KEY, 'no'); } catch (e) {} }, {enableHighAccuracy: false, timeout: 15000, maximumAge: 600000});
-    let asked = null; try { asked = localStorage.getItem(GEO_KEY); } catch (e) {}
-    // ask once; later visits use it silently if it was allowed, and never nag after a "no"
-    const decide = st => { if (st === 'granted' || (st === 'prompt' && !asked) || (!st && asked !== 'no')) ask(); };
+    // never shows a prompt: the device location is read only where the browser already allows it for this site
+    const decide = st => { if (st === 'granted') ask(); };
     if (navigator.permissions && navigator.permissions.query) navigator.permissions.query({name: 'geolocation'}).then(p => decide(p.state), () => decide(null)); else decide(null);
   }
   async function track() { // one session per visit; heartbeats add the visible, active time
@@ -5269,6 +5327,7 @@ function nav() {
 function go(v, opts) {
   if (v !== 'videos' && typeof stopVideo === 'function') stopVideo();
   if (!ACC.user() && v !== 'login' && v !== 'reset') v = 'login';
+  document.body.classList.remove('adlock');
   view = v; nav(); render(opts); window.scrollTo(0, 0);
   try { const h = v === 'learn' && opts && opts.topic ? `learn-${opts.topic}` : v; if (!go.pop && location.hash.slice(1) !== h) history.pushState({v, topic: opts && opts.topic}, '', '#' + h); } catch (e) {}
 }
@@ -5385,7 +5444,7 @@ function vLogin(m) {
       <button class="btn primary big">${signup ? 'התחל ללמוד בחינם' : 'כניסה'}</button>
     </form>
     <p class="auth-switch">${signup ? (ACC.count() || ACC.mode === 'cloud' ? 'כבר יש לך חשבון? <a href="#" id="au_sw">כניסה</a>' : '') : 'עוד אין לך חשבון? <a href="#" id="au_sw">התחל ללמוד בחינם</a>'}</p>
-    ${ACC.mode === 'local' ? '<p class="note auth-local">ההתקדמות נשמרת בדפדפן הזה. במסך החשבון אפשר לגבות אותה לקובץ ולהמשיך ממכשיר אחר.</p>' : '<p class="note auth-local">כדי לשפר את הלימוד נשמרים זמני ההתחברות, ההתקדמות והעיר שממנה נכנסים: לפי המכשיר אם תאשרו מיקום, ואחרת לפי חיבור האינטרנט.</p>'}
+    ${ACC.mode === 'local' ? '<p class="note auth-local">ההתקדמות נשמרת בדפדפן הזה. במסך החשבון אפשר לגבות אותה לקובץ ולהמשיך ממכשיר אחר.</p>' : '<p class="note auth-local">כדי לשפר את הלימוד נשמרים זמני ההתחברות, ההתקדמות והעיר שממנה נכנסים.</p>'}
   </section></div>`;
   const fg = $('#au_forgot'); if (fg) fg.onclick = e => { e.preventDefault(); vForgot(m, $('#au_email').value); };
   const sw = $('#au_sw'); if (sw) sw.onclick = e => { e.preventDefault(); vLogin.mode = signup ? 'login' : 'signup'; vLogin(m); };
@@ -5498,39 +5557,46 @@ function vAccount(m) {
 }
 
 // ---------- admin ----------
-const dur = sec => { sec = Math.round(sec || 0); const h = Math.floor(sec / 3600), m = Math.round(sec % 3600 / 60); return h ? `${h} ש׳ ${m} ד׳` : `${m} ד׳`; };
+const dur = sec => { const t = Math.round((sec || 0) / 60), h = Math.floor(t / 60), m = t % 60; return h ? (m ? `${h} ש׳ ${m} ד׳` : `${h} ש׳`) : `${m} ד׳`; };
 const when = t => t ? new Date(t).toLocaleString('he-IL', {day: 'numeric', month: 'numeric', year: '2-digit', hour: '2-digit', minute: '2-digit'}) : '—';
 // readiness of any learner's saved progress (the same formula the learner sees)
 function readinessOf(data) { if (!data) return null; const keep = S; try { S = Object.assign(blankS(), data); return readiness(); } catch (e) { return null; } finally { S = keep; } }
 const ago = t => { if (!t) return '—'; const m = Math.round((Date.now() - Date.parse(t)) / 60000); if (m < 2) return 'עכשיו'; if (m < 60) return `לפני ${m} דק׳`; const h = Math.round(m / 60); if (h < 24) return h === 1 ? 'לפני שעה' : `לפני ${h} שעות`; const d = Math.round(h / 24); return d === 1 ? 'אתמול' : `לפני ${d} ימים`; };
 async function vAdmin(m) {
   const u = ACC.user();
-  const head = `<div class="crumbs"><a href="#" data-go="home">הקורסים</a><span aria-hidden="true">‹</span><span>לוח הניהול</span></div><header class="page row between"><h2>לוח הניהול</h2><button class="btn sm" id="ad_ref">רענון</button></header>`;
-  if (!ACC.admin) { m.innerHTML = head + `<section class="panel"><h4>צריך לחבר שרת</h4><p>כרגע החשבונות נשמרים רק במכשיר של כל משתמש, ולכן אין מקום אחד שבו רואים את כולם.</p></section>`; return; }
-  if (!u || !u.isAdmin) { m.innerHTML = head + '<section class="panel"><p>הדף הזה פתוח רק למנהלים.</p></section>'; return; }
-  m.innerHTML = head + '<p class="note">טוען נתונים…</p>';
+  const crumbs = `<div class="crumbs"><a href="#" data-go="home">הקורסים</a><span aria-hidden="true">‹</span><span>לוח הניהול</span></div>`;
+  const simple = body => crumbs + `<header class="adhead"><h2>לוח הניהול</h2></header>` + body;
+  if (!ACC.admin) { m.innerHTML = simple(`<section class="panel"><h4>צריך לחבר שרת</h4><p>כרגע החשבונות נשמרים רק במכשיר של כל משתמש, ולכן אין מקום אחד שבו רואים את כולם.</p></section>`); return; }
+  if (!u || !u.isAdmin) { m.innerHTML = simple('<section class="panel"><p>הדף הזה פתוח רק למנהלים.</p></section>'); return; }
+  if (!m.querySelector('.adhead')) m.innerHTML = simple('<p class="note">טוען נתונים…</p>');
   let rows, visits = [];
-  try { [rows, visits] = await Promise.all([ACC.admin.users(), ACC.admin.recent(30).catch(() => [])]); } catch (x) { m.innerHTML = head + `<section class="panel"><p>${esc(x.message)}</p></section>`; return; }
+  try { [rows, visits] = await Promise.all([ACC.admin.users(), ACC.admin.recent(30).catch(() => [])]); } catch (x) { m.innerHTML = simple(`<section class="panel"><p>${esc(x.message)}</p></section>`); return; }
+  if (view !== 'admin') return;
   const day = 864e5, now = Date.now(), dkey = t => new Date(t).toISOString().slice(0, 10), today = dkey(now);
-  const lastVisit = {}; visits.forEach(v => { if (!lastVisit[v.user_id] || v.started_at > lastVisit[v.user_id].started_at) lastVisit[v.user_id] = v; });
   const LIVE = 2.5 * 60000; // a heartbeat comes every 45 s while the page is open and visible
+  const byUser = {}; visits.forEach(v => { (byUser[v.user_id] = byUser[v.user_id] || []).push(v); });
+  Object.values(byUser).forEach(l => l.sort((a, b) => Date.parse(b.started_at) - Date.parse(a.started_at)));
+  const byId = {};
   rows.forEach(r => {
+    byId[r.id] = r;
     const d = r.progress && r.progress.data; r._ans = (d && d.answered) || 0; r._ready = readinessOf(d); r._exams = (d && d.exams) || [];
-    const lv = lastVisit[r.id]; r._visit = lv;
+    const vs = byUser[r.id] || [], lv = vs[0]; r._visit = lv; r._placeVisit = vs.find(v => v.city) || null;
     r._last = [r.last_seen, r.last_login, lv && lv.last_ping, lv && lv.ended_at].filter(Boolean).sort().pop() || null;
     r._live = !!(r._last && now - Date.parse(r._last) < LIVE && !(lv && lv.ended_at));
-    r._place = lv && lv.city ? `${lv.flag || ''} ${lv.city}`.trim() : '';
+    r._place = r._placeVisit ? `${r._placeVisit.flag || ''} ${r._placeVisit.city}`.trim() : '';
   });
   // location → map link and a ready WhatsApp message (pick the contact in WhatsApp)
   const placeQ = v => [...String(v.city || '').split(' · ').reverse(), v.country].filter(Boolean).join(', ');
   const mapUrl = v => !v ? '' : v.lat != null ? `https://www.google.com/maps?q=${v.lat},${v.lng}` : v.city ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(placeQ(v))}` : '';
-  const waPlace = (r, v = r._visit) => 'https://wa.me/?text=' + encodeURIComponent([`📍 ${r.name}: ${`${v.flag || ''} ${placeQ(v)}`.trim()}`, r._live && v === r._visit ? 'מחובר עכשיו' : `ביקור: ${when(v.started_at)}`, mapUrl(v)].join('\n'));
+  const waPlace = (r, v) => 'https://wa.me/?text=' + encodeURIComponent([`📍 ${r.name}: ${`${v.flag || ''} ${placeQ(v)}`.trim()}`, r._live && v === r._visit ? 'מחובר עכשיו' : `ביקור: ${when(v.started_at)}`, mapUrl(v)].join('\n'));
   const WAI = ($('#wa svg') || {}).outerHTML || '';
-  const learners = rows.filter(r => !r.is_admin);
+  const waBtn = (r, v, label) => `<a class="washare" href="${waPlace(r, v)}" target="_blank" rel="noopener" title="שיתוף בוואצאפ" aria-label="${label}">${WAI}</a>`;
+  const dev = d => /iPhone|iPad/.test(d) ? 'iPhone' : /Android/.test(d) ? 'Android' : /Mac/.test(d) ? 'Mac' : /Windows/.test(d) ? 'Windows' : 'מחשב';
+  const status = r => r._live ? '<span class="livechip">מחובר עכשיו</span>' : r._last ? `<span class="off">התנתק ${ago(r._last)}</span>` : '<span class="off">עוד לא נכנס</span>';
+  const learners = rows.filter(r => !r.is_admin), adminIds = new Set(rows.filter(r => r.is_admin).map(r => r.id));
   const k = {
     live: learners.filter(r => r._live).length,
     all: learners.length,
-    week: learners.filter(r => now - Date.parse(r.created_at) < 7 * day).length,
     today: learners.filter(r => r._last && dkey(r._last) === today).length,
     active7: learners.filter(r => r._last && now - Date.parse(r._last) < 7 * day).length,
     secs: learners.reduce((a, r) => a + (r.total_seconds || 0), 0),
@@ -5540,33 +5606,46 @@ async function vAdmin(m) {
   const days = [...Array(30)].map((_, i) => dkey(now - (29 - i) * day));
   const su = Object.fromEntries(days.map(d => [d, 0])), act = Object.fromEntries(days.map(d => [d, new Set()]));
   learners.forEach(r => { const d = dkey(r.created_at); if (d in su) su[d]++; });
-  const adminIds = new Set(rows.filter(r => r.is_admin).map(r => r.id));
   visits.forEach(v => { const d = dkey(v.started_at); if (d in act && !adminIds.has(v.user_id)) act[d].add(v.user_id); });
   const maxY = Math.max(1, ...days.map(d => Math.max(su[d], act[d].size)));
   const chart = `<div class="bars" role="img" aria-label="הרשמות ולומדים פעילים בכל אחד מ־30 הימים האחרונים">${days.map(d => { const a = act[d].size, n2 = su[d]; return `<div class="bcol" title="${d.split('-').reverse().join('.')}: ${a} פעילים, ${n2} נרשמו"><i class="ba" style="height:${a / maxY * 100}%"></i>${n2 ? `<i class="bs" style="height:${n2 / maxY * 100}%"></i>` : ''}</div>`; }).join('')}</div>
     <div class="bax"><span>היום</span><span>לפני 15 יום</span><span>לפני 30 יום</span></div>
     <p class="note bsum">ב־30 הימים האחרונים: ${learners.filter(r => now - Date.parse(r.created_at) < 30 * day).length} נרשמו, ${new Set(visits.filter(v => !adminIds.has(v.user_id)).map(v => v.user_id)).size} למדו לפחות פעם אחת.</p>`;
-  const F = {all: ['הכל', () => true], live: ['מחוברים עכשיו', r => r._live], today: ['פעילים היום', r => r._last && dkey(r._last) === today], week: ['פעילים השבוע', r => r._last && now - Date.parse(r._last) < 7 * day], gone: ['לא חזרו 7+ ימים', r => !r._last || now - Date.parse(r._last) >= 7 * day], fresh: ['חדשים השבוע', r => now - Date.parse(r.created_at) < 7 * day]};
-  const state = {q: '', sort: 'last', f: 'all'};
-  m.innerHTML = head + `
-  <p class="note adlive">${k.live ? `<span class="dotst on"></span>${k.live === 1 ? 'לומד אחד מחובר' : `${k.live} לומדים מחוברים`} עכשיו` : 'אף לומד לא מחובר כרגע'} · מתעדכן אוטומטית כל דקה</p>
-  <section class="kpis six">
+  // who is here right now, and the latest visits of learners
+  const liveNow = learners.filter(r => r._live);
+  const nowList = liveNow.length ? `<ul class="adlist">${liveNow.map(r => `<li data-uid="${r.id}" tabindex="0"><span class="dotst on"></span><b>${esc(r.name)}</b><span class="note">${r._place ? `<bdi>${esc(r._place)}</bdi> · ` : ''}<bdi>נכנס ${ago(r._visit && r._visit.started_at)}</bdi></span></li>`).join('')}</ul>` : '<p class="note adempty">אף לומד לא מחובר כרגע.</p>';
+  const feedRows = visits.filter(v => !adminIds.has(v.user_id) && byId[v.user_id]).slice(0, 7);
+  const feed = feedRows.length ? `<ul class="adlist">${feedRows.map(v => { const r = byId[v.user_id], live = r._live && v === r._visit; return `<li data-uid="${r.id}" tabindex="0"><span class="dotst ${live ? 'on' : ''}"></span><b>${esc(r.name)}</b><span class="note"><bdi dir="ltr">${when(v.started_at)}</bdi>${v.seconds ? ` · <bdi>${dur(v.seconds)}</bdi>` : ''}${v.city ? ` · <bdi>${esc(`${v.flag || ''} ${v.city}`.trim())}</bdi>` : ''}</span></li>`; }).join('')}</ul>` : '<p class="note adempty">עוד אין כניסות של לומדים.</p>';
+  const F = {all: ['הכל', () => true], live: ['מחוברים עכשיו', r => r._live], today: ['פעילים היום', r => r._last && dkey(r._last) === today], week: ['פעילים השבוע', r => r._last && now - Date.parse(r._last) < 7 * day], gone: ['לא חזרו 7+ ימים', r => !r._last || now - Date.parse(r._last) >= 7 * day], fresh: ['חדשים השבוע', r => now - Date.parse(r.created_at) < 7 * day], blocked: ['חסומים', r => r.blocked]};
+  const state = vAdmin.state = Object.assign({q: '', sort: 'last', f: 'all'}, vAdmin.state || {});
+  const stamp = new Date().toLocaleTimeString('he-IL', {hour: '2-digit', minute: '2-digit'});
+  m.innerHTML = crumbs + `
+  <header class="adhead">
+    <div><h2>לוח הניהול</h2>
+      <p class="note adlive">${k.live ? `<span class="dotst on"></span>${k.live === 1 ? 'לומד אחד מחובר' : `${k.live} לומדים מחוברים`} עכשיו` : '<span class="dotst"></span>אף לומד לא מחובר כרגע'} · <bdi>עודכן ב־${stamp}</bdi> (מתעדכן לבד כל דקה)</p></div>
+    <div class="adacts"><button class="btn ghost sm" id="ad_csv">ייצוא ל־CSV</button><button class="btn sm" id="ad_ref">רענון</button></div>
+  </header>
+  <section class="kpis six adkpis">
     <div class="kpi live"><b class="num">${k.live}</b><span>מחוברים עכשיו</span></div>
-    <div class="kpi"><b class="num">${k.all}</b><span>לומדים רשומים</span></div>
     <div class="kpi"><b class="num">${k.today}</b><span>פעילים היום</span></div>
     <div class="kpi"><b class="num">${k.active7}</b><span>פעילים השבוע</span></div>
+    <div class="kpi"><b class="num">${k.all}</b><span>לומדים רשומים</span></div>
     <div class="kpi"><b>${dur(k.secs)}</b><span>זמן למידה כולל</span></div>
     <div class="kpi"><b class="num">${k.ans}</b><span>שאלות שנפתרו</span></div>
   </section>
+  <div class="adgrid">
+    <section class="panel"><h4>מחוברים עכשיו <span class="cnt">${liveNow.length}</span></h4>${nowList}</section>
+    <section class="panel"><h4>כניסות אחרונות</h4>${feed}</section>
+  </div>
   <section class="panel"><div class="row between"><h4>30 הימים האחרונים</h4><div class="legend"><span class="lg-act">לומדים פעילים</span><span class="lg-su">הרשמות</span></div></div>${chart}</section>
   <section class="panel">
-    <div class="chips" role="group" aria-label="סינון">${Object.entries(F).map(([key, [l]]) => `<button class="chipbtn" data-f="${key}" aria-pressed="${key === 'all'}">${l} <span class="cnt">${learners.filter(F[key][1]).length}</span></button>`).join('')}</div>
-    <div class="row between adtools"><input id="ad_q" type="search" placeholder="חיפוש לפי שם או אימייל" aria-label="חיפוש משתמשים">
-      <div class="row"><select id="ad_sort" aria-label="מיון"><option value="last">מחוברים ופעילים לאחרונה</option><option value="created_at">הרשמה</option><option value="total_seconds">זמן באתר</option><option value="answered">שאלות שנפתרו</option><option value="ready">מוכנות</option></select>
-      <button class="btn sm" id="ad_csv">ייצוא ל־CSV</button></div></div>
-    <div class="tbl-wrap admwrap"><table class="adm users"><thead><tr><th>שם</th><th>אימייל</th><th>נרשם</th><th>מצב</th><th>מיקום</th><th>כניסות</th><th>זמן באתר</th><th>שאלות</th><th>מוכנות</th><th>מבחן אחרון</th></tr></thead><tbody id="ad_rows"></tbody></table></div>
+    <div class="row between adtitle"><h4>הלומדים</h4><span class="note">לחיצה על לומד פותחת את כל הפרטים</span></div>
+    <div class="chips" role="group" aria-label="סינון">${Object.entries(F).map(([key, [l]]) => `<button class="chipbtn" data-f="${key}" aria-pressed="${key === state.f}">${l} <span class="cnt">${learners.filter(F[key][1]).length}</span></button>`).join('')}</div>
+    <div class="row between adtools"><input id="ad_q" type="search" placeholder="חיפוש לפי שם או אימייל" aria-label="חיפוש משתמשים" value="${esc(state.q)}">
+      <select id="ad_sort" aria-label="מיון">${[['last', 'מחוברים ופעילים לאחרונה'], ['created_at', 'הרשמה'], ['total_seconds', 'זמן באתר'], ['answered', 'שאלות שנפתרו'], ['ready', 'מוכנות']].map(([v, l]) => `<option value="${v}" ${state.sort === v ? 'selected' : ''}>${l}</option>`).join('')}</select></div>
+    <div class="tbl-wrap admwrap"><table class="adm users"><thead><tr><th>לומד</th><th>מצב</th><th>מיקום</th><th>פעילות</th><th>התקדמות</th></tr></thead><tbody id="ad_rows"></tbody></table></div>
   </section>
-  <section class="panel" id="ad_one" hidden></section>`;
+  <div class="addrawer" id="ad_one" hidden><div class="adscrim" data-close></div><aside class="adpanel" role="dialog" aria-modal="true" aria-labelledby="ad_name" tabindex="-1"></aside></div>`;
   const draw = () => {
     const q = state.q.toLowerCase(), fn = F[state.f][1];
     const list = rows.filter(r => (state.f === 'all' || (!r.is_admin && fn(r))) && (!q || (r.name + ' ' + r.email).toLowerCase().includes(q))).sort((a, b) => {
@@ -5576,47 +5655,66 @@ async function vAdmin(m) {
       if (state.sort === 'last') return (b._live - a._live) || Date.parse(b._last || 0) - Date.parse(a._last || 0);
       return Date.parse(b[state.sort] || 0) - Date.parse(a[state.sort] || 0);
     });
-    $('#ad_rows').innerHTML = list.map(r => { const ex = r._exams[r._exams.length - 1], on = r._live; return `<tr data-uid="${r.id}" tabindex="0"><td class="c-name"><span class="dotst ${on ? 'on' : ''}" title="${on ? 'מחובר עכשיו' : ''}"></span><b>${esc(r.name || '—')}</b>${r.is_admin ? ' <span class="chip">מנהל</span>' : ''}${r.blocked ? ' <span class="chip blk">חסום</span>' : ''}</td><td class="c-mail" dir="ltr">${esc(r.email)}</td><td data-l="נרשם">${when(r.created_at)}</td><td data-l="מצב">${r._live ? '<span class="livechip">מחובר עכשיו</span>' : r._last ? `התנתק ${ago(r._last)}` : 'עוד לא נכנס'}</td><td data-l="מיקום">${r._place ? `${esc(r._place)} <a class="washare" href="${waPlace(r)}" target="_blank" rel="noopener" title="שיתוף המיקום בוואצאפ" aria-label="שיתוף המיקום של ${esc(r.name)} בוואצאפ">${WAI}</a>` : '—'}</td><td data-l="כניסות" class="num">${r.logins || 0}</td><td data-l="זמן באתר">${dur(r.total_seconds)}</td><td data-l="שאלות" class="num">${r._ans}</td><td data-l="מוכנות">${r._ready === null ? '—' : `<span class="minibar"><i style="width:${Math.round(r._ready * 100)}%"></i></span> ${Math.round(r._ready * 100)}%`}</td><td data-l="מבחן אחרון">${ex ? `${Math.round(ex.score * 100)}%` : '—'}</td></tr>`; }).join('') || '<tr><td colspan="10" class="note">אין משתמשים שמתאימים לסינון.</td></tr>';
+    $('#ad_rows').innerHTML = list.map(r => { const ex = r._exams[r._exams.length - 1]; return `<tr data-uid="${r.id}" tabindex="0">
+      <td class="c-name"><div class="who"><span class="dotst ${r._live ? 'on' : ''}"></span><b>${esc(r.name || '—')}</b>${r.is_admin ? ' <span class="chip">מנהל</span>' : ''}${r.blocked ? ' <span class="chip blk">חסום</span>' : ''}</div><div class="sub"><bdi dir="ltr">${esc(r.email)}</bdi> · <bdi>נרשם ${when(r.created_at).split(',')[0]}</bdi></div></td>
+      <td data-l="מצב">${status(r)}</td>
+      <td data-l="מיקום">${r._place ? `<span class="pl">${esc(r._place)}</span>${waBtn(r, r._placeVisit, `שיתוף המיקום של ${esc(r.name)} בוואצאפ`)}` : '<span class="off">—</span>'}</td>
+      <td data-l="פעילות"><bdi>${r.logins || 0} כניסות</bdi><div class="sub"><bdi>${dur(r.total_seconds)} באתר</bdi></div></td>
+      <td data-l="התקדמות"><bdi>${r._ans} שאלות</bdi>${r._ready === null && !ex ? '' : `<div class="sub">${r._ready === null ? '' : `<span class="minibar"><i style="width:${Math.round(r._ready * 100)}%"></i></span><bdi>מוכנות ${Math.round(r._ready * 100)}%</bdi>`}${ex ? `${r._ready === null ? '' : ' · '}<bdi>מבחן ${Math.round(ex.score * 100)}%</bdi>` : ''}</div>`}</td></tr>`; }).join('') || '<tr><td colspan="5" class="note">אין משתמשים שמתאימים לסינון.</td></tr>';
   };
   draw();
   m.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { state.f = b.dataset.f; m.querySelectorAll('[data-f]').forEach(x => x.setAttribute('aria-pressed', x === b)); draw(); });
   $('#ad_q').oninput = e => { state.q = e.target.value; draw(); };
   $('#ad_sort').onchange = e => { state.sort = e.target.value; draw(); };
   $('#ad_ref').onclick = () => vAdmin(m);
-  clearInterval(vAdmin.t); vAdmin.t = setInterval(() => { if (view !== 'admin' || document.hidden) return; if ($('#ad_one') && !$('#ad_one').hidden) return; if ($('#ad_q') && $('#ad_q').value) return; vAdmin(m); }, 60000);
+  clearInterval(vAdmin.t); vAdmin.t = setInterval(() => { if (view !== 'admin' || document.hidden) return; if ($('#ad_one') && !$('#ad_one').hidden) return; if (document.activeElement && document.activeElement.id === 'ad_q') return; vAdmin(m); }, 60000);
   $('#ad_csv').onclick = () => {
     const cell = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
-    const csv = '﻿' + [['שם', 'אימייל', 'נרשם', 'כניסה אחרונה', 'פעילות אחרונה', 'כניסות', 'דקות באתר', 'שאלות שנפתרו', 'מוכנות %', 'מבחנים'].map(cell).join(',')]
-      .concat(rows.map(r => [r.name, r.email, r.created_at, r.last_login, r._last, r.logins, Math.round((r.total_seconds || 0) / 60), r._ans, r._ready === null ? '' : Math.round(r._ready * 100), r._exams.length].map(cell).join(','))).join('\n');
+    const csv = '﻿' + [['שם', 'אימייל', 'נרשם', 'כניסה אחרונה', 'פעילות אחרונה', 'מחובר עכשיו', 'מיקום', 'כניסות', 'דקות באתר', 'שאלות שנפתרו', 'מוכנות %', 'מבחנים', 'חסום'].map(cell).join(',')]
+      .concat(rows.map(r => [r.name, r.email, r.created_at, r.last_login, r._last, r._live ? 'כן' : 'לא', r._placeVisit ? placeQ(r._placeVisit) : '', r.logins, Math.round((r.total_seconds || 0) / 60), r._ans, r._ready === null ? '' : Math.round(r._ready * 100), r._exams.length, r.blocked ? 'כן' : ''].map(cell).join(','))).join('\n');
     const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], {type: 'text/csv'})); a.download = `silas-users-${todayISO()}.csv`; document.body.appendChild(a); a.click(); a.remove();
   };
-  const open = async tr => {
-    const r = rows.find(x => x.id === tr.dataset.uid), box = $('#ad_one');
-    box.hidden = false; box.innerHTML = `<h4>${esc(r.name)}</h4><p class="note">טוען…</p>`;
+  // learner details: a side panel on a computer, a full-screen sheet on a phone
+  const box = $('#ad_one'), pane = box.querySelector('.adpanel');
+  let back = null;
+  const close = () => { box.hidden = true; document.body.classList.remove('adlock'); document.removeEventListener('keydown', onKey); if (back) back.focus(); };
+  const onKey = e => { if (e.key === 'Escape') close(); };
+  const open = async uid => {
+    const r = byId[uid]; if (!r) return;
+    back = document.activeElement; box.hidden = false; document.body.classList.add('adlock'); document.addEventListener('keydown', onKey);
+    pane.innerHTML = `<div class="adph"><h3 id="ad_name">${esc(r.name)}</h3><button class="iconx" id="ad_close" aria-label="סגירה">✕</button></div><p class="note">טוען…</p>`;
+    $('#ad_close').onclick = close; pane.focus();
     let ss = []; try { ss = await ACC.admin.sessions(r.id); } catch (x) {}
-    const dev = d => /iPhone|iPad/.test(d) ? 'iPhone/iPad' : /Android/.test(d) ? 'Android' : /Mac/.test(d) ? 'Mac' : /Windows/.test(d) ? 'Windows' : 'אחר';
-    box.innerHTML = `<div class="row between"><div><h4>${esc(r.name)} ${r._live ? '<span class="livechip">מחובר עכשיו</span>' : ''}</h4><p class="note" dir="ltr" style="text-align:right;margin:0">${esc(r.email)}</p>${!r._live && r._last ? `<p class="note" style="margin:2px 0 0">התנתק ${ago(r._last)} · ${when(r._last)}</p>` : ''}</div><button class="btn ghost sm" id="ad_close">סגירה</button></div>
-      ${r._visit && r._visit.city ? `<div class="placebox"><span class="pl">📍 ${esc(`${r._visit.flag || ''} ${placeQ(r._visit)}`)}</span><div class="row"><a class="btn sm wabtn" href="${waPlace(r)}" target="_blank" rel="noopener">${WAI}שיתוף בוואצאפ</a><a class="btn ghost sm" href="${mapUrl(r._visit)}" target="_blank" rel="noopener">פתיחה במפה</a></div></div>` : ''}
+    if (box.hidden) return;
+    const pv = ss.find(x => x.city) || r._placeVisit;
+    pane.innerHTML = `<div class="adph"><div><h3 id="ad_name">${esc(r.name)} ${r.is_admin ? '<span class="chip">מנהל</span>' : ''}${r.blocked ? '<span class="chip blk">חסום</span>' : ''}</h3>
+        <p class="note" dir="ltr">${esc(r.email)}</p></div><button class="iconx" id="ad_close" aria-label="סגירה">✕</button></div>
+      <div class="adstat">${status(r)}${!r._live && r._last ? `<span class="note">${when(r._last)}</span>` : ''}<span class="note">נרשם ${when(r.created_at)}</span></div>
+      ${pv ? `<div class="placebox"><span class="pl">📍 ${esc(`${pv.flag || ''} ${placeQ(pv)}`)}</span><div class="row"><a class="btn sm wabtn" href="${waPlace(r, pv)}" target="_blank" rel="noopener">${WAI}שיתוף בוואצאפ</a><a class="btn ghost sm" href="${mapUrl(pv)}" target="_blank" rel="noopener">פתיחה במפה</a></div></div>` : ''}
       <div class="kpis sm"><div class="kpi"><b class="num">${r.logins || 0}</b><span>כניסות</span></div><div class="kpi"><b>${dur(r.total_seconds)}</b><span>זמן באתר</span></div><div class="kpi"><b class="num">${r._ans}</b><span>שאלות שנפתרו</span></div><div class="kpi"><b>${r._ready === null ? '—' : Math.round(r._ready * 100) + '%'}</b><span>מוכנות למבחן</span></div></div>
-      ${r._exams.length ? `<h4 style="margin-top:14px">מבחנים</h4><div class="tbl-wrap"><table class="adm"><thead><tr><th>תאריך</th><th>שאלות</th><th>ציון</th><th>דקות</th></tr></thead><tbody>${r._exams.slice().reverse().map(x => `<tr><td>${when(x.ts)}</td><td class="num">${x.n}</td><td class="num">${Math.round(x.score * 100)}%</td><td class="num">${Math.round((x.sec || 0) / 60)}</td></tr>`).join('')}</tbody></table></div>` : ''}
+      <h4>כניסות אחרונות</h4>
+      <ul class="advisits">${ss.map((x, i) => { const live = i === 0 && r._live; const end = x.ended_at || x.last_ping || x.started_at; const span = Math.max(0, (Date.parse(end) - Date.parse(x.started_at)) / 1000);
+        return `<li><div class="vt"><b>${when(x.started_at)}</b>${live ? '<span class="livechip">עדיין מחובר</span>' : `<span class="note">עד ${when(end).split(', ').pop()}</span>`}</div>
+          <div class="note"><bdi>ביקור ${dur(span)}</bdi> · <bdi>למידה פעילה ${dur(x.seconds)}</bdi> · <bdi>${dev(x.device || '')}</bdi></div>
+          ${x.city ? `<div class="vp"><a href="${mapUrl(x)}" target="_blank" rel="noopener">${esc(`${x.flag || ''} ${x.city}${x.country ? ', ' + x.country : ''}`)}</a>${waBtn(r, x, 'שיתוף המיקום של הביקור בוואצאפ')}</div>` : ''}</li>`; }).join('') || '<li class="note">אין עדיין כניסות.</li>'}</ul>
+      ${r._exams.length ? `<h4>מבחנים</h4><ul class="advisits">${r._exams.slice().reverse().map(x => `<li><div class="vt"><b>${Math.round(x.score * 100)}%</b><span class="note">${when(x.ts)}</span></div><div class="note">${x.n} שאלות · ${Math.round((x.sec || 0) / 60)} דקות</div></li>`).join('')}</ul>` : ''}
       ${r.is_admin ? '' : `<div class="blockbox ${r.blocked ? 'on' : ''}"><h4>גישה לאתר</h4>
         <p class="note">${r.blocked ? 'הגישה של המשתמש חסומה. הוא רואה את ההודעה שלמטה במקום התוכן.' : 'המשתמש פעיל. אם תחסמו אותו, הוא יראה את ההודעה שלמטה במקום התוכן, תוך דקה גם אם הוא באמצע.'}</p>
         <label class="field">ההודעה שהמשתמש יראה<textarea id="bl_msg" rows="2" maxlength="500" placeholder="הגישה לחשבון שלכם הושהתה זמנית. כדי לחדש אותה, צרו קשר עם צוות האקדמיה.">${esc(r.block_message || '')}</textarea></label>
-        <div class="row"><button class="btn ${r.blocked ? 'primary' : 'danger'}" id="bl_toggle">${r.blocked ? 'החזרת הגישה' : 'חסימת הגישה'}</button>${r.blocked ? '<button class="btn ghost sm" id="bl_save">עדכון ההודעה</button>' : ''}<span class="note" id="bl_res"></span></div></div>`}
-      <h4 style="margin-top:14px">כניסות אחרונות</h4>
-      <div class="tbl-wrap"><table class="adm"><thead><tr><th>כניסה</th><th>יציאה</th><th>משך הביקור</th><th>זמן למידה פעיל</th><th>מכשיר</th><th>מיקום</th></tr></thead><tbody>${ss.map((x, i) => { const live = i === 0 && r._live; const end = x.ended_at || x.last_ping || x.started_at; const span = Math.max(0, (Date.parse(end) - Date.parse(x.started_at)) / 1000); return `<tr><td>${when(x.started_at)}</td><td>${live ? '<span class="livechip">עדיין מחובר</span>' : when(end)}</td><td>${dur(span)}</td><td>${dur(x.seconds)}</td><td class="note">${dev(x.device)}</td><td>${x.city ? `<a href="${mapUrl(x)}" target="_blank" rel="noopener">${esc(`${x.flag || ''} ${x.city}${x.country ? ', ' + x.country : ''}`)}</a> <a class="washare" href="${waPlace(r, x)}" target="_blank" rel="noopener" title="שיתוף בוואצאפ" aria-label="שיתוף המיקום של הביקור בוואצאפ">${WAI}</a>` : '—'}</td></tr>`; }).join('') || '<tr><td colspan="6" class="note">אין עדיין כניסות.</td></tr>'}</tbody></table></div>`;
-    $('#ad_close').onclick = () => { box.hidden = true; };
+        <div class="row"><button class="btn ${r.blocked ? 'primary' : 'danger'}" id="bl_toggle">${r.blocked ? 'החזרת הגישה' : 'חסימת הגישה'}</button>${r.blocked ? '<button class="btn ghost sm" id="bl_save">עדכון ההודעה</button>' : ''}<span class="note" id="bl_res"></span></div></div>`}`;
+    $('#ad_close').onclick = close;
     const setB = async (blocked, label) => {
       const res = $('#bl_res'); res.textContent = 'שומר…';
-      try { await ACC.admin.setBlock(r.id, blocked, $('#bl_msg').value.trim()); r.blocked = blocked; r.block_message = $('#bl_msg').value.trim(); draw(); toast(label); open(tr); }
+      try { await ACC.admin.setBlock(r.id, blocked, $('#bl_msg').value.trim()); r.blocked = blocked; r.block_message = $('#bl_msg').value.trim(); draw(); toast(label); open(r.id); }
       catch (x) { res.textContent = x.message; }
     };
     const tg = $('#bl_toggle'); if (tg) tg.onclick = () => setB(!r.blocked, r.blocked ? 'הגישה הוחזרה.' : 'הגישה נחסמה.');
     const sv = $('#bl_save'); if (sv) sv.onclick = () => setB(true, 'ההודעה עודכנה.');
-    box.scrollIntoView({behavior: 'smooth', block: 'start'});
   };
-  $('#ad_rows').onclick = e => { if (e.target.closest('a')) return; const tr = e.target.closest('tr[data-uid]'); if (tr) open(tr); };
-  $('#ad_rows').onkeydown = e => { const tr = e.target.closest('tr[data-uid]'); if (tr && e.key === 'Enter') open(tr); };
+  box.querySelector('[data-close]').onclick = close;
+  const pick = e => { if (e.target.closest('a')) return null; const el = e.target.closest('[data-uid]'); return el && el.dataset.uid; };
+  m.onclick = e => { if (view !== 'admin') return; const id = pick(e); if (id && !box.contains(e.target)) open(id); };
+  m.onkeydown = e => { if (view !== 'admin' || e.key !== 'Enter') return; const id = pick(e); if (id && !box.contains(e.target)) open(id); };
 }
 
 // ---------- home ----------
