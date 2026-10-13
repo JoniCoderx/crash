@@ -13,7 +13,7 @@
 <meta property="og:image" content="https://silasacademy.com/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Silas Academy: לומדים להבין, לא לשנן">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Silas Academy · אקדמיית סיילס"><meta name="twitter:description" content="לומדים להבין, לא לשנן. שיעורים קצרים מאפס, תרגול אמיתי והסבר מלא לכל טעות."><meta name="twitter:image" content="https://silasacademy.com/og.png">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[
-{"@type":"EducationalOrganization","@id":"https://silasacademy.com/#org","name":"Silas Academy","alternateName":"אקדמיית סיילס","url":"https://silasacademy.com/","logo":"https://silasacademy.com/icon-512.png","contactPoint":{"@type":"ContactPoint","contactType":"customer support","telephone":"+357-95-904439","availableLanguage":["he"]}},
+{"@type":"EducationalOrganization","@id":"https://silasacademy.com/#org","name":"Silas Academy","alternateName":"אקדמיית סיילס","url":"https://silasacademy.com/","logo":"https://silasacademy.com/icon-512.png","contactPoint":{"@type":"ContactPoint","contactType":"customer support","telephone":"+357-95-904439","email":"support@silasacademy.com","availableLanguage":["he"]}},
 {"@type":"WebSite","@id":"https://silasacademy.com/#site","url":"https://silasacademy.com/","name":"Silas Academy","inLanguage":"he","publisher":{"@id":"https://silasacademy.com/#org"}},
 {"@type":"Course","name":"סטטיסטיקה ומימון","description":"הכנה מלאה לבחינת סטטיסטיקה ומימון: שיעורים מאפס, סרטוני הסבר, ותרגול עם פתרון מלא לכל שאלה.","inLanguage":"he","provider":{"@id":"https://silasacademy.com/#org"},"isAccessibleForFree":true,"hasCourseInstance":{"@type":"CourseInstance","courseMode":"online","courseWorkload":"PT20H"}}]}</script>
 </head><body>
@@ -882,7 +882,7 @@ html,body{margin:0}
 </div></header>
 <main id="main"></main>
 <a id="wa" class="wafab" href="https://wa.me/35795904439" target="_blank" rel="noopener" aria-label="שמעון מהתמיכה, בוואטסאפ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2a9.8 9.8 0 0 0-8.4 14.8L2.3 21.7l4.8-1.3A9.8 9.8 0 1 0 12 2.2z" fill="currentColor"/><path d="M9 7.6c.2-.4.4-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.6l-.6.7c-.1.1-.2.3 0 .5.5.9 1.2 1.7 2.1 2.3.7.4 1 .5 1.2.3l.8-.9c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.3.4.4 0 .4-.1 1.1-.6 1.6-.5.5-1.4.9-2.4.7-1.5-.3-3.3-1.3-4.6-2.6-1.3-1.3-2.2-2.9-2.4-4.2-.1-.9.5-1.7 1-2.2z" fill="#25d366"/></svg><span class="walabel"><b>שמעון</b> מהתמיכה</span></a>
-<footer class="site"><div><span>© Silas Academy · אקדמיית סיילס</span><a class="flink" href="https://wa.me/35795904439?text=%D7%94%D7%99%D7%99%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%90%D7%AA%D7%A8%20Silas%20Academy" target="_blank" rel="noopener">תמיכה בוואטסאפ</a><span id="fcourse" hidden>קורס סטטיסטיקה ומימון הוא חומר עזר ללימוד, ואינו קשור לרשות ניירות ערך.</span></div></footer>
+<footer class="site"><div><span>© Silas Academy · אקדמיית סיילס</span><a class="flink" href="https://wa.me/35795904439?text=%D7%94%D7%99%D7%99%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%90%D7%AA%D7%A8%20Silas%20Academy" target="_blank" rel="noopener">תמיכה בוואטסאפ</a><a class="flink" href="mailto:support@silasacademy.com" dir="ltr">support@silasacademy.com</a><span id="fcourse" hidden>קורס סטטיסטיקה ומימון הוא חומר עזר ללימוד, ואינו קשור לרשות ניירות ערך.</span></div></footer>
 <script>
 const TOPICS = [
 {id:'s1', area:'stat', title:'סטטיסטיקה תיאורית', short:'תיאורית',
@@ -1318,7 +1318,7 @@ const SUPPORT = {wa: '35795904439', text: 'היי, הגעתי מאתר Silas Aca
 const waLink = (extra = '') => `https://wa.me/${SUPPORT.wa}?text=${encodeURIComponent(SUPPORT.text + extra)}`;
 // Cloud backend (Supabase, free tier). Empty url → accounts live on this device only.
 // The key here is Supabase's public "anon" key: it is meant to be in the page; the database's access rules protect the data.
-const CLOUD = {url: 'https://tsgbbmsqxxhggsmxjqpm.supabase.co', key: 'sb_publishable_lFPddHMR7XYQyNexNji-4g_eiftzZZ7', adminEmail: 'kutaybamusic@gmail.com', adminUser: 'Admin', support: 'kutaybamusic@gmail.com'};
+const CLOUD = {url: 'https://tsgbbmsqxxhggsmxjqpm.supabase.co', key: 'sb_publishable_lFPddHMR7XYQyNexNji-4g_eiftzZZ7', adminEmail: 'kutaybamusic@gmail.com', adminUser: 'Admin', support: 'support@silasacademy.com'};
 // Every course is one entry. A course with `open: true` has its own views (the stats & finance course is the app below).
 const COURSES = [
   {id: 'stats-finance', open: true, title: 'סטטיסטיקה ומימון', tag: 'רשות ניירות ערך',
@@ -5491,7 +5491,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') document.que
 const pwField = (id, label, ac, hint = '') => `<label class="field" for="${id}">${label}</label>
   <div class="pw"><input id="${id}" type="password" dir="ltr" autocomplete="${ac}" minlength="6" required${hint ? ` placeholder="${hint.replace(/[()]/g, '')}"` : ''}><button type="button" class="eye" data-eye="${id}" aria-label="הצגת הסיסמה" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path class="slash" d="M4 4l16 16"/></svg></button></div>`;
 document.addEventListener('click', e => {
-  const wl = e.target.closest('#wa, .flink'); if (wl) { wl.href = waMessage(); return; }
+  const wl = e.target.closest('#wa, .flink[href*="wa.me"]'); if (wl) { wl.href = waMessage(); return; }
   const b = e.target.closest('[data-eye]'); if (!b) return;
   const i = document.getElementById(b.dataset.eye), show = i.type === 'password';
   i.type = show ? 'text' : 'password'; b.setAttribute('aria-pressed', show); b.setAttribute('aria-label', show ? 'הסתרת הסיסמה' : 'הצגת הסיסמה'); i.focus();
