@@ -14,7 +14,7 @@ select vault.create_secret('BREVO_API_KEY_HERE', 'brevo_api_key', 'Brevo API key
 
 create table if not exists public.email_settings (id int primary key default 1, sender_email text not null, sender_name text not null default 'Silas Academy', site_url text not null);
 alter table public.email_settings enable row level security;
-insert into public.email_settings (id, sender_email, site_url) values (1, 'SENDER_EMAIL_HERE', 'https://jonicoderx.github.io/silasacademy/')
+insert into public.email_settings (id, sender_email, site_url) values (1, 'SENDER_EMAIL_HERE', 'https://silasacademy.com/')
   on conflict (id) do update set sender_email = excluded.sender_email, site_url = excluded.site_url;
 
 -- Builds and sends the email. Used by the sign-up trigger and by the test below.
