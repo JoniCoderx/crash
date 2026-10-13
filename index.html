@@ -1338,8 +1338,8 @@ const ACC = (() => {
     noteVisit(id, Object.assign({c: country || '', ci: city || '', f: flag || ''}, lat != null ? {lat, lng} : {}));
   };
   const endVisit = id => { if (!id) return; sb.rpc('end_session', {p_session: id}).then(() => {}, () => {}); noteVisit(id, {e: new Date().toISOString()}); };
-  // where the visit comes from: the city of the internet connection (no prompt),
-  // or the exact city and neighborhood from the device where location is already allowed
+  // where the visit comes from: the city of the internet connection right away,
+  // then the exact city and neighborhood from the device once the learner allows location
   function locate(id) {
     let flag = '', precise = false;
     fetch('https://ipwho.is/?fields=success,country,city,flag.emoji').then(r => r.json()).then(g => { if (g && g.success) { flag = (g.flag && g.flag.emoji) || ''; if (!precise) putGeo(id, g.country, g.city, flag); } }).catch(() => {});
@@ -1355,8 +1355,9 @@ const ACC = (() => {
         precise = true; putGeo(id, g.countryName, place, fl, Math.round(latitude * 100) / 100, Math.round(longitude * 100) / 100);
       }).catch(() => {});
     }, err => { try { if (err && err.code === 1) localStorage.setItem(GEO_KEY, 'no'); } catch (e) {} }, {enableHighAccuracy: false, timeout: 15000, maximumAge: 600000});
-    // never shows a prompt: the device location is read only where the browser already allows it for this site
-    const decide = st => { if (st === 'granted') ask(); };
+    // the browser asks once per learner; after that it's silent: used where allowed, never asked again after a "no"
+    let asked = null; try { asked = localStorage.getItem(GEO_KEY); } catch (e) {}
+    const decide = st => { if (st === 'granted' || (st === 'prompt' && !asked) || (!st && (!asked || asked === 'ok'))) { try { if (!asked) localStorage.setItem(GEO_KEY, 'asked'); } catch (e) {} ask(); } };
     if (navigator.permissions && navigator.permissions.query) navigator.permissions.query({name: 'geolocation'}).then(p => decide(p.state), () => decide(null)); else decide(null);
   }
   async function track() { // one session per visit; heartbeats add the visible, active time
@@ -5444,7 +5445,7 @@ function vLogin(m) {
       <button class="btn primary big">${signup ? 'התחל ללמוד בחינם' : 'כניסה'}</button>
     </form>
     <p class="auth-switch">${signup ? (ACC.count() || ACC.mode === 'cloud' ? 'כבר יש לך חשבון? <a href="#" id="au_sw">כניסה</a>' : '') : 'עוד אין לך חשבון? <a href="#" id="au_sw">התחל ללמוד בחינם</a>'}</p>
-    ${ACC.mode === 'local' ? '<p class="note auth-local">ההתקדמות נשמרת בדפדפן הזה. במסך החשבון אפשר לגבות אותה לקובץ ולהמשיך ממכשיר אחר.</p>' : '<p class="note auth-local">כדי לשפר את הלימוד נשמרים זמני ההתחברות, ההתקדמות והעיר שממנה נכנסים.</p>'}
+    ${ACC.mode === 'local' ? '<p class="note auth-local">ההתקדמות נשמרת בדפדפן הזה. במסך החשבון אפשר לגבות אותה לקובץ ולהמשיך ממכשיר אחר.</p>' : '<p class="note auth-local">כדי לשפר את הלימוד נשמרים זמני ההתחברות, ההתקדמות והעיר שממנה נכנסים (לפי המכשיר, אם תאשרו מיקום).</p>'}
   </section></div>`;
   const fg = $('#au_forgot'); if (fg) fg.onclick = e => { e.preventDefault(); vForgot(m, $('#au_email').value); };
   const sw = $('#au_sw'); if (sw) sw.onclick = e => { e.preventDefault(); vLogin.mode = signup ? 'login' : 'signup'; vLogin(m); };
