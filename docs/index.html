@@ -1232,18 +1232,43 @@ const ACC = (() => {
     if (error) ({data} = await sb.from('profiles').select('name,email,is_admin').eq('id', user.id).maybeSingle()); // before supabase-block.sql ran
     me = {id: user.id, name: (data && data.name) || (user.user_metadata && user.user_metadata.name) || user.email.split('@')[0], email: user.email, isAdmin: !!(data && data.is_admin), blocked: !!(data && data.blocked), blockMessage: (data && data.block_message) || ''};
   }
+  const SID_KEY = 'silas_sid', GEO_KEY = 'silas_geo';
+  const putGeo = (id, country, city, flag) => sb.rpc('set_session_geo', {p_session: id, p_country: country || '', p_city: city || '', p_flag: flag || ''}).then(() => {}, () => {});
+  // where the visit comes from: first the city of the internet connection (no prompt),
+  // then, if the learner allows location in the browser, the exact city and neighborhood from the device
+  function locate(id) {
+    let flag = '', precise = false;
+    fetch('https://ipwho.is/?fields=success,country,city,flag.emoji').then(r => r.json()).then(g => { if (g && g.success) { flag = (g.flag && g.flag.emoji) || ''; if (!precise) putGeo(id, g.country, g.city, flag); } }).catch(() => {});
+    if (!navigator.geolocation) return;
+    const ask = () => navigator.geolocation.getCurrentPosition(pos => {
+      try { localStorage.setItem(GEO_KEY, 'ok'); } catch (e) {}
+      const {latitude, longitude} = pos.coords;
+      fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=he`).then(r => r.json()).then(g => {
+        if (!g || !(g.city || g.locality)) return;
+        const city = g.city || g.locality, place = g.locality && g.locality !== city ? `${city} · ${g.locality}` : city;
+        const fl = flag || (g.countryCode && g.countryCode.length === 2 ? String.fromCodePoint(...[...g.countryCode.toUpperCase()].map(c => 127397 + c.charCodeAt(0))) : '');
+        precise = true; putGeo(id, g.countryName, place, fl);
+      }).catch(() => {});
+    }, err => { try { if (err && err.code === 1) localStorage.setItem(GEO_KEY, 'no'); } catch (e) {} }, {enableHighAccuracy: false, timeout: 15000, maximumAge: 600000});
+    let asked = null; try { asked = localStorage.getItem(GEO_KEY); } catch (e) {}
+    // ask once; later visits use it silently if it was allowed, and never nag after a "no"
+    const decide = st => { if (st === 'granted' || (st === 'prompt' && !asked) || (!st && asked !== 'no')) ask(); };
+    if (navigator.permissions && navigator.permissions.query) navigator.permissions.query({name: 'geolocation'}).then(p => decide(p.state), () => decide(null)); else decide(null);
+  }
   async function track() { // one session per visit; heartbeats add the visible, active time
     stopTrack(); if (!me) return;
-    try { const {data} = await sb.rpc('start_session', {p_device: navigator.userAgent}); sid = data; } catch (e) { sid = null; }
-    // approximate place of the visit (city, country) from the connection; no GPS, no permission prompt
-    if (sid) fetch('https://ipwho.is/?fields=success,country,city,flag.emoji').then(r => r.json()).then(g => { if (g && g.success) sb.rpc('set_session_geo', {p_session: sid, p_country: g.country || '', p_city: g.city || '', p_flag: (g.flag && g.flag.emoji) || ''}).then(() => {}, () => {}); }).catch(() => {});
+    // a page refresh continues the same visit instead of logging a disconnect and a new entry
+    let resumed = false;
+    try { const k = sessionStorage.getItem(SID_KEY), old = k && JSON.parse(k); if (old && old.u === me.id && Date.now() - old.t < 120000) { const {data, error} = await sb.rpc('resume_session', {p_session: old.s}); if (!error && data === true) { sid = old.s; resumed = true; } } } catch (e) {}
+    if (!sid) try { const {data} = await sb.rpc('start_session', {p_device: navigator.userAgent}); sid = data; } catch (e) { sid = null; }
+    if (sid && !resumed) locate(sid);
     lastBeat = Date.now();
     const send = () => { if (!sid || document.hidden) { lastBeat = Date.now(); return; } const s = Math.round((Date.now() - lastBeat) / 1000); lastBeat = Date.now(); sb.rpc('heartbeat', {p_session: sid, p_seconds: s}).then(r => { if (r && r.data === true && me && !me.blocked) { await_block(); } }, () => {}); };
     const await_block = async () => { await loadMe((await sb.auth.getUser()).data.user); if (me && me.blocked && cloud.onBlocked) cloud.onBlocked(); };
     beat = setInterval(send, 45000);
     track.vis = () => { if (document.hidden) send(); else lastBeat = Date.now(); };
     document.addEventListener('visibilitychange', track.vis);
-    track.hide = () => { send(); if (sid) sb.rpc('end_session', {p_session: sid}).then(() => {}, () => {}); };
+    track.hide = () => { send(); if (sid) { try { sessionStorage.setItem(SID_KEY, JSON.stringify({s: sid, u: me && me.id, t: Date.now()})); } catch (e) {} sb.rpc('end_session', {p_session: sid}).then(() => {}, () => {}); } };
     track.show = e => { if (e.persisted && me) track(); }; // page restored from the back/forward cache: a new visit
     window.addEventListener('pagehide', track.hide);
     window.addEventListener('pageshow', track.show);
@@ -1276,7 +1301,7 @@ const ACC = (() => {
       if (error) throw new Error(he(error));
       await loadMe(data.user); track();
     },
-    async logout() { stopTrack(); clearTimeout(pushT); await sb.auth.signOut(); me = null; },
+    async logout() { try { sessionStorage.removeItem(SID_KEY); } catch (e) {} stopTrack(); clearTimeout(pushT); await sb.auth.signOut(); me = null; },
     async resetPassword(ident) {
       const email = norm(asEmail(ident));
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error('כתובת האימייל לא תקינה.');
@@ -5159,7 +5184,7 @@ const ACADEMY_VIEWS = ['home', 'login', 'reset', 'account', 'admin'];
 let view = 'home', P = null, X = null, timerId = null;
 let bootTopic = null;
 try { const h = location.hash.slice(1), mm = h.match(/^learn-(\w+)$/); if (ROUTES.includes(h)) view = h; else if (mm && T[mm[1]]) { view = 'learn'; bootTopic = mm[1]; } } catch (e) {}
-if (!ACC.user()) view = 'login';
+// sign-in vs. the saved page is decided at boot (below), once the account backend has answered
 
 function nav() {
   const active = PARENT[view] || view, inCourse = !ACADEMY_VIEWS.includes(view), u = ACC.user();
@@ -5292,7 +5317,7 @@ function vLogin(m) {
       <button class="btn primary big">${signup ? 'התחל ללמוד בחינם' : 'כניסה'}</button>
     </form>
     <p class="auth-switch">${signup ? (ACC.count() || ACC.mode === 'cloud' ? 'כבר יש לך חשבון? <a href="#" id="au_sw">כניסה</a>' : '') : 'עוד אין לך חשבון? <a href="#" id="au_sw">התחל ללמוד בחינם</a>'}</p>
-    ${ACC.mode === 'local' ? '<p class="note auth-local">ההתקדמות נשמרת בדפדפן הזה. במסך החשבון אפשר לגבות אותה לקובץ ולהמשיך ממכשיר אחר.</p>' : '<p class="note auth-local">כדי לשפר את הלימוד נשמרים זמני ההתחברות, ההתקדמות ומיקום משוער (עיר) לפי חיבור האינטרנט.</p>'}
+    ${ACC.mode === 'local' ? '<p class="note auth-local">ההתקדמות נשמרת בדפדפן הזה. במסך החשבון אפשר לגבות אותה לקובץ ולהמשיך ממכשיר אחר.</p>' : '<p class="note auth-local">כדי לשפר את הלימוד נשמרים זמני ההתחברות, ההתקדמות והעיר שממנה נכנסים: לפי המכשיר אם תאשרו מיקום, ואחרת לפי חיבור האינטרנט.</p>'}
   </section></div>`;
   const fg = $('#au_forgot'); if (fg) fg.onclick = e => { e.preventDefault(); vForgot(m, $('#au_email').value); };
   const sw = $('#au_sw'); if (sw) sw.onclick = e => { e.preventDefault(); vLogin.mode = signup ? 'login' : 'signup'; vLogin(m); };
@@ -6044,11 +6069,11 @@ $('#main').innerHTML = '<p class="note" style="text-align:center;padding:40px 0"
 ACC.ready().catch(() => {}).then(async () => {
   loadCourse(); if (ACC.user()) await syncCourse();
   if (ACC.recovering()) view = 'reset';
-  else if (!ACC.user()) view = 'login'; else if (view === 'admin' && !ACC.user().isAdmin) view = 'home';
+  else if (!ACC.user()) view = 'login'; else if ((view === 'admin' && !ACC.user().isAdmin) || ['login', 'forgot', 'reset', 'blocked'].includes(view)) view = 'home'; // signed in: a refresh never lands back on the sign-in screen
   ACC.onRecovery = () => go('reset');
   ACC.onBlocked = () => { if (typeof stopVideo === 'function') stopVideo(); clearInterval(timerId); nav(); render(); };
   nav(); render(bootTopic ? {topic: bootTopic} : {}); setHdr(); fixBidi(document.getElementById('main'));
-  try { history.replaceState({v: view, topic: bootTopic}, '', location.hash || '#' + view); } catch (e) {}
+  try { history.replaceState({v: view, topic: bootTopic}, '', view === 'learn' && bootTopic ? location.hash : '#' + view); } catch (e) {}
 });
 </script>
 </body></html>
