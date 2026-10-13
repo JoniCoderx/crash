@@ -5428,13 +5428,15 @@ function nav() {
   $('#fcourse').hidden = !inCourse; // the exam-body disclaimer belongs to this course only
   const wa = $('#wa'); if (wa) { wa.hidden = view === 'exam' && X && X.running; wa.href = waMessage(); }
 }
+// the entry screens keep a clean address (silasacademy.com); inner screens get a #name so refresh and back work
+const CLEAN_VIEWS = ['home', 'login'];
 function go(v, opts) {
   if (v !== 'videos' && typeof stopVideo === 'function') stopVideo();
   if (!ACC.user() && v !== 'login' && v !== 'reset') v = 'login';
   document.body.classList.remove('adlock');
   document.body.classList.add('vchange'); clearTimeout(go.vt); go.vt = setTimeout(() => document.body.classList.remove('vchange'), 700);
   view = v; nav(); render(opts); window.scrollTo(0, 0);
-  try { const h = v === 'learn' && opts && opts.topic ? `learn-${opts.topic}` : v; if (!go.pop && location.hash.slice(1) !== h) history.pushState({v, topic: opts && opts.topic}, '', '#' + h); } catch (e) {}
+  try { const h = v === 'learn' && opts && opts.topic ? `learn-${opts.topic}` : v, clean = CLEAN_VIEWS.includes(v) ? '' : h; if (!go.pop && location.hash.slice(1) !== clean) history.pushState({v, topic: opts && opts.topic}, '', clean ? '#' + clean : location.pathname + location.search); } catch (e) {}
 }
 function render(opts = {}) {
   const m = $('#main'); document.body.dataset.view = view; // lets the support button shrink on busy screens
@@ -6478,7 +6480,7 @@ ACC.ready().catch(() => {}).then(async () => {
   ACC.onRecovery = () => go('reset');
   ACC.onBlocked = () => { if (typeof stopVideo === 'function') stopVideo(); clearInterval(timerId); nav(); render(); };
   nav(); render(bootTopic ? {topic: bootTopic} : {}); setHdr(); fixBidi(document.getElementById('main'));
-  try { history.replaceState({v: view, topic: bootTopic}, '', view === 'learn' && bootTopic ? location.hash : '#' + view); } catch (e) {}
+  try { history.replaceState({v: view, topic: bootTopic}, '', CLEAN_VIEWS.includes(view) ? location.pathname + location.search : view === 'learn' && bootTopic ? location.hash : '#' + view); } catch (e) {}
 });
 </script>
 </body></html>
