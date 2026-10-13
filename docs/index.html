@@ -756,6 +756,9 @@ body.adlock{overflow:hidden}
 .msbox{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-radius:14px;border:1.5px solid var(--line)}
 .msbox .pl{font-weight:600}
 @media (max-width:640px){.msb{width:100%}.msb .btn{flex:1;justify-content:center}}
+.msprev{white-space:normal;padding:10px}.msprev .note{margin:0 0 8px;font-size:.84rem}
+.msframe{display:block;width:100%;height:660px;border:1px solid var(--line);border-radius:12px;background:#f3f5fa}
+.msall{margin:0 0 10px}
 .wabtn{background:#15803d;border-color:#15803d;color:#fff;justify-content:center;gap:8px}.wabtn:hover{background:#116b33}
 .waic{width:20px;height:20px}
 .flink{color:inherit;text-decoration:underline;text-underline-offset:3px}
@@ -1559,6 +1562,11 @@ const ACC = (() => {
         let {data, error} = await sb.from('sessions').select('id,user_id,started_at,last_ping,ended_at,seconds,city,country,flag').gte('started_at', since).order('started_at', {ascending: false}).limit(5000);
         if (error) ({data, error} = await sb.from('sessions').select('id,user_id,started_at,last_ping,seconds').gte('started_at', since).order('started_at', {ascending: false}).limit(5000)); // before supabase-live.sql
         if (error) throw new Error(he(error)); return withNotes(data, await notes);
+      },
+      async sendEmail(uid, subject, html, text) { // a designed email through the server (Brevo); the key never leaves Supabase
+        const {data, error} = await sb.rpc('send_reminder', {p_user: uid, p_subject: subject, p_html: html, p_text: text});
+        if (error) throw new Error(/function|schema cache|not find/i.test(error.message) ? 'NO_SQL' : he(error));
+        if (data !== 'sent') throw new Error(data === 'no_key' ? 'חסר מפתח Brevo בשרת.' : 'ללומד הזה אין כתובת אימייל.');
       },
       async setBlock(uid, blocked, msg) { const {error} = await sb.rpc('set_block', {p_user: uid, p_blocked: blocked, p_message: msg || ''}); if (error) throw new Error(/function|schema cache/i.test(error.message) ? 'צריך להריץ קודם את supabase-block.sql ב־Supabase.' : he(error)); },
       async sessions(uid) {
@@ -5659,6 +5667,37 @@ const when = t => t ? new Date(t).toLocaleString('he-IL', {day: 'numeric', month
 // readiness of any learner's saved progress (the same formula the learner sees)
 function readinessOf(data) { if (!data) return null; const keep = S; try { S = Object.assign(blankS(), data); return readiness(); } catch (e) { return null; } finally { S = keep; } }
 const ago = t => { if (!t) return '—'; const m = Math.round((Date.now() - Date.parse(t)) / 60000); if (m < 2) return 'עכשיו'; if (m < 60) return `לפני ${m} דק׳`; const h = Math.round(m / 60); if (h < 24) return h === 1 ? 'לפני שעה' : `לפני ${h} שעות`; const d = Math.round(h / 24); return d === 1 ? 'אתמול' : `לפני ${d} ימים`; };
+// ---------- designed emails (same look as the welcome email): table layout + inline styles, so Gmail, Outlook and phones show it right ----------
+function emailHTML({site, kicker, title, paras, stats, cta, sign, foot, preheader}) {
+  const e = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+  const F = "font-family:Arial,sans-serif;", H = "font-family:Rubik,'Segoe UI',Arial,sans-serif;";
+  const p = t => `<p class="ink" style="margin:0 0 16px;${F}font-size:16px;line-height:27px;color:#0f1430;">${e(t).replace(/\n/g, '<br>')}</p>`;
+  const tile = (n, l) => `<td class="step" width="${Math.floor(100 / stats.length)}%" style="background:#eceff7;border-radius:14px;padding:14px 8px;text-align:center;" dir="rtl"><p style="margin:0;${H}font-size:24px;line-height:28px;font-weight:800;color:#2337b4;" class="stepb">${e(n)}</p><p class="muted" style="margin:4px 0 0;${F}font-size:12px;line-height:17px;color:#5d6482;">${e(l)}</p></td>`;
+  const statsRow = stats && stats.length ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:4px 0 22px;"><tr>${stats.map((s, i) => (i ? '<td style="width:8px;font-size:0;">&nbsp;</td>' : '') + tile(s[0], s[1])).join('')}</tr></table>` : '';
+  const CTA = '\u0000cta', button = `<table role="presentation" cellpadding="0" cellspacing="0" border="0" align="right" style="margin:0 0 20px;"><tr><td style="background:#2337b4;border-radius:12px;">
+      <a href="${e(site)}" target="_blank" style="display:inline-block;padding:15px 30px;${H}font-size:17px;font-weight:700;color:#ffffff;text-decoration:none;border-radius:12px;">${e(cta)}</a></td></tr></table><div style="clear:both;line-height:0;font-size:0;">&nbsp;</div>`;
+  const blk = x => x === CTA ? button : p(x), hasCta = paras.includes(CTA);
+  const [p1, ...rest] = paras;
+  return `<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark"><meta name="supported-color-schemes" content="light dark"><title>${e(title)}</title>
+<style>body{margin:0;padding:0;background:#f3f5fa}a{color:#2337b4}@media (max-width:600px){.px{padding-left:20px!important;padding-right:20px!important}.h1{font-size:25px!important;line-height:33px!important}}
+@media (prefers-color-scheme:dark){body,.bg{background:#0a0e22!important}.card{background:#121834!important}.ink{color:#eceffa!important}.muted{color:#a0a7c6!important}.step{background:#0d1229!important}.stepb{color:#a9b4ff!important}}</style></head>
+<body style="margin:0;padding:0;background:#f3f5fa;" class="bg">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">${e(preheader)}&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="bg" style="background:#f3f5fa;"><tr><td align="center" style="padding:28px 12px;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;">
+  <tr><td dir="rtl" style="padding:0 4px 18px;text-align:right;"><table role="presentation" cellpadding="0" cellspacing="0" border="0" align="right"><tr>
+    <td style="padding-left:10px;vertical-align:middle;"><img src="${e(site)}email/logo.png" width="40" height="40" alt="Silas Academy" style="display:block;border:0;border-radius:12px;"></td>
+    <td style="vertical-align:middle;${H}font-size:20px;line-height:22px;color:#0f1430;" class="ink" dir="ltr"><b>silas</b> <span style="color:#5d6482;" class="muted">academy</span></td></tr></table></td></tr>
+  <tr><td dir="rtl" class="px" style="background:#1a2580;background-image:linear-gradient(160deg,#2337b4,#0c1234);border-radius:22px 22px 0 0;padding:34px 36px 28px;text-align:right;">
+    <p style="margin:0 0 10px;${F}font-size:13px;color:#c9cff5;">${e(kicker)}</p>
+    <h1 class="h1" style="margin:0;${H}font-size:28px;line-height:37px;font-weight:800;color:#ffffff;">${e(title)}</h1></td></tr>
+  <tr><td dir="rtl" class="card px" style="background:#ffffff;border-radius:0 0 22px 22px;padding:30px 36px 32px;text-align:right;">
+    ${p1 ? blk(p1) : ''}${statsRow}${rest.map(blk).join('')}${hasCta ? '' : button}
+    <p class="muted" style="margin:8px 0 0;${F}font-size:14px;line-height:23px;color:#5d6482;">${e(sign).replace(/\n/g, '<br>')}</p></td></tr>
+  <tr><td dir="rtl" style="padding:20px 8px 0;text-align:center;"><p class="muted" style="margin:0;${F}font-size:12px;line-height:19px;color:#5d6482;">${e(foot).replace(/\n/g, '<br>')}<br>© Silas Academy · אקדמיית סיילס</p></td></tr>
+</table></td></tr></table></body></html>`;
+}
+
 async function vAdmin(m) {
   const u = ACC.user();
   const crumbs = `<div class="crumbs"><a href="#" data-go="home">הקורסים</a><span aria-hidden="true">‹</span><span>לוח הניהול</span></div>`;
@@ -5769,16 +5808,16 @@ async function vAdmin(m) {
   const MS = vAdmin.msgs = vAdmin.msgs || {tpl: 'miss', days: 7};
   if (!MS.doc) { try { const d = await ACC.pullProgress('_admin_msgs'); MS.doc = (d && d.data) || {}; } catch (x) { MS.doc = {}; } }
   MS.doc.tpl = MS.doc.tpl || {}; MS.doc.sent = MS.doc.sent || {};
-  const SITE = location.origin + location.pathname;
+  const SITE = location.origin + location.pathname.replace(/[^/]*$/, ''); // the site's folder, e.g. …/silasacademy/
   const SIGN = '\n\nבהצלחה,\nצוות Silas Academy\n\n(אם לא תרצו לקבל תזכורות, פשוט תענו "הסר".)';
   const TPL = {
-    miss: {label: 'התגעגענו', who: 'לא נכנסו כבר כמה ימים', subject: '{שם}, מחכים לך באקדמיה',
+    miss: {label: 'התגעגענו', kicker: 'התגעגענו אליך 👋', cta: 'להמשיך מאיפה שעצרתי', who: 'לא נכנסו כבר כמה ימים', subject: '{שם}, מחכים לך באקדמיה',
       body: 'היי {שם},\n\nשמנו לב שלא נכנסת כבר {ימים} ימים, ורצינו לבדוק שהכל בסדר 🙂\n\nעד עכשיו פתרת {שאלות} שאלות{מוכנות}. חבל לעצור באמצע: גם 20 דקות ביום עושות הבדל גדול.\n\nאפשר להמשיך בדיוק מאיפה שעצרת:\n{קישור}\n\nאם משהו לא ברור או שנתקעת בנושא מסוים, פשוט תענה למייל הזה ונעזור.' + SIGN},
-    start: {label: 'עוד לא התחילו', who: 'נרשמו ועוד לא פתרו שאלה', subject: '{שם}, הצעד הראשון לוקח 10 דקות',
+    start: {label: 'עוד לא התחילו', kicker: 'הצעד הראשון', cta: 'להתחיל את השיעור הראשון', who: 'נרשמו ועוד לא פתרו שאלה', subject: '{שם}, הצעד הראשון לוקח 10 דקות',
       body: 'היי {שם},\n\nנרשמת לאקדמיה לפני {ימים_מהרשמה} ימים, אבל עוד לא התחלת לתרגל.\n\nהכי קל להתחיל מהשיעור הראשון: הסבר קצר, דוגמה פתורה, ואז כמה שאלות עם הסבר מלא לכל טעות. בערך 10 דקות.\n\n{קישור}\n\nאם יש שאלה לפני שמתחילים, פשוט תענה למייל הזה.' + SIGN},
-    exam: {label: 'לפני המבחן', who: 'המבחן שלהם בעוד 30 יום או פחות', subject: '{שם}, נשארו {ימים_למבחן} ימים למבחן',
+    exam: {label: 'לפני המבחן', kicker: 'ספירה לאחור למבחן ⏳', cta: 'לתרגל עכשיו', who: 'המבחן שלהם בעוד 30 יום או פחות', subject: '{שם}, נשארו {ימים_למבחן} ימים למבחן',
       body: 'היי {שם},\n\nהמבחן שלך בעוד {ימים_למבחן} ימים. זה הזמן לחזק את הנקודות החלשות.\n\nעד עכשיו פתרת {שאלות} שאלות{מוכנות}. ההמלצה שלנו: מבחן לדוגמה אחד השבוע, ואז תרגול ממוקד בטעויות שלך.\n\n{קישור}\n\nבהצלחה! אנחנו כאן לכל שאלה.' + SIGN},
-    custom: {label: 'הודעה חופשית', who: 'כל הלומדים', subject: '{שם}, עדכון מהאקדמיה', body: 'היי {שם},\n\n\n\n{קישור}' + SIGN}
+    custom: {label: 'הודעה חופשית', kicker: 'עדכון מהאקדמיה', cta: 'לאתר האקדמיה', who: 'כל הלומדים', subject: '{שם}, עדכון מהאקדמיה', body: 'היי {שם},\n\n\n\n{קישור}' + SIGN}
   };
   const tplOf = key => Object.assign({}, TPL[key], MS.doc.tpl[key] || {});
   const daysSince = t => t ? Math.floor((now - Date.parse(t)) / day) : null;
@@ -5800,6 +5839,22 @@ async function vAdmin(m) {
   const mailLinks = (r, key) => { const t = tplOf(key), su = fill(t.subject, r), body = fill(t.body, r);
     return {gmail: `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(r.email)}&su=${encodeURIComponent(su)}&body=${encodeURIComponent(body)}`,
       mail: `mailto:${encodeURIComponent(r.email)}?subject=${encodeURIComponent(su)}&body=${encodeURIComponent(body)}`, su, body}; };
+  // the designed version: greeting and paragraphs, the learner's numbers as tiles, a big button instead of the bare link
+  const designed = (r, key) => {
+    const t = tplOf(key), su = fill(t.subject, r), text = fill(t.body, r), blocks = text.split(/\n\s*\n/).map(b => b.trim()).filter(Boolean);
+    const isSign = b => /^בהצלחה/.test(b), isFoot = b => /^\(אם לא תרצו/.test(b);
+    const paras = blocks.filter(b => !isSign(b) && !isFoot(b)).flatMap(b => b === SITE ? ['\u0000cta'] : b.endsWith('\n' + SITE) ? [b.slice(0, -SITE.length - 1), '\u0000cta'] : [b]);
+    const ed = examDays(r), stats = key === 'start' || !r._ans ? [] : [[r._ans, 'שאלות שנפתרו']].concat(r._ready ? [[Math.round(r._ready * 100) + '%', 'מוכנות למבחן']] : [], ed !== null && ed >= 0 ? [[ed, 'ימים למבחן']] : []);
+    const html = emailHTML({site: SITE, kicker: TPL[key].kicker, title: su, paras, stats, cta: TPL[key].cta, sign: blocks.find(isSign) || 'בהצלחה,\nצוות Silas Academy',
+      foot: `קיבלתם את המייל כי נרשמתם לאקדמיית סיילס עם הכתובת ${r.email}.\nאם לא תרצו לקבל תזכורות, פשוט תענו "הסר".`, preheader: paras.filter(x => x !== '\u0000cta')[1] || paras[0] || ''});
+    return {su, html, text};
+  };
+  const sendOne = async (r, key, btn) => {
+    if (btn) { btn.disabled = true; btn.textContent = 'שולח…'; }
+    const d = designed(r, key);
+    try { await ACC.admin.sendEmail(r.id, d.su, d.html, d.text); markSent(r.id, key); toast(`נשלח ל${r.name} ✓`); return true; }
+    catch (x) { toast(x.message === 'NO_SQL' ? 'כדי לשלוח מיילים מעוצבים צריך להריץ פעם אחת את update-today.sql ב־Supabase. בינתיים אפשר לשלוח דרך Gmail.' : 'השליחה נכשלה: ' + x.message); if (btn) { btn.disabled = false; btn.textContent = 'שליחה מעוצבת'; } return false; }
+  };
   const saveMsgs = () => ACC.saveDoc('_admin_msgs', MS.doc).catch(x => toast('השמירה נכשלה: ' + x.message));
   const markSent = (uid, key) => { (MS.doc.sent[uid] = MS.doc.sent[uid] || []).push({t: new Date().toISOString(), k: key}); MS.doc.sent[uid] = MS.doc.sent[uid].slice(-20); saveMsgs(); };
   const lastSent = uid => { const l = MS.doc.sent[uid]; return l && l.length ? l[l.length - 1] : null; };
@@ -5809,7 +5864,7 @@ async function vAdmin(m) {
       .sort((a, b) => Date.parse(a._last || a.created_at) - Date.parse(b._last || b.created_at));
     box.innerHTML = `<div class="row between adtitle"><h4>תזכורות ללומדים <span class="cnt">${list.length}</span></h4><span class="note">נשלח מהמייל שלך, כל הודעה אישית עם השם והנתונים של הלומד</span></div>
       <div class="chips" role="group" aria-label="סוג הודעה">${Object.entries(TPL).map(([k, v]) => `<button class="chipbtn" data-tpl="${k}" aria-pressed="${k === MS.tpl}">${v.label} <span class="cnt">${learners.filter(r => !r.blocked && r.email && pickers[k](r)).length}</span></button>`).join('')}</div>
-      <p class="note mswho">למי: ${t.who}${MS.tpl === 'miss' ? ` · <label>לא נכנסו לפחות <select id="ms_days">${[3, 7, 14, 30].map(d => `<option value="${d}" ${d === MS.days ? 'selected' : ''}>${d} ימים</option>`).join('')}</select></label>` : ''}</p>
+      ${list.length > 1 ? `<div class="row msall"><button class="btn sm primary" id="ms_all">שליחה מעוצבת לכל ${list.length} ברשימה</button></div>` : ''}<p class="note mswho">למי: ${t.who}${MS.tpl === 'miss' ? ` · <label>לא נכנסו לפחות <select id="ms_days">${[3, 7, 14, 30].map(d => `<option value="${d}" ${d === MS.days ? 'selected' : ''}>${d} ימים</option>`).join('')}</select></label>` : ''}</p>
       <details class="mstpl"><summary>עריכת ההודעה</summary>
         <label class="field">נושא<input id="ms_su" value="${esc(t.subject)}"></label>
         <label class="field">תוכן<textarea id="ms_body" rows="11">${esc(t.body)}</textarea></label>
@@ -5819,14 +5874,22 @@ async function vAdmin(m) {
       ${list.length ? `<ul class="mslist">${list.map(r => { const ls = lastSent(r.id), d = daysSince(r._last); return `<li data-ms="${r.id}">
         <div class="msw"><b>${esc(r.name)}</b><span class="note"><bdi>${r._last ? `לא נכנס/ה ${d === 0 ? 'מהיום' : d === 1 ? 'מאתמול' : `${d} ימים`}` : 'עוד לא נכנס/ה'}</bdi> · <bdi>${r._ans} שאלות</bdi>${examDays(r) !== null && examDays(r) >= 0 ? ` · <bdi>מבחן בעוד ${examDays(r)} ימים</bdi>` : ''}</span>
         ${ls ? `<span class="sentchip">✓ נשלח ${ago(ls.t)}</span>` : ''}</div>
-        <div class="msb"><button class="btn sm ghost" data-prev="${r.id}">תצוגה</button><a class="btn sm wabtn msgo" data-send="${r.id}" href="${mailLinks(r, MS.tpl).gmail}" target="_blank" rel="noopener">שליחה ב־Gmail</a><a class="btn sm ghost" data-send="${r.id}" href="${mailLinks(r, MS.tpl).mail}">מייל אחר</a></div>
-        <pre class="msprev" id="pv_${r.id}" hidden></pre></li>`; }).join('')}</ul>` : '<p class="note adempty">אין כרגע לומדים שמתאימים להודעה הזו. 🎉</p>'}`;
+        <div class="msb"><button class="btn sm ghost" data-prev="${r.id}">תצוגה</button><button class="btn sm primary msgo" data-mail="${r.id}">שליחה מעוצבת</button><a class="btn sm ghost" data-send="${r.id}" href="${mailLinks(r, MS.tpl).gmail}" target="_blank" rel="noopener" title="טקסט פשוט, מתוך ה־Gmail שלך">Gmail</a></div>
+        <div class="msprev" id="pv_${r.id}" hidden></div></li>`; }).join('')}</ul>` : '<p class="note adempty">אין כרגע לומדים שמתאימים להודעה הזו. 🎉</p>'}`;
     box.querySelectorAll('[data-tpl]').forEach(b => b.onclick = () => { MS.tpl = b.dataset.tpl; drawMsgs(); });
     const dsel = $('#ms_days'); if (dsel) dsel.onchange = e => { MS.days = +e.target.value; drawMsgs(); };
     box.querySelectorAll('[data-tok]').forEach(b => b.onclick = () => { const ta = $('#ms_body'), p0 = ta.selectionStart; ta.value = ta.value.slice(0, p0) + b.dataset.tok + ta.value.slice(ta.selectionEnd); ta.focus(); ta.selectionStart = ta.selectionEnd = p0 + b.dataset.tok.length; });
     $('#ms_save').onclick = () => { MS.doc.tpl[MS.tpl] = {subject: $('#ms_su').value, body: $('#ms_body').value}; saveMsgs().then(() => { toast('ההודעה נשמרה.'); drawMsgs(); }); };
     $('#ms_reset').onclick = () => { delete MS.doc.tpl[MS.tpl]; saveMsgs().then(() => { toast('חזרנו לנוסח המקורי.'); drawMsgs(); }); };
-    box.querySelectorAll('[data-prev]').forEach(b => b.onclick = () => { const r = byId[b.dataset.prev], pv = $('#pv_' + r.id), l = mailLinks(r, MS.tpl); pv.textContent = `אל: ${r.email}\nנושא: ${l.su}\n\n${l.body}`; pv.hidden = !pv.hidden; b.textContent = pv.hidden ? 'תצוגה' : 'הסתרה'; });
+    box.querySelectorAll('[data-prev]').forEach(b => b.onclick = () => { const r = byId[b.dataset.prev], pv = $('#pv_' + r.id), d = designed(r, MS.tpl);
+      if (pv.hidden) { pv.innerHTML = `<p class="note"><b>אל:</b> <bdi dir="ltr">${esc(r.email)}</bdi> · <b>נושא:</b> ${esc(d.su)}</p><iframe class="msframe" title="תצוגה של המייל" sandbox></iframe>`; pv.querySelector('iframe').srcdoc = d.html; }
+      pv.hidden = !pv.hidden; b.textContent = pv.hidden ? 'תצוגה' : 'הסתרה'; });
+    box.querySelectorAll('[data-mail]').forEach(b => b.onclick = async () => { if (await sendOne(byId[b.dataset.mail], MS.tpl, b)) drawMsgs(); });
+    const all = $('#ms_all'); if (all) all.onclick = async () => {
+      if (!confirm(`לשלוח מייל מעוצב ל־${list.length} לומדים?`)) return;
+      all.disabled = true; let n = 0;
+      for (const r of list) { all.textContent = `שולח… ${n + 1}/${list.length}`; if (!(await sendOne(r, MS.tpl))) break; n++; await new Promise(res => setTimeout(res, 350)); }
+      if (n) toast(`נשלחו ${n} מיילים ✓`); drawMsgs(); };
     box.querySelectorAll('[data-send]').forEach(a => a.addEventListener('click', () => { markSent(a.dataset.send, MS.tpl); setTimeout(drawMsgs, 400); }));
   };
   drawMsgs();
@@ -5858,7 +5921,7 @@ async function vAdmin(m) {
         <p class="note" dir="ltr">${esc(r.email)}</p></div><button class="iconx" id="ad_close" aria-label="סגירה">✕</button></div>
       <div class="adstat">${status(r)}${!r._live && r._last ? `<span class="note">${when(r._last)}</span>` : ''}<span class="note">נרשם ${when(r.created_at)}</span></div>
       ${pv ? `<div class="placebox"><span class="pl">📍 ${esc(`${pv.flag || ''} ${placeQ(pv)}`)}${pv.lat != null ? `<span class="note acc"> · מיקום מדויק מהמכשיר${pv.acc ? ` (±${pv.acc} מ׳)` : ''}</span>` : '<span class="note acc"> · משוער לפי האינטרנט</span>'}${pv.geo_at ? `<span class="note acc"> · עודכן ${ago(pv.geo_at)}</span>` : ''}</span><div class="row"><a class="btn sm wabtn" href="${waPlace(r, pv)}" target="_blank" rel="noopener">${WAI}שיתוף בוואצאפ</a><a class="btn ghost sm" href="${mapUrl(pv)}" target="_blank" rel="noopener">פתיחה במפה</a></div></div>` : ''}
-      ${!r.is_admin && r.email ? (() => { const k = r._ans ? 'miss' : 'start', l = mailLinks(r, k), ls = lastSent(r.id); return `<div class="msbox"><span class="pl">✉️ תזכורת: ${TPL[k].label}${ls ? ` <span class="sentchip">✓ נשלח ${ago(ls.t)}</span>` : ''}</span><div class="row"><a class="btn sm wabtn" data-send="${r.id}" data-k="${k}" href="${l.gmail}" target="_blank" rel="noopener">שליחה ב־Gmail</a><a class="btn sm ghost" data-send="${r.id}" data-k="${k}" href="${l.mail}">מייל אחר</a></div></div>`; })() : ''}
+      ${!r.is_admin && r.email ? (() => { const k = r._ans ? 'miss' : 'start', l = mailLinks(r, k), ls = lastSent(r.id); return `<div class="msbox"><span class="pl">✉️ תזכורת: ${TPL[k].label}${ls ? ` <span class="sentchip">✓ נשלח ${ago(ls.t)}</span>` : ''}</span><div class="row"><button class="btn sm primary" id="ad_mail" data-k="${k}">שליחה מעוצבת</button><a class="btn sm ghost" data-send="${r.id}" data-k="${k}" href="${l.gmail}" target="_blank" rel="noopener">Gmail</a></div></div>`; })() : ''}
       <div class="kpis sm"><div class="kpi"><b class="num">${r.logins || 0}</b><span>כניסות</span></div><div class="kpi"><b>${dur(r.total_seconds)}</b><span>זמן באתר</span></div><div class="kpi"><b class="num">${r._ans}</b><span>שאלות שנפתרו</span></div><div class="kpi"><b>${r._ready === null ? '—' : Math.round(r._ready * 100) + '%'}</b><span>מוכנות למבחן</span></div></div>
       <h4>כניסות אחרונות</h4>
       <ul class="advisits">${ss.map((x, i) => { const live = i === 0 && r._live; const end = x.ended_at || x.last_ping || x.started_at; const span = Math.max(0, (Date.parse(end) - Date.parse(x.started_at)) / 1000);
@@ -5872,6 +5935,7 @@ async function vAdmin(m) {
         <div class="row"><button class="btn ${r.blocked ? 'primary' : 'danger'}" id="bl_toggle">${r.blocked ? 'החזרת הגישה' : 'חסימת הגישה'}</button>${r.blocked ? '<button class="btn ghost sm" id="bl_save">עדכון ההודעה</button>' : ''}<span class="note" id="bl_res"></span></div></div>`}`;
     $('#ad_close').onclick = close;
     pane.querySelectorAll('[data-send]').forEach(a => a.addEventListener('click', () => { markSent(r.id, a.dataset.k); setTimeout(() => { drawMsgs(); open(r.id); }, 400); }));
+    const am = $('#ad_mail'); if (am) am.onclick = async () => { if (await sendOne(r, am.dataset.k, am)) { drawMsgs(); open(r.id); } };
     const setB = async (blocked, label) => {
       const res = $('#bl_res'); res.textContent = 'שומר…';
       try { await ACC.admin.setBlock(r.id, blocked, $('#bl_msg').value.trim()); r.blocked = blocked; r.block_message = $('#bl_msg').value.trim(); draw(); toast(label); open(r.id); }
