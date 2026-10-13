@@ -912,6 +912,10 @@ a.btn,a.btn:hover{text-decoration:none}
 .crumbs a{white-space:nowrap}.crumbs>span:last-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .edf{align-items:flex-end;gap:10px}.edf .field{flex:1;min-width:200px;margin:0}
 @media (max-width:640px){.crumbs a,.cbar a{display:inline-flex;align-items:center;min-height:36px;padding-inline:4px}.adpanel .washare,a.washare{min-width:36px;min-height:36px}.ftoc a{display:inline-flex;align-items:center;min-height:36px}}
+/* Hebrew forms: full-width fields, and Hebrew placeholders start from the right even in left-to-right inputs (email, password) */
+.panel .field>input:not([type=checkbox]):not([type=radio]){width:100%;box-sizing:border-box;text-align:right}
+input[dir=ltr]:placeholder-shown{direction:rtl;text-align:right}
+.fields>.field:only-child{grid-column:1/-1}
 </style>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
   <linearGradient id="bm-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a3cc2"/><stop offset="1" stop-color="#121a66"/></linearGradient>
