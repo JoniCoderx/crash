@@ -1,6 +1,9 @@
--- Silas Academy: point the welcome email at the site's current address.
--- Run in Supabase → SQL Editor → New query → Run. It changes no keys and sends nothing.
--- When the address changes again (e.g. silasacademy.com), only the first line needs running, with the new address.
+-- Silas Academy: one update to run once in Supabase → SQL Editor → New query → Run.
+-- 1) points the welcome email at the site's current address (its logo follows the address too)
+-- 2) adds designed reminder emails that the admin sends from the admin panel
+-- It changes no keys and sends nothing by itself.
+-- When the address changes again (e.g. silasacademy.com), only the first "update" line needs running, with the new address.
+
 
 update public.email_settings set site_url = 'https://jonicoderx.github.io/silasacademy/' where id = 1;
 
@@ -131,3 +134,32 @@ $tpl$, '{{name}}', nm), '{{email}}', em), '{{site}}', st.site_url);
       'tags', jsonb_build_array('welcome')));
 end $fn$;
 revoke all on function public.send_welcome(text, text) from public, anon, authenticated;
+
+-- ───────────────────────────────────────────────────────────────
+-- Designed reminder emails from the admin panel (same look as the welcome email).
+-- Only an admin can call it. It sends to the learner's own address from the sender you set up in Brevo.
+create or replace function public.send_reminder(p_user uuid, p_subject text, p_html text, p_text text) returns text
+language plpgsql security definer set search_path = public, extensions as $fn$
+declare k text; st public.email_settings; em text; nm text;
+begin
+  if not public.is_admin() then raise exception 'not allowed'; end if;
+  select decrypted_secret into k from vault.decrypted_secrets where name = 'brevo_api_key' limit 1;
+  select * into st from public.email_settings where id = 1;
+  select email, name into em, nm from public.profiles where id = p_user;
+  if k is null or st is null then return 'no_key'; end if;
+  if coalesce(em, '') = '' then return 'no_email'; end if;
+  perform net.http_post(
+    url := 'https://api.brevo.com/v3/smtp/email',
+    headers := jsonb_build_object('api-key', k, 'Content-Type', 'application/json', 'accept', 'application/json'),
+    body := jsonb_build_object(
+      'sender', jsonb_build_object('name', st.sender_name, 'email', st.sender_email),
+      'replyTo', jsonb_build_object('email', st.sender_email, 'name', st.sender_name),
+      'to', jsonb_build_array(jsonb_build_object('email', em, 'name', coalesce(nullif(trim(nm), ''), em))),
+      'subject', left(coalesce(p_subject, ''), 200),
+      'htmlContent', p_html,
+      'textContent', p_text,
+      'tags', jsonb_build_array('reminder')));
+  return 'sent';
+end $fn$;
+revoke all on function public.send_reminder(uuid, text, text, text) from public, anon;
+grant execute on function public.send_reminder(uuid, text, text, text) to authenticated;
