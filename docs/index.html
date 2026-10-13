@@ -664,8 +664,8 @@ nav.tabs{mask-image:linear-gradient(to left,#000 calc(100% - 28px),transparent);
 .wafab svg{width:26px;height:26px;flex:none;color:#fff}
 .wafab .walabel{white-space:nowrap;font-weight:500}.wafab .walabel b{font-weight:700}
 .wafab:hover,.wafab:focus-visible{transform:translateY(-2px);box-shadow:0 12px 28px rgb(0 0 0/.26)}
-/* phones: on forms, lessons and questions the support button is just the round icon, so it never hides a field or an answer */
-@media (max-width:640px){body:is([data-view="login"],[data-view="reset"],[data-view="learn"],[data-view="practice"],[data-view="mistakes"],[data-view="formulas"],[data-view="tools"],[data-view="account"],[data-view="admin"]) .wafab{width:52px;height:52px;padding:0;justify-content:center}body:is([data-view="login"],[data-view="reset"],[data-view="learn"],[data-view="practice"],[data-view="mistakes"],[data-view="formulas"],[data-view="tools"],[data-view="account"],[data-view="admin"]) .wafab .walabel{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}}
+/* phones: the support button is the round icon everywhere except the academy home, so it never hides a field, a number or an answer */
+@media (max-width:640px){body:not([data-view="home"]) .wafab{width:52px;height:52px;padding:0;justify-content:center}body:not([data-view="home"]) .wafab .walabel{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}}
 
 .wafab[hidden]{display:none}
 @media print{.wafab{display:none}}
