@@ -1551,6 +1551,9 @@ $('#main').innerHTML = '<p class="note" style="text-align:center;padding:40px 0"
 (function () { const b = $('#cbar b'); if (b) b.textContent = 'דיני תאגידים'; const a = $('#cbar a'); if (a) { a.href = '/'; a.removeAttribute('data-go'); } const bl = $('.brandlink'); if (bl) { bl.href = '/'; bl.removeAttribute('data-go'); } })();
 ACC.ready().catch(() => {}).then(async () => {
   if (!ACC.user()) { try { sessionStorage.setItem('silas_return', location.pathname + location.hash); } catch (e) {} location.replace('/'); return; }
+  // a blocked account sees the blocked screen on the main site, not the course
+  if (ACC.user().blocked) { location.replace('/'); return; }
+  ACC.onBlocked = () => location.replace('/');
   loadS(); await sync();
   const p = parseHash(); view = p.v; arg = p.a; if (!VIEWS.some(v => v[0] === view) && !PARENT[view]) view = 'dash';
   nav(); render();
