@@ -5,7 +5,7 @@
 -- When the address changes again (e.g. silasacademy.com), only the first "update" line needs running, with the new address.
 
 
-update public.email_settings set site_url = 'https://jonicoderx.github.io/silasacademy/' where id = 1;
+update public.email_settings set site_url = 'https://silasacademy.com/' where id = 1;
 
 -- The logo in the email now follows that address too, so it never breaks after a move.
 -- Builds and sends the email. Used by the sign-up trigger and by the test below.
