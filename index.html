@@ -672,6 +672,7 @@ nav.tabs{mask-image:linear-gradient(to left,#000 calc(100% - 28px),transparent);
 .ghost.sm[href]{text-decoration:none}
 .placebox{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;padding:12px 14px;border-radius:14px;background:var(--accent-soft)}
 .placebox .pl{font-weight:600}
+.placebox .pl .acc{font-weight:400;font-size:.8rem;margin:0}
 
 /* admin page layout: header, numbers, live + recent, chart, learners, side panel */
 .adhead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:6px 0 16px}
@@ -1333,9 +1334,9 @@ const ACC = (() => {
       sb.from('progress').upsert({user_id: uid, course: VISITS, data: v.d, updated_at: new Date().toISOString()}).then(() => {}, () => {}); };
     if (vis && vis.u === uid) write(vis); else loadVis().then(write); // synchronous when loaded, so it still goes out while the page closes
   };
-  const putGeo = (id, country, city, flag, lat, lng) => {
+  const putGeo = (id, country, city, flag, lat, lng, acc) => {
     sb.rpc('set_session_geo', {p_session: id, p_country: country || '', p_city: city || '', p_flag: flag || ''}).then(() => {}, () => {});
-    noteVisit(id, Object.assign({c: country || '', ci: city || '', f: flag || ''}, lat != null ? {lat, lng} : {}));
+    noteVisit(id, Object.assign({c: country || '', ci: city || '', f: flag || ''}, lat != null ? {lat, lng, acc} : {}));
   };
   const endVisit = id => { if (!id) return; sb.rpc('end_session', {p_session: id}).then(() => {}, () => {}); noteVisit(id, {e: new Date().toISOString()}); };
   // where the visit comes from: the city of the internet connection right away,
@@ -1351,10 +1352,10 @@ const ACC = (() => {
         if (!g || !(g.city || g.locality)) return;
         const city = g.city || g.locality, place = g.locality && g.locality !== city ? `${city} · ${g.locality}` : city;
         const fl = flag || (g.countryCode && g.countryCode.length === 2 ? String.fromCodePoint(...[...g.countryCode.toUpperCase()].map(c => 127397 + c.charCodeAt(0))) : '');
-        // the map point is kept at neighborhood level (about 1 km), never the exact address
-        precise = true; putGeo(id, g.countryName, place, fl, Math.round(latitude * 100) / 100, Math.round(longitude * 100) / 100);
+        // the exact device point (the learner allowed it, and the sign-up screen says it is saved)
+        precise = true; putGeo(id, g.countryName, place, fl, +latitude.toFixed(5), +longitude.toFixed(5), Math.round(pos.coords.accuracy || 0));
       }).catch(() => {});
-    }, err => { try { if (err && err.code === 1) localStorage.setItem(GEO_KEY, 'no'); } catch (e) {} }, {enableHighAccuracy: false, timeout: 15000, maximumAge: 600000});
+    }, err => { try { if (err && err.code === 1) localStorage.setItem(GEO_KEY, 'no'); } catch (e) {} }, {enableHighAccuracy: true, timeout: 20000, maximumAge: 60000});
     // the browser asks once per learner; after that it's silent: used where allowed, never asked again after a "no"
     let asked = null; try { asked = localStorage.getItem(GEO_KEY); } catch (e) {}
     const decide = st => { if (st === 'granted' || (st === 'prompt' && !asked) || (!st && (!asked || asked === 'ok'))) { try { if (!asked) localStorage.setItem(GEO_KEY, 'asked'); } catch (e) {} ask(); } };
@@ -1401,7 +1402,7 @@ const ACC = (() => {
     const n = notes[x.id]; if (!n) return x;
     const y = Object.assign({}, x);
     if (!y.city && n.ci) Object.assign(y, {city: n.ci, country: n.c || '', flag: n.f || ''});
-    if (n.lat != null) Object.assign(y, {lat: n.lat, lng: n.lng});
+    if (n.lat != null) Object.assign(y, {lat: n.lat, lng: n.lng, acc: n.acc});
     if (!y.ended_at && n.e) y.ended_at = n.e;
     return y;
   });
@@ -5445,7 +5446,7 @@ function vLogin(m) {
       <button class="btn primary big">${signup ? 'התחל ללמוד בחינם' : 'כניסה'}</button>
     </form>
     <p class="auth-switch">${signup ? (ACC.count() || ACC.mode === 'cloud' ? 'כבר יש לך חשבון? <a href="#" id="au_sw">כניסה</a>' : '') : 'עוד אין לך חשבון? <a href="#" id="au_sw">התחל ללמוד בחינם</a>'}</p>
-    ${ACC.mode === 'local' ? '<p class="note auth-local">ההתקדמות נשמרת בדפדפן הזה. במסך החשבון אפשר לגבות אותה לקובץ ולהמשיך ממכשיר אחר.</p>' : '<p class="note auth-local">כדי לשפר את הלימוד נשמרים זמני ההתחברות, ההתקדמות והעיר שממנה נכנסים (לפי המכשיר, אם תאשרו מיקום).</p>'}
+    ${ACC.mode === 'local' ? '<p class="note auth-local">ההתקדמות נשמרת בדפדפן הזה. במסך החשבון אפשר לגבות אותה לקובץ ולהמשיך ממכשיר אחר.</p>' : '<p class="note auth-local">כדי לשפר את הלימוד נשמרים זמני ההתחברות, ההתקדמות והמיקום שממנו נכנסים: המיקום המדויק של המכשיר אם תאשרו מיקום בדפדפן, ואחרת עיר משוערת לפי חיבור האינטרנט.</p>'}
   </section></div>`;
   const fg = $('#au_forgot'); if (fg) fg.onclick = e => { e.preventDefault(); vForgot(m, $('#au_email').value); };
   const sw = $('#au_sw'); if (sw) sw.onclick = e => { e.preventDefault(); vLogin.mode = signup ? 'login' : 'signup'; vLogin(m); };
@@ -5691,7 +5692,7 @@ async function vAdmin(m) {
     pane.innerHTML = `<div class="adph"><div><h3 id="ad_name">${esc(r.name)} ${r.is_admin ? '<span class="chip">מנהל</span>' : ''}${r.blocked ? '<span class="chip blk">חסום</span>' : ''}</h3>
         <p class="note" dir="ltr">${esc(r.email)}</p></div><button class="iconx" id="ad_close" aria-label="סגירה">✕</button></div>
       <div class="adstat">${status(r)}${!r._live && r._last ? `<span class="note">${when(r._last)}</span>` : ''}<span class="note">נרשם ${when(r.created_at)}</span></div>
-      ${pv ? `<div class="placebox"><span class="pl">📍 ${esc(`${pv.flag || ''} ${placeQ(pv)}`)}</span><div class="row"><a class="btn sm wabtn" href="${waPlace(r, pv)}" target="_blank" rel="noopener">${WAI}שיתוף בוואצאפ</a><a class="btn ghost sm" href="${mapUrl(pv)}" target="_blank" rel="noopener">פתיחה במפה</a></div></div>` : ''}
+      ${pv ? `<div class="placebox"><span class="pl">📍 ${esc(`${pv.flag || ''} ${placeQ(pv)}`)}${pv.lat != null ? `<span class="note acc"> · מיקום מדויק מהמכשיר${pv.acc ? ` (±${pv.acc} מ׳)` : ''}</span>` : '<span class="note acc"> · משוער לפי האינטרנט</span>'}</span><div class="row"><a class="btn sm wabtn" href="${waPlace(r, pv)}" target="_blank" rel="noopener">${WAI}שיתוף בוואצאפ</a><a class="btn ghost sm" href="${mapUrl(pv)}" target="_blank" rel="noopener">פתיחה במפה</a></div></div>` : ''}
       <div class="kpis sm"><div class="kpi"><b class="num">${r.logins || 0}</b><span>כניסות</span></div><div class="kpi"><b>${dur(r.total_seconds)}</b><span>זמן באתר</span></div><div class="kpi"><b class="num">${r._ans}</b><span>שאלות שנפתרו</span></div><div class="kpi"><b>${r._ready === null ? '—' : Math.round(r._ready * 100) + '%'}</b><span>מוכנות למבחן</span></div></div>
       <h4>כניסות אחרונות</h4>
       <ul class="advisits">${ss.map((x, i) => { const live = i === 0 && r._live; const end = x.ended_at || x.last_ping || x.started_at; const span = Math.max(0, (Date.parse(end) - Date.parse(x.started_at)) / 1000);
