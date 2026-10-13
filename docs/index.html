@@ -5685,8 +5685,8 @@ function emailHTML({site, kicker, title, paras, stats, cta, sign, foot, preheade
 <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">${e(preheader)}&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="bg" style="background:#f3f5fa;"><tr><td align="center" style="padding:28px 12px;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;">
-  <tr><td dir="rtl" style="padding:0 4px 18px;text-align:right;"><table role="presentation" cellpadding="0" cellspacing="0" border="0" align="right"><tr>
-    <td style="padding-left:10px;vertical-align:middle;"><img src="${e(site)}email/logo.png" width="40" height="40" alt="Silas Academy" style="display:block;border:0;border-radius:12px;"></td>
+  <tr><td dir="ltr" style="padding:0 4px 18px;text-align:left;"><table role="presentation" cellpadding="0" cellspacing="0" border="0" align="left" dir="ltr"><tr>
+    <td style="padding-right:10px;vertical-align:middle;"><img src="${e(site)}email/logo.png" width="40" height="40" alt="Silas Academy" style="display:block;border:0;border-radius:12px;"></td>
     <td style="vertical-align:middle;${H}font-size:20px;line-height:22px;color:#0f1430;" class="ink" dir="ltr"><b>silas</b> <span style="color:#5d6482;" class="muted">academy</span></td></tr></table></td></tr>
   <tr><td dir="rtl" class="px" style="background:#1a2580;background-image:linear-gradient(160deg,#2337b4,#0c1234);border-radius:22px 22px 0 0;padding:34px 36px 28px;text-align:right;">
     <p style="margin:0 0 10px;${F}font-size:13px;color:#c9cff5;">${e(kicker)}</p>
@@ -5694,7 +5694,7 @@ function emailHTML({site, kicker, title, paras, stats, cta, sign, foot, preheade
   <tr><td dir="rtl" class="card px" style="background:#ffffff;border-radius:0 0 22px 22px;padding:30px 36px 32px;text-align:right;">
     ${p1 ? blk(p1) : ''}${statsRow}${rest.map(blk).join('')}${hasCta ? '' : button}
     <p class="muted" style="margin:8px 0 0;${F}font-size:14px;line-height:23px;color:#5d6482;">${e(sign).replace(/\n/g, '<br>')}</p></td></tr>
-  <tr><td dir="rtl" style="padding:20px 8px 0;text-align:center;"><p class="muted" style="margin:0;${F}font-size:12px;line-height:19px;color:#5d6482;">${e(foot).replace(/\n/g, '<br>')}<br>© Silas Academy · אקדמיית סיילס</p></td></tr>
+  <tr><td dir="rtl" style="padding:20px 8px 0;text-align:center;"><p class="muted" style="margin:0;${F}font-size:12px;line-height:19px;color:#5d6482;">${e(foot).replace(/\n/g, '<br>')}<br>שאלות? כתבו לנו: <a href="mailto:support@silasacademy.com" style="color:#5d6482;" dir="ltr">support@silasacademy.com</a><br>© Silas Academy · אקדמיית סיילס</p></td></tr>
 </table></td></tr></table></body></html>`;
 }
 
