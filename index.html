@@ -675,6 +675,28 @@ main{padding-bottom:96px}
 .brand .sub{direction:rtl;text-align:left}
 .auth-brand{direction:ltr;justify-content:flex-end}
 .auth-brand div{text-align:left;align-items:flex-start}.auth-brand b{text-align:left}
+
+/* header: the English brand sits on the left; the learner's controls on the right */
+.brand{direction:ltr}
+.brand .brandlink{margin-inline-end:auto}
+.brand .cd,.brand .user{direction:rtl}
+.brand .cd{margin-inline-start:0}
+.brand .cd[hidden]+.user{margin-inline-start:0}
+/* sign-up: centred brand and headings */
+.authwrap .stage{align-items:center;text-align:center}
+.authwrap .stage .auth-brand{justify-content:center}
+.authwrap .stage .auth-pitch{align-items:center}
+.authwrap .stage .lead{margin-inline:auto}
+.authwrap .stage .alist{align-self:stretch;max-width:380px;margin-inline:auto;text-align:right}
+.auth>h2,.auth>.auth-value,.auth>.note,.auth-switch,.auth-local{text-align:center}
+.authwrap.single .auth-brand{justify-content:center}
+/* admin live status */
+.livechip{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;color:var(--good);background:var(--good-soft);border-radius:999px;padding:2px 9px;white-space:nowrap}
+.livechip::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--good);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.35}}
+@media (prefers-reduced-motion:reduce){.livechip::before{animation:none}}
+.kpi.live b{color:var(--good)}
+.adlive{display:flex;align-items:center;gap:6px;margin:-6px 0 12px}
 </style>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
   <linearGradient id="bm-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a3cc2"/><stop offset="1" stop-color="#121a66"/></linearGradient>
@@ -1211,18 +1233,29 @@ const ACC = (() => {
   async function track() { // one session per visit; heartbeats add the visible, active time
     stopTrack(); if (!me) return;
     try { const {data} = await sb.rpc('start_session', {p_device: navigator.userAgent}); sid = data; } catch (e) { sid = null; }
+    // approximate place of the visit (city, country) from the connection; no GPS, no permission prompt
+    if (sid) fetch('https://ipwho.is/?fields=success,country,city,flag.emoji').then(r => r.json()).then(g => { if (g && g.success) sb.rpc('set_session_geo', {p_session: sid, p_country: g.country || '', p_city: g.city || '', p_flag: (g.flag && g.flag.emoji) || ''}).then(() => {}, () => {}); }).catch(() => {});
     lastBeat = Date.now();
     const send = () => { if (!sid || document.hidden) { lastBeat = Date.now(); return; } const s = Math.round((Date.now() - lastBeat) / 1000); lastBeat = Date.now(); sb.rpc('heartbeat', {p_session: sid, p_seconds: s}).then(r => { if (r && r.data === true && me && !me.blocked) { await_block(); } }, () => {}); };
     const await_block = async () => { await loadMe((await sb.auth.getUser()).data.user); if (me && me.blocked && cloud.onBlocked) cloud.onBlocked(); };
-    beat = setInterval(send, 60000);
+    beat = setInterval(send, 45000);
     track.vis = () => { if (document.hidden) send(); else lastBeat = Date.now(); };
     document.addEventListener('visibilitychange', track.vis);
-    window.addEventListener('pagehide', send);
+    track.hide = () => { send(); if (sid) sb.rpc('end_session', {p_session: sid}).then(() => {}, () => {}); };
+    track.show = e => { if (e.persisted && me) track(); }; // page restored from the back/forward cache: a new visit
+    window.addEventListener('pagehide', track.hide);
+    window.addEventListener('pageshow', track.show);
   }
-  function stopTrack() { clearInterval(beat); beat = null; sid = null; if (track.vis) document.removeEventListener('visibilitychange', track.vis); }
+  function stopTrack() {
+    if (sid && sb) sb.rpc('end_session', {p_session: sid}).then(() => {}, () => {});
+    clearInterval(beat); beat = null; sid = null;
+    if (track.vis) document.removeEventListener('visibilitychange', track.vis);
+    if (track.hide) window.removeEventListener('pagehide', track.hide);
+    if (track.show) window.removeEventListener('pageshow', track.show);
+  }
   const cloud = {
     async ready() {
-      await loadLib(); sb = window.supabase.createClient(CLOUD.url, CLOUD.key, {auth: {persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: 'implicit'}});
+      await loadLib(); sb = window.supabase.createClient(CLOUD.url, CLOUD.key, {auth: {persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: 'implicit'}, global: {fetch: (u, o) => fetch(u, Object.assign({}, o, {keepalive: true}))}});
       sb.auth.onAuthStateChange(ev => { if (ev === 'PASSWORD_RECOVERY') { recovering = true; if (cloud.onRecovery) cloud.onRecovery(); } });
       const {data} = await sb.auth.getSession(); await loadMe(data.session && data.session.user); if (me) track();
     },
@@ -1276,12 +1309,13 @@ const ACC = (() => {
       },
       async recent(days = 30) { // every visit in the window, for the activity chart
         const since = new Date(Date.now() - days * 864e5).toISOString();
-        const {data, error} = await sb.from('sessions').select('user_id,started_at,seconds').gte('started_at', since).order('started_at', {ascending: false}).limit(5000);
+        let {data, error} = await sb.from('sessions').select('user_id,started_at,last_ping,ended_at,seconds,city,country,flag').gte('started_at', since).order('started_at', {ascending: false}).limit(5000);
+        if (error) ({data, error} = await sb.from('sessions').select('user_id,started_at,last_ping,seconds').gte('started_at', since).order('started_at', {ascending: false}).limit(5000)); // before supabase-live.sql
         if (error) throw new Error(he(error)); return data;
       },
       async setBlock(uid, blocked, msg) { const {error} = await sb.rpc('set_block', {p_user: uid, p_blocked: blocked, p_message: msg || ''}); if (error) throw new Error(/function|schema cache/i.test(error.message) ? 'צריך להריץ קודם את supabase-block.sql ב־Supabase.' : he(error)); },
       async sessions(uid) {
-        const {data, error} = await sb.from('sessions').select('started_at,last_ping,seconds,device').eq('user_id', uid).order('started_at', {ascending: false}).limit(50);
+        const {data, error} = await sb.from('sessions').select('*').eq('user_id', uid).order('started_at', {ascending: false}).limit(50);
         if (error) throw new Error(he(error)); return data;
       }
     }
@@ -5256,7 +5290,7 @@ function vLogin(m) {
       <button class="btn primary big">${signup ? 'התחל ללמוד בחינם' : 'כניסה'}</button>
     </form>
     <p class="auth-switch">${signup ? (ACC.count() || ACC.mode === 'cloud' ? 'כבר יש לך חשבון? <a href="#" id="au_sw">כניסה</a>' : '') : 'עוד אין לך חשבון? <a href="#" id="au_sw">התחל ללמוד בחינם</a>'}</p>
-    ${ACC.mode === 'local' ? '<p class="note auth-local">ההתקדמות נשמרת בדפדפן הזה. במסך החשבון אפשר לגבות אותה לקובץ ולהמשיך ממכשיר אחר.</p>' : ''}
+    ${ACC.mode === 'local' ? '<p class="note auth-local">ההתקדמות נשמרת בדפדפן הזה. במסך החשבון אפשר לגבות אותה לקובץ ולהמשיך ממכשיר אחר.</p>' : '<p class="note auth-local">כדי לשפר את הלימוד נשמרים זמני ההתחברות, ההתקדמות ומיקום משוער (עיר) לפי חיבור האינטרנט.</p>'}
   </section></div>`;
   const fg = $('#au_forgot'); if (fg) fg.onclick = e => { e.preventDefault(); vForgot(m, $('#au_email').value); };
   const sw = $('#au_sw'); if (sw) sw.onclick = e => { e.preventDefault(); vLogin.mode = signup ? 'login' : 'signup'; vLogin(m); };
@@ -5383,9 +5417,18 @@ async function vAdmin(m) {
   let rows, visits = [];
   try { [rows, visits] = await Promise.all([ACC.admin.users(), ACC.admin.recent(30).catch(() => [])]); } catch (x) { m.innerHTML = head + `<section class="panel"><p>${esc(x.message)}</p></section>`; return; }
   const day = 864e5, now = Date.now(), dkey = t => new Date(t).toISOString().slice(0, 10), today = dkey(now);
-  rows.forEach(r => { const d = r.progress && r.progress.data; r._ans = (d && d.answered) || 0; r._ready = readinessOf(d); r._exams = (d && d.exams) || []; r._last = r.last_seen || r.last_login; });
+  const lastVisit = {}; visits.forEach(v => { if (!lastVisit[v.user_id] || v.started_at > lastVisit[v.user_id].started_at) lastVisit[v.user_id] = v; });
+  const LIVE = 2.5 * 60000; // a heartbeat comes every 45 s while the page is open and visible
+  rows.forEach(r => {
+    const d = r.progress && r.progress.data; r._ans = (d && d.answered) || 0; r._ready = readinessOf(d); r._exams = (d && d.exams) || [];
+    const lv = lastVisit[r.id]; r._visit = lv;
+    r._last = [r.last_seen, r.last_login, lv && lv.last_ping, lv && lv.ended_at].filter(Boolean).sort().pop() || null;
+    r._live = !!(r._last && now - Date.parse(r._last) < LIVE && !(lv && lv.ended_at));
+    r._place = lv && lv.city ? `${lv.flag || ''} ${lv.city}`.trim() : '';
+  });
   const learners = rows.filter(r => !r.is_admin);
   const k = {
+    live: learners.filter(r => r._live).length,
     all: learners.length,
     week: learners.filter(r => now - Date.parse(r.created_at) < 7 * day).length,
     today: learners.filter(r => r._last && dkey(r._last) === today).length,
@@ -5403,12 +5446,13 @@ async function vAdmin(m) {
   const chart = `<div class="bars" role="img" aria-label="הרשמות ולומדים פעילים בכל אחד מ־30 הימים האחרונים">${days.map(d => { const a = act[d].size, n2 = su[d]; return `<div class="bcol" title="${d.split('-').reverse().join('.')}: ${a} פעילים, ${n2} נרשמו"><i class="ba" style="height:${a / maxY * 100}%"></i>${n2 ? `<i class="bs" style="height:${n2 / maxY * 100}%"></i>` : ''}</div>`; }).join('')}</div>
     <div class="bax"><span>היום</span><span>לפני 15 יום</span><span>לפני 30 יום</span></div>
     <p class="note bsum">ב־30 הימים האחרונים: ${learners.filter(r => now - Date.parse(r.created_at) < 30 * day).length} נרשמו, ${new Set(visits.filter(v => !adminIds.has(v.user_id)).map(v => v.user_id)).size} למדו לפחות פעם אחת.</p>`;
-  const F = {all: ['הכל', () => true], today: ['פעילים היום', r => r._last && dkey(r._last) === today], week: ['פעילים השבוע', r => r._last && now - Date.parse(r._last) < 7 * day], gone: ['לא חזרו 7+ ימים', r => !r._last || now - Date.parse(r._last) >= 7 * day], fresh: ['חדשים השבוע', r => now - Date.parse(r.created_at) < 7 * day]};
+  const F = {all: ['הכל', () => true], live: ['מחוברים עכשיו', r => r._live], today: ['פעילים היום', r => r._last && dkey(r._last) === today], week: ['פעילים השבוע', r => r._last && now - Date.parse(r._last) < 7 * day], gone: ['לא חזרו 7+ ימים', r => !r._last || now - Date.parse(r._last) >= 7 * day], fresh: ['חדשים השבוע', r => now - Date.parse(r.created_at) < 7 * day]};
   const state = {q: '', sort: 'last', f: 'all'};
   m.innerHTML = head + `
+  <p class="note adlive">${k.live ? `<span class="dotst on"></span>${k.live === 1 ? 'לומד אחד מחובר' : `${k.live} לומדים מחוברים`} עכשיו` : 'אף לומד לא מחובר כרגע'} · מתעדכן אוטומטית כל דקה</p>
   <section class="kpis six">
+    <div class="kpi live"><b class="num">${k.live}</b><span>מחוברים עכשיו</span></div>
     <div class="kpi"><b class="num">${k.all}</b><span>לומדים רשומים</span></div>
-    <div class="kpi"><b class="num">${k.week}</b><span>חדשים השבוע</span></div>
     <div class="kpi"><b class="num">${k.today}</b><span>פעילים היום</span></div>
     <div class="kpi"><b class="num">${k.active7}</b><span>פעילים השבוע</span></div>
     <div class="kpi"><b>${dur(k.secs)}</b><span>זמן למידה כולל</span></div>
@@ -5418,9 +5462,9 @@ async function vAdmin(m) {
   <section class="panel">
     <div class="chips" role="group" aria-label="סינון">${Object.entries(F).map(([key, [l]]) => `<button class="chipbtn" data-f="${key}" aria-pressed="${key === 'all'}">${l} <span class="cnt">${learners.filter(F[key][1]).length}</span></button>`).join('')}</div>
     <div class="row between adtools"><input id="ad_q" type="search" placeholder="חיפוש לפי שם או אימייל" aria-label="חיפוש משתמשים">
-      <div class="row"><select id="ad_sort" aria-label="מיון"><option value="last">פעילות אחרונה</option><option value="created_at">הרשמה</option><option value="total_seconds">זמן באתר</option><option value="answered">שאלות שנפתרו</option><option value="ready">מוכנות</option></select>
+      <div class="row"><select id="ad_sort" aria-label="מיון"><option value="last">מחוברים ופעילים לאחרונה</option><option value="created_at">הרשמה</option><option value="total_seconds">זמן באתר</option><option value="answered">שאלות שנפתרו</option><option value="ready">מוכנות</option></select>
       <button class="btn sm" id="ad_csv">ייצוא ל־CSV</button></div></div>
-    <div class="tbl-wrap admwrap"><table class="adm users"><thead><tr><th>שם</th><th>אימייל</th><th>נרשם</th><th>פעילות אחרונה</th><th>כניסות</th><th>זמן באתר</th><th>שאלות</th><th>מוכנות</th><th>מבחן אחרון</th></tr></thead><tbody id="ad_rows"></tbody></table></div>
+    <div class="tbl-wrap admwrap"><table class="adm users"><thead><tr><th>שם</th><th>אימייל</th><th>נרשם</th><th>מצב</th><th>מיקום</th><th>כניסות</th><th>זמן באתר</th><th>שאלות</th><th>מוכנות</th><th>מבחן אחרון</th></tr></thead><tbody id="ad_rows"></tbody></table></div>
   </section>
   <section class="panel" id="ad_one" hidden></section>`;
   const draw = () => {
@@ -5429,16 +5473,17 @@ async function vAdmin(m) {
       if (state.sort === 'answered') return b._ans - a._ans;
       if (state.sort === 'ready') return (b._ready || 0) - (a._ready || 0);
       if (state.sort === 'total_seconds') return (b.total_seconds || 0) - (a.total_seconds || 0);
-      if (state.sort === 'last') return Date.parse(b._last || 0) - Date.parse(a._last || 0);
+      if (state.sort === 'last') return (b._live - a._live) || Date.parse(b._last || 0) - Date.parse(a._last || 0);
       return Date.parse(b[state.sort] || 0) - Date.parse(a[state.sort] || 0);
     });
-    $('#ad_rows').innerHTML = list.map(r => { const ex = r._exams[r._exams.length - 1], on = r._last && now - Date.parse(r._last) < 10 * 60000; return `<tr data-uid="${r.id}" tabindex="0"><td class="c-name"><span class="dotst ${on ? 'on' : ''}" title="${on ? 'מחובר עכשיו' : ''}"></span><b>${esc(r.name || '—')}</b>${r.is_admin ? ' <span class="chip">מנהל</span>' : ''}${r.blocked ? ' <span class="chip blk">חסום</span>' : ''}</td><td class="c-mail" dir="ltr">${esc(r.email)}</td><td data-l="נרשם">${when(r.created_at)}</td><td data-l="פעילות אחרונה">${ago(r._last)}</td><td data-l="כניסות" class="num">${r.logins || 0}</td><td data-l="זמן באתר">${dur(r.total_seconds)}</td><td data-l="שאלות" class="num">${r._ans}</td><td data-l="מוכנות">${r._ready === null ? '—' : `<span class="minibar"><i style="width:${Math.round(r._ready * 100)}%"></i></span> ${Math.round(r._ready * 100)}%`}</td><td data-l="מבחן אחרון">${ex ? `${Math.round(ex.score * 100)}%` : '—'}</td></tr>`; }).join('') || '<tr><td colspan="9" class="note">אין משתמשים שמתאימים לסינון.</td></tr>';
+    $('#ad_rows').innerHTML = list.map(r => { const ex = r._exams[r._exams.length - 1], on = r._live; return `<tr data-uid="${r.id}" tabindex="0"><td class="c-name"><span class="dotst ${on ? 'on' : ''}" title="${on ? 'מחובר עכשיו' : ''}"></span><b>${esc(r.name || '—')}</b>${r.is_admin ? ' <span class="chip">מנהל</span>' : ''}${r.blocked ? ' <span class="chip blk">חסום</span>' : ''}</td><td class="c-mail" dir="ltr">${esc(r.email)}</td><td data-l="נרשם">${when(r.created_at)}</td><td data-l="מצב">${r._live ? '<span class="livechip">מחובר עכשיו</span>' : r._last ? `התנתק ${ago(r._last)}` : 'עוד לא נכנס'}</td><td data-l="מיקום">${esc(r._place) || '—'}</td><td data-l="כניסות" class="num">${r.logins || 0}</td><td data-l="זמן באתר">${dur(r.total_seconds)}</td><td data-l="שאלות" class="num">${r._ans}</td><td data-l="מוכנות">${r._ready === null ? '—' : `<span class="minibar"><i style="width:${Math.round(r._ready * 100)}%"></i></span> ${Math.round(r._ready * 100)}%`}</td><td data-l="מבחן אחרון">${ex ? `${Math.round(ex.score * 100)}%` : '—'}</td></tr>`; }).join('') || '<tr><td colspan="10" class="note">אין משתמשים שמתאימים לסינון.</td></tr>';
   };
   draw();
   m.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { state.f = b.dataset.f; m.querySelectorAll('[data-f]').forEach(x => x.setAttribute('aria-pressed', x === b)); draw(); });
   $('#ad_q').oninput = e => { state.q = e.target.value; draw(); };
   $('#ad_sort').onchange = e => { state.sort = e.target.value; draw(); };
   $('#ad_ref').onclick = () => vAdmin(m);
+  clearInterval(vAdmin.t); vAdmin.t = setInterval(() => { if (view !== 'admin' || document.hidden) return; if ($('#ad_one') && !$('#ad_one').hidden) return; if ($('#ad_q') && $('#ad_q').value) return; vAdmin(m); }, 60000);
   $('#ad_csv').onclick = () => {
     const cell = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
     const csv = '﻿' + [['שם', 'אימייל', 'נרשם', 'כניסה אחרונה', 'פעילות אחרונה', 'כניסות', 'דקות באתר', 'שאלות שנפתרו', 'מוכנות %', 'מבחנים'].map(cell).join(',')]
@@ -5450,7 +5495,7 @@ async function vAdmin(m) {
     box.hidden = false; box.innerHTML = `<h4>${esc(r.name)}</h4><p class="note">טוען…</p>`;
     let ss = []; try { ss = await ACC.admin.sessions(r.id); } catch (x) {}
     const dev = d => /iPhone|iPad/.test(d) ? 'iPhone/iPad' : /Android/.test(d) ? 'Android' : /Mac/.test(d) ? 'Mac' : /Windows/.test(d) ? 'Windows' : 'אחר';
-    box.innerHTML = `<div class="row between"><div><h4>${esc(r.name)}</h4><p class="note" dir="ltr" style="text-align:right;margin:0">${esc(r.email)}</p></div><button class="btn ghost sm" id="ad_close">סגירה</button></div>
+    box.innerHTML = `<div class="row between"><div><h4>${esc(r.name)} ${r._live ? '<span class="livechip">מחובר עכשיו</span>' : ''}</h4><p class="note" dir="ltr" style="text-align:right;margin:0">${esc(r.email)}</p>${!r._live && r._last ? `<p class="note" style="margin:2px 0 0">התנתק ${ago(r._last)} · ${when(r._last)}</p>` : ''}</div><button class="btn ghost sm" id="ad_close">סגירה</button></div>
       <div class="kpis sm"><div class="kpi"><b class="num">${r.logins || 0}</b><span>כניסות</span></div><div class="kpi"><b>${dur(r.total_seconds)}</b><span>זמן באתר</span></div><div class="kpi"><b class="num">${r._ans}</b><span>שאלות שנפתרו</span></div><div class="kpi"><b>${r._ready === null ? '—' : Math.round(r._ready * 100) + '%'}</b><span>מוכנות למבחן</span></div></div>
       ${r._exams.length ? `<h4 style="margin-top:14px">מבחנים</h4><div class="tbl-wrap"><table class="adm"><thead><tr><th>תאריך</th><th>שאלות</th><th>ציון</th><th>דקות</th></tr></thead><tbody>${r._exams.slice().reverse().map(x => `<tr><td>${when(x.ts)}</td><td class="num">${x.n}</td><td class="num">${Math.round(x.score * 100)}%</td><td class="num">${Math.round((x.sec || 0) / 60)}</td></tr>`).join('')}</tbody></table></div>` : ''}
       ${r.is_admin ? '' : `<div class="blockbox ${r.blocked ? 'on' : ''}"><h4>גישה לאתר</h4>
@@ -5458,7 +5503,7 @@ async function vAdmin(m) {
         <label class="field">ההודעה שהמשתמש יראה<textarea id="bl_msg" rows="2" maxlength="500" placeholder="הגישה לחשבון שלכם הושהתה זמנית. כדי לחדש אותה, צרו קשר עם צוות האקדמיה.">${esc(r.block_message || '')}</textarea></label>
         <div class="row"><button class="btn ${r.blocked ? 'primary' : 'danger'}" id="bl_toggle">${r.blocked ? 'החזרת הגישה' : 'חסימת הגישה'}</button>${r.blocked ? '<button class="btn ghost sm" id="bl_save">עדכון ההודעה</button>' : ''}<span class="note" id="bl_res"></span></div></div>`}
       <h4 style="margin-top:14px">כניסות אחרונות</h4>
-      <div class="tbl-wrap"><table class="adm"><thead><tr><th>התחלה</th><th>משך</th><th>מכשיר</th></tr></thead><tbody>${ss.map(x => `<tr><td>${when(x.started_at)}</td><td>${dur(x.seconds)}</td><td class="note">${dev(x.device)}</td></tr>`).join('') || '<tr><td colspan="3" class="note">אין עדיין כניסות.</td></tr>'}</tbody></table></div>`;
+      <div class="tbl-wrap"><table class="adm"><thead><tr><th>כניסה</th><th>יציאה</th><th>משך הביקור</th><th>זמן למידה פעיל</th><th>מכשיר</th><th>מיקום</th></tr></thead><tbody>${ss.map((x, i) => { const live = i === 0 && r._live; const end = x.ended_at || x.last_ping || x.started_at; const span = Math.max(0, (Date.parse(end) - Date.parse(x.started_at)) / 1000); return `<tr><td>${when(x.started_at)}</td><td>${live ? '<span class="livechip">עדיין מחובר</span>' : when(end)}</td><td>${dur(span)}</td><td>${dur(x.seconds)}</td><td class="note">${dev(x.device)}</td><td>${x.city ? esc(`${x.flag || ''} ${x.city}, ${x.country}`) : '—'}</td></tr>`; }).join('') || '<tr><td colspan="6" class="note">אין עדיין כניסות.</td></tr>'}</tbody></table></div>`;
     $('#ad_close').onclick = () => { box.hidden = true; };
     const setB = async (blocked, label) => {
       const res = $('#bl_res'); res.textContent = 'שומר…';
