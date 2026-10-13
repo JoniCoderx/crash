@@ -682,6 +682,18 @@ main{padding-bottom:96px}
 .brand .cd,.brand .user{direction:rtl}
 .brand .cd{margin-inline-start:0}
 .brand .cd[hidden]+.user{margin-inline-start:0}
+/* roomier header: bigger logo, more breathing room from the screen edges */
+.top-in{padding:16px 24px 2px;gap:8px}
+.brand{min-height:52px}
+.brand .logo{width:46px;height:46px}
+.brand h1{font-size:1.65rem}
+.brandlink{gap:12px}
+@media (max-width:520px){.top-in{padding:14px 18px 2px}.brand{min-height:48px}.brand .logo{width:42px;height:42px}.brand h1{font-size:1.4rem}.brandlink{gap:10px}.brand .cd{font-size:.74rem;padding:4px 9px}}
+@media (max-width:360px){.brand .logo{width:36px;height:36px}.brand h1{font-size:1.2rem}}
+/* on phones the exam countdown sits in the course row, so it never covers the logo */
+.cd2{display:none}
+.cbar a{white-space:nowrap}.cbar b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+@media (max-width:620px){.brand .cd{display:none}.cbar .cd2:not([hidden]){display:inline-block;margin-inline-start:auto;font-size:.74rem;font-weight:700;padding:3px 10px;border-radius:10px;background:var(--hl);color:var(--hl-ink);white-space:nowrap}.brand .user{margin-inline-start:0}}
 /* sign-up: centred brand and headings */
 .authwrap .stage{align-items:center;text-align:center}
 .authwrap .stage .auth-brand{justify-content:center}
@@ -711,7 +723,7 @@ main{padding-bottom:96px}
     <a href="#home" class="brandlink" data-go="home" aria-label="Silas Academy, לדף הקורסים"><svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><use href="#brandmark"/></svg>
     <div class="names"><h1><b>silas</b> academy</h1><span class="sub">אקדמיית סיילס</span></div></a>
     <span class="cd" id="cd"></span><div id="user" class="user"></div></div>
-  <div class="cbar" id="cbar"><a href="#home" data-go="home">כל הקורסים</a><span aria-hidden="true">‹</span><b>סטטיסטיקה ומימון</b></div>
+  <div class="cbar" id="cbar"><a href="#home" data-go="home">כל הקורסים</a><span aria-hidden="true">‹</span><b>סטטיסטיקה ומימון</b><span class="cd cd2" id="cd2" aria-hidden="true"></span></div>
   <nav class="tabs" id="tabs" aria-label="ניווט בקורס"></nav>
 </div></header>
 <main id="main"></main>
@@ -5194,7 +5206,7 @@ function nav() {
   $('#user').innerHTML = (u && u.isAdmin ? `<button class="adbtn" data-go="admin" aria-current="${view === 'admin'}">ניהול</button>` : '') + (u ? `<button class="ubtn" data-go="account" aria-label="החשבון שלי"><span class="uav">${esc(u.name[0] || '?')}</span><span class="uname">${esc(u.name)}</span></button>` : '');
   const dl = daysLeft();
   $('#cd').textContent = dl > 1 ? `${dl} ימים למבחן` : dl === 1 ? 'המבחן מחר' : dl === 0 ? 'המבחן היום. בהצלחה!' : 'מועד המבחן עבר';
-  $('#cd').hidden = !inCourse || !S.started;
+  $('#cd').hidden = !inCourse || !S.started; $('#cd2').textContent = $('#cd').textContent; $('#cd2').hidden = $('#cd').hidden;
   $('#fcourse').hidden = !inCourse; // the exam-body disclaimer belongs to this course only
   const wa = $('#wa'); if (wa) { wa.hidden = view === 'exam' && X && X.running; wa.href = waMessage(); }
 }
