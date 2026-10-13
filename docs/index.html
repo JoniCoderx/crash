@@ -1341,26 +1341,37 @@ const ACC = (() => {
   };
   const putGeo = (id, country, city, flag, lat, lng, acc) => {
     sb.rpc('set_session_geo', {p_session: id, p_country: country || '', p_city: city || '', p_flag: flag || ''}).then(() => {}, () => {});
-    noteVisit(id, Object.assign({c: country || '', ci: city || '', f: flag || ''}, lat != null ? {lat, lng, acc} : {}));
+    noteVisit(id, Object.assign({c: country || '', ci: city || '', f: flag || '', at: new Date().toISOString()}, lat != null ? {lat, lng, acc} : {}));
   };
   const endVisit = id => { if (!id) return; sb.rpc('end_session', {p_session: id}).then(() => {}, () => {}); noteVisit(id, {e: new Date().toISOString()}); };
   // where the visit comes from: the city of the internet connection right away,
   // then the exact city and neighborhood from the device once the learner allows location
-  function locate(id) {
-    let flag = '', precise = false;
-    fetch('https://ipwho.is/?fields=success,country,city,flag.emoji').then(r => r.json()).then(g => { if (g && g.success) { flag = (g.flag && g.flag.emoji) || ''; if (!precise) putGeo(id, g.country, g.city, flag); } }).catch(() => {});
-    if (!navigator.geolocation) return;
-    const ask = () => navigator.geolocation.getCurrentPosition(pos => {
+  // the exact device point (the learner allowed it, and the sign-up screen says it is saved), named in Hebrew
+  function devicePlace(id, done, fresh) {
+    navigator.geolocation.getCurrentPosition(pos => {
       try { localStorage.setItem(GEO_KEY, 'ok'); } catch (e) {}
       const {latitude, longitude} = pos.coords;
       fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=he`).then(r => r.json()).then(g => {
         if (!g || !(g.city || g.locality)) return;
         const city = g.city || g.locality, place = g.locality && g.locality !== city ? `${city} · ${g.locality}` : city;
-        const fl = flag || (g.countryCode && g.countryCode.length === 2 ? String.fromCodePoint(...[...g.countryCode.toUpperCase()].map(c => 127397 + c.charCodeAt(0))) : '');
-        // the exact device point (the learner allowed it, and the sign-up screen says it is saved)
-        precise = true; putGeo(id, g.countryName, place, fl, +latitude.toFixed(5), +longitude.toFixed(5), Math.round(pos.coords.accuracy || 0));
+        const fl = g.countryCode && g.countryCode.length === 2 ? String.fromCodePoint(...[...g.countryCode.toUpperCase()].map(c => 127397 + c.charCodeAt(0))) : '';
+        if (done) done(); putGeo(id, g.countryName, place, fl, +latitude.toFixed(5), +longitude.toFixed(5), Math.round(pos.coords.accuracy || 0));
       }).catch(() => {});
-    }, err => { try { if (err && err.code === 1) localStorage.setItem(GEO_KEY, 'no'); } catch (e) {} }, {enableHighAccuracy: true, timeout: 20000, maximumAge: 60000});
+    }, err => { try { if (err && err.code === 1) localStorage.setItem(GEO_KEY, 'no'); } catch (e) {} }, {enableHighAccuracy: true, timeout: 20000, maximumAge: fresh ? 0 : 60000});
+  }
+  // during a visit the device place is refreshed every 10 minutes while the page is on screen (only where location is allowed; never prompts)
+  let geoAt = 0;
+  const refreshPlace = id => {
+    if (!id || document.hidden || !navigator.geolocation || !navigator.permissions || Date.now() - geoAt < 9.5 * 60000) return;
+    geoAt = Date.now();
+    navigator.permissions.query({name: 'geolocation'}).then(p => { if (p.state === 'granted') devicePlace(id, null, true); }, () => {});
+  };
+  function locate(id) {
+    geoAt = Date.now();
+    let flag = '', precise = false;
+    fetch('https://ipwho.is/?fields=success,country,city,flag.emoji').then(r => r.json()).then(g => { if (g && g.success) { flag = (g.flag && g.flag.emoji) || ''; if (!precise) putGeo(id, g.country, g.city, flag); } }).catch(() => {});
+    if (!navigator.geolocation) return;
+    const ask = () => devicePlace(id, () => { precise = true; });
     // the browser asks once per learner; after that it's silent: used where allowed, never asked again after a "no"
     let asked = null; try { asked = localStorage.getItem(GEO_KEY); } catch (e) {}
     const decide = st => { if (st === 'granted' || (st === 'prompt' && !asked) || (!st && (!asked || asked === 'ok'))) { try { if (!asked) localStorage.setItem(GEO_KEY, 'asked'); } catch (e) {} ask(); } };
@@ -1378,12 +1389,12 @@ const ACC = (() => {
         if (data === true || (error && /function|schema cache|not find/i.test(error.message || ''))) { sid = old.s; resumed = true; noteVisit(sid, {e: null}); }
       } } catch (e) {}
     if (!sid) try { const {data} = await sb.rpc('start_session', {p_device: navigator.userAgent}); sid = data; } catch (e) { sid = null; }
-    if (sid && !resumed) locate(sid);
+    if (sid && !resumed) locate(sid); else if (sid) { geoAt = 0; refreshPlace(sid); }
     lastBeat = Date.now();
     const send = () => { if (!sid || document.hidden) { lastBeat = Date.now(); return; } const s = Math.round((Date.now() - lastBeat) / 1000); lastBeat = Date.now(); sb.rpc('heartbeat', {p_session: sid, p_seconds: s}).then(r => { if (r && r.data === true && me && !me.blocked) { await_block(); } }, () => {}); };
     const await_block = async () => { await loadMe((await sb.auth.getUser()).data.user); if (me && me.blocked && cloud.onBlocked) cloud.onBlocked(); };
-    beat = setInterval(send, 45000);
-    track.vis = () => { if (document.hidden) send(); else lastBeat = Date.now(); };
+    beat = setInterval(() => { send(); refreshPlace(sid); }, 45000);
+    track.vis = () => { if (document.hidden) send(); else { lastBeat = Date.now(); refreshPlace(sid); } };
     document.addEventListener('visibilitychange', track.vis);
     track.hide = () => { send(); if (sid) { try { sessionStorage.setItem(SID_KEY, JSON.stringify({s: sid, u: me && me.id, t: Date.now()})); } catch (e) {} endVisit(sid); } };
     track.show = e => { if (e.persisted && me) track(); }; // page restored from the back/forward cache: a new visit
@@ -1408,6 +1419,7 @@ const ACC = (() => {
     const y = Object.assign({}, x);
     if (!y.city && n.ci) Object.assign(y, {city: n.ci, country: n.c || '', flag: n.f || ''});
     if (n.lat != null) Object.assign(y, {lat: n.lat, lng: n.lng, acc: n.acc});
+    if (n.at) y.geo_at = n.at;
     if (!y.ended_at && n.e) y.ended_at = n.e;
     return y;
   });
@@ -5595,7 +5607,11 @@ async function vAdmin(m) {
   // location → map link and a ready WhatsApp message (pick the contact in WhatsApp)
   const placeQ = v => [...String(v.city || '').split(' · ').reverse(), v.country].filter(Boolean).join(', ');
   const mapUrl = v => !v ? '' : v.lat != null ? `https://www.google.com/maps?q=${v.lat},${v.lng}` : v.city ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(placeQ(v))}` : '';
-  const waPlace = (r, v) => 'https://wa.me/?text=' + encodeURIComponent([`📍 ${r.name}: ${`${v.flag || ''} ${placeQ(v)}`.trim()}`, r._live && v === r._visit ? 'מחובר עכשיו' : `ביקור: ${when(v.started_at)}`, mapUrl(v)].join('\n'));
+  // the message says when the learner was last seen and when the place itself was last updated, not when the visit began
+  const seenAt = v => v.ended_at || v.last_ping || v.started_at;
+  const waPlace = (r, v) => 'https://wa.me/?text=' + encodeURIComponent([`📍 ${r.name}: ${`${v.flag || ''} ${placeQ(v)}`.trim()}`,
+    r._live && v === r._visit ? '🟢 מחובר עכשיו' : `נראה לאחרונה: ${when(seenAt(v))}`,
+    v.geo_at ? `המיקום עודכן: ${when(v.geo_at)}` : '', mapUrl(v)].filter(Boolean).join('\n'));
   const WAI = ($('#wa svg') || {}).outerHTML || '';
   const waBtn = (r, v, label) => `<a class="washare" href="${waPlace(r, v)}" target="_blank" rel="noopener" title="שיתוף בוואצאפ" aria-label="${label}">${WAI}</a>`;
   const dev = d => /iPhone|iPad/.test(d) ? 'iPhone' : /Android/.test(d) ? 'Android' : /Mac/.test(d) ? 'Mac' : /Windows/.test(d) ? 'Windows' : 'מחשב';
@@ -5697,7 +5713,7 @@ async function vAdmin(m) {
     pane.innerHTML = `<div class="adph"><div><h3 id="ad_name">${esc(r.name)} ${r.is_admin ? '<span class="chip">מנהל</span>' : ''}${r.blocked ? '<span class="chip blk">חסום</span>' : ''}</h3>
         <p class="note" dir="ltr">${esc(r.email)}</p></div><button class="iconx" id="ad_close" aria-label="סגירה">✕</button></div>
       <div class="adstat">${status(r)}${!r._live && r._last ? `<span class="note">${when(r._last)}</span>` : ''}<span class="note">נרשם ${when(r.created_at)}</span></div>
-      ${pv ? `<div class="placebox"><span class="pl">📍 ${esc(`${pv.flag || ''} ${placeQ(pv)}`)}${pv.lat != null ? `<span class="note acc"> · מיקום מדויק מהמכשיר${pv.acc ? ` (±${pv.acc} מ׳)` : ''}</span>` : '<span class="note acc"> · משוער לפי האינטרנט</span>'}</span><div class="row"><a class="btn sm wabtn" href="${waPlace(r, pv)}" target="_blank" rel="noopener">${WAI}שיתוף בוואצאפ</a><a class="btn ghost sm" href="${mapUrl(pv)}" target="_blank" rel="noopener">פתיחה במפה</a></div></div>` : ''}
+      ${pv ? `<div class="placebox"><span class="pl">📍 ${esc(`${pv.flag || ''} ${placeQ(pv)}`)}${pv.lat != null ? `<span class="note acc"> · מיקום מדויק מהמכשיר${pv.acc ? ` (±${pv.acc} מ׳)` : ''}</span>` : '<span class="note acc"> · משוער לפי האינטרנט</span>'}${pv.geo_at ? `<span class="note acc"> · עודכן ${ago(pv.geo_at)}</span>` : ''}</span><div class="row"><a class="btn sm wabtn" href="${waPlace(r, pv)}" target="_blank" rel="noopener">${WAI}שיתוף בוואצאפ</a><a class="btn ghost sm" href="${mapUrl(pv)}" target="_blank" rel="noopener">פתיחה במפה</a></div></div>` : ''}
       <div class="kpis sm"><div class="kpi"><b class="num">${r.logins || 0}</b><span>כניסות</span></div><div class="kpi"><b>${dur(r.total_seconds)}</b><span>זמן באתר</span></div><div class="kpi"><b class="num">${r._ans}</b><span>שאלות שנפתרו</span></div><div class="kpi"><b>${r._ready === null ? '—' : Math.round(r._ready * 100) + '%'}</b><span>מוכנות למבחן</span></div></div>
       <h4>כניסות אחרונות</h4>
       <ul class="advisits">${ss.map((x, i) => { const live = i === 0 && r._live; const end = x.ended_at || x.last_ping || x.started_at; const span = Math.max(0, (Date.parse(end) - Date.parse(x.started_at)) / 1000);
