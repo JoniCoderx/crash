@@ -546,7 +546,7 @@ article.lesson>h2{padding-inline:4px}
 .fxf{white-space:nowrap;order:1}
 /* footer: quiet */
 footer.site{border-top:1px solid var(--line);margin-top:28px}
-footer.site div{justify-content:center;text-align:center;font-size:.76rem;opacity:.8;padding:16px;gap:6px 14px}
+footer.site div{justify-content:center;text-align:center;font-size:.76rem;padding:16px;gap:6px 14px}
 /* mobile spacing */
 @media (max-width:520px){
   .qprog,.lsec,.sb{border-radius:14px}
@@ -633,7 +633,7 @@ nav.tabs{mask-image:linear-gradient(to left,#000 calc(100% - 28px),transparent);
 .blockbox{margin-top:14px;border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
 .blockbox.on{border-color:var(--bad);background:var(--bad-soft)}
 .blockbox textarea{width:100%;border-radius:10px;padding:10px 12px;background:var(--surface);border:1.5px solid var(--line);font:inherit;color:var(--ink);resize:vertical}
-.btn.danger{background:var(--bad);border-color:var(--bad);color:#fff}
+.btn.danger{background:var(--bad);border-color:var(--bad);color:var(--bg)}
 
 /* polish round 3: password eye off the text, admin on phones */
 .pw input{padding-inline-end:12px;padding-left:48px}
@@ -660,17 +660,19 @@ nav.tabs{mask-image:linear-gradient(to left,#000 calc(100% - 28px),transparent);
 }
 
 /* WhatsApp support */
-.wafab{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));left:16px;z-index:12;display:flex;align-items:center;gap:8px;height:48px;padding:0 16px 0 12px;border-radius:999px;background:#1fae55;color:#fff;text-decoration:none;box-shadow:0 8px 22px rgb(0 0 0/.22);font:600 .92rem var(--display);transition:transform .15s var(--ease),box-shadow .2s}
+.wafab{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));left:16px;z-index:12;display:flex;align-items:center;gap:8px;height:48px;padding:0 16px 0 12px;border-radius:999px;background:#15803d;color:#fff;text-decoration:none;box-shadow:0 8px 22px rgb(0 0 0/.22);font:600 .92rem var(--display);transition:transform .15s var(--ease),box-shadow .2s}
 .wafab svg{width:26px;height:26px;flex:none;color:#fff}
 .wafab .walabel{white-space:nowrap;font-weight:500}.wafab .walabel b{font-weight:700}
 .wafab:hover,.wafab:focus-visible{transform:translateY(-2px);box-shadow:0 12px 28px rgb(0 0 0/.26)}
+/* phones: on forms, lessons and questions the support button is just the round icon, so it never hides a field or an answer */
+@media (max-width:640px){body:is([data-view="login"],[data-view="reset"],[data-view="learn"],[data-view="practice"],[data-view="mistakes"],[data-view="formulas"],[data-view="tools"],[data-view="account"],[data-view="admin"]) .wafab{width:52px;height:52px;padding:0;justify-content:center}body:is([data-view="login"],[data-view="reset"],[data-view="learn"],[data-view="practice"],[data-view="mistakes"],[data-view="formulas"],[data-view="tools"],[data-view="account"],[data-view="admin"]) .wafab .walabel{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}}
 
 .wafab[hidden]{display:none}
 @media print{.wafab{display:none}}
 /* admin: share a learner's place on WhatsApp */
-.washare{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#1fae55;color:#fff;vertical-align:middle;margin-inline-start:4px;flex:none}
+.washare{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#15803d;color:#fff;vertical-align:middle;margin-inline-start:4px;flex:none}
 .washare svg{width:17px;height:17px}
-.wabtn{background:#1fae55!important;border-color:#1fae55!important;color:#fff!important;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.wabtn{background:#15803d!important;border-color:#15803d!important;color:#fff!important;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
 .wabtn svg{width:18px;height:18px}
 .ghost.sm[href]{text-decoration:none}
 .placebox{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;padding:12px 14px;border-radius:14px;background:var(--accent-soft)}
@@ -735,7 +737,7 @@ body.adlock{overflow:hidden}
 @keyframes fadein{from{opacity:0}to{opacity:1}}
 @media (max-width:640px){.adpanel{width:100%;padding:16px 16px 90px}.adpanel .kpis.sm{grid-template-columns:repeat(2,1fr)}}
 @media (prefers-reduced-motion:reduce){.adpanel,.adscrim{animation:none}}
-.wabtn{background:#1fae55;border-color:#1fae55;color:#fff;justify-content:center;gap:8px}.wabtn:hover{background:#1a9a4b}
+.wabtn{background:#15803d;border-color:#15803d;color:#fff;justify-content:center;gap:8px}.wabtn:hover{background:#116b33}
 .waic{width:20px;height:20px}
 .flink{color:inherit;text-decoration:underline;text-underline-offset:3px}
 main{padding-bottom:96px}
@@ -5337,7 +5339,7 @@ function go(v, opts) {
   try { const h = v === 'learn' && opts && opts.topic ? `learn-${opts.topic}` : v; if (!go.pop && location.hash.slice(1) !== h) history.pushState({v, topic: opts && opts.topic}, '', '#' + h); } catch (e) {}
 }
 function render(opts = {}) {
-  const m = $('#main');
+  const m = $('#main'); document.body.dataset.view = view; // lets the support button shrink on busy screens
   const bu = ACC.user(); if (bu && bu.blocked && view !== 'login') { $('#tabs').hidden = true; $('#cbar').hidden = true; return vBlocked(m, bu); }
   ({home: vHome, login: vLogin, reset: vReset, account: vAccount, admin: vAdmin, dash: vDash, learn: vLearn, practice: vPractice, exam: vExam, mistakes: vMistakes, formulas: vFormulas, tools: vTools, videos: vVideos})[view](m, opts);
 }
