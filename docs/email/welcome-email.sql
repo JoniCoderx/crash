@@ -14,7 +14,7 @@ select vault.create_secret('BREVO_API_KEY_HERE', 'brevo_api_key', 'Brevo API key
 
 create table if not exists public.email_settings (id int primary key default 1, sender_email text not null, sender_name text not null default 'Silas Academy', site_url text not null);
 alter table public.email_settings enable row level security;
-insert into public.email_settings (id, sender_email, site_url) values (1, 'SENDER_EMAIL_HERE', 'https://jonicoderx.github.io/crash/')
+insert into public.email_settings (id, sender_email, site_url) values (1, 'SENDER_EMAIL_HERE', 'https://jonicoderx.github.io/silasacademy/')
   on conflict (id) do update set sender_email = excluded.sender_email, site_url = excluded.site_url;
 
 -- Builds and sends the email. Used by the sign-up trigger and by the test below.
@@ -63,7 +63,7 @@ begin
     <!-- brand -->
     <tr><td dir="rtl" style="padding:0 4px 18px;text-align:right;">
       <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="right"><tr>
-        <td style="padding-left:10px;vertical-align:middle;"><img src="https://jonicoderx.github.io/crash/email/logo.png" width="40" height="40" alt="Silas Academy" style="display:block;border:0;border-radius:12px;"></td>
+        <td style="padding-left:10px;vertical-align:middle;"><img src="{{site}}email/logo.png" width="40" height="40" alt="Silas Academy" style="display:block;border:0;border-radius:12px;"></td>
         <td style="vertical-align:middle;font-family:Rubik,'Segoe UI',Arial,sans-serif;font-size:20px;line-height:22px;color:#0f1430;" class="ink" dir="ltr"><b>silas</b> <span style="color:#5d6482;" class="muted">academy</span></td>
       </tr></table>
     </td></tr>
