@@ -1563,9 +1563,17 @@ const ACC = (() => {
     if (!y.ended_at && n.e) y.ended_at = n.e;
     return y;
   });
+  let pending = null;
+  function flushProgress() {
+    clearTimeout(pushT); const w = pending; pending = null;
+    if (!w || !me || me.id !== w.uid) return;
+    return sb.from('progress').upsert({user_id: w.uid, course: w.course, data: w.data, updated_at: new Date().toISOString()}).then(() => {}, () => {});
+  }
+  addEventListener('pagehide', flushProgress);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) flushProgress(); });
   const cloud = {
     async ready() {
-      await loadLib(); sb = window.supabase.createClient(CLOUD.url, CLOUD.key, {auth: {persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: 'implicit'}, global: {fetch: (u, o) => fetch(u, Object.assign({}, o, {keepalive: true}))}});
+      await loadLib(); sb = window.supabase.createClient(CLOUD.url, CLOUD.key, {auth: {persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: 'implicit'}, global: {fetch: (u, o) => fetch(u, Object.assign({}, o, {keepalive: !(o && typeof o.body === 'string' && o.body.length > 60000)}))}});
       sb.auth.onAuthStateChange(ev => { if (ev === 'PASSWORD_RECOVERY') { recovering = true; if (cloud.onRecovery) cloud.onRecovery(); } });
       const {data} = await sb.auth.getSession(); await loadMe(data.session && data.session.user); if (me) track();
     },
@@ -1584,7 +1592,7 @@ const ACC = (() => {
       if (error) throw new Error(he(error));
       await loadMe(data.user); track();
     },
-    async logout() { try { sessionStorage.removeItem(SID_KEY); } catch (e) {} stopTrack(); clearTimeout(pushT); await sb.auth.signOut(); me = null; },
+    async logout() { try { sessionStorage.removeItem(SID_KEY); } catch (e) {} stopTrack(); await flushProgress(); await sb.auth.signOut(); me = null; }, // the last answers are saved before signing out
     async resetPassword(ident) {
       const email = norm(asEmail(ident));
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error('כתובת האימייל לא תקינה.');
@@ -1608,17 +1616,17 @@ const ACC = (() => {
     async saveDoc(course, data) { // an immediate write of the signed-in user's own note row (e.g. the admin's message templates)
       if (!me) return; const {error} = await sb.from('progress').upsert({user_id: me.id, course, data, updated_at: new Date().toISOString()}); if (error) throw new Error(he(error));
     },
-    pushProgress(course, data) { // debounced, so a burst of answers is one write
+    pushProgress(course, data) { // debounced, so a burst of answers is one write; flushed at once when the page is hidden or closed
       if (!me) return; clearTimeout(pushT);
-      const uid = me.id;
-      pushT = setTimeout(() => { if (!me || me.id !== uid) return; sb.from('progress').upsert({user_id: uid, course, data, updated_at: new Date().toISOString()}).then(() => {}, () => {}); }, 1500);
+      if (pending && pending.course !== course) flushProgress();
+      pending = {uid: me.id, course, data}; pushT = setTimeout(flushProgress, 1500);
     },
     admin: {
       async users() {
         const [p, g] = await Promise.all([sb.from('profiles').select('*').order('created_at', {ascending: false}), sb.from('progress').select('user_id,course,data,updated_at')]);
         if (p.error) throw new Error(he(p.error));
-        const prog = {}; (g.data || []).forEach(r => { if (!String(r.course).startsWith('_')) prog[r.user_id] = r; /* '_…' rows are notes, not course progress */ });
-        return p.data.map(u => ({...u, progress: prog[u.id] || null}));
+        const prog = {}; (g.data || []).forEach(r => { if (String(r.course).startsWith('_')) return; /* '_…' rows are notes, not course progress */ (prog[r.user_id] = prog[r.user_id] || {})[r.course] = r; });
+        return p.data.map(u => { const c = prog[u.id] || {}; return {...u, progress: c['stats-finance'] || null, courses: c}; });
       },
       async recent(days = 30) { // every visit in the window, for the activity chart
         const since = new Date(Date.now() - days * 864e5).toISOString();
@@ -5795,6 +5803,8 @@ async function vAdmin(m) {
   rows.forEach(r => {
     byId[r.id] = r;
     const d = r.progress && r.progress.data; r._ans = (d && d.answered) || 0; r._ready = readinessOf(d); r._exams = (d && d.exams) || [];
+    const cd = r.courses && r.courses['corp-law'] && r.courses['corp-law'].data; // the corporate-law course keeps its own progress row
+    r._corp = cd ? {ok: Object.values(cd.mcq || {}).filter(x => x.ok).length, tried: Object.keys(cd.mcq || {}).length, units: Object.keys(cd.lessons || {}).length, cases: Object.keys(cd.cases || {}).length, exams: (cd.exams || []).length, at: r.courses['corp-law'].updated_at} : null;
     const vs = byUser[r.id] || [], lv = vs[0]; r._visit = lv; r._placeVisit = vs.find(v => v.city) || null;
     r._last = [r.last_seen, r.last_login, lv && lv.last_ping, lv && lv.ended_at].filter(Boolean).sort().pop() || null;
     r._live = !!(r._last && now - Date.parse(r._last) < LIVE && !(lv && lv.ended_at));
@@ -6005,6 +6015,7 @@ async function vAdmin(m) {
         <div class="row"><button class="btn ${r.blocked ? 'primary' : 'danger'}" id="bl_toggle">${r.blocked ? 'החזרת הגישה' : 'חסימת הגישה'}</button>${r.blocked ? '<button class="btn ghost sm" id="bl_save">עדכון ההודעה</button>' : ''}<span class="note" id="bl_res"></span></div></div>`}
       ${pv ? `<div class="placebox"><span class="pl">📍 ${esc(`${pv.flag || ''} ${placeQ(pv)}`)}${pv.lat != null ? `<span class="note acc"> · מיקום מדויק מהמכשיר${pv.acc ? ` (±${pv.acc} מ׳)` : ''}</span>` : '<span class="note acc"> · משוער לפי האינטרנט</span>'}${pv.geo_at ? `<span class="note acc"> · עודכן ${ago(pv.geo_at)}</span>` : ''}</span><div class="row"><a class="btn sm wabtn" href="${waPlace(r, pv)}" target="_blank" rel="noopener">${WAI}שיתוף בוואצאפ</a><a class="btn ghost sm" href="${mapUrl(pv)}" target="_blank" rel="noopener">פתיחה במפה</a></div></div>` : ''}
       ${!r.is_admin && r.email ? (() => { const k = r._ans ? 'miss' : 'start', l = mailLinks(r, k), ls = lastSent(r.id); return `<div class="msbox"><span class="pl">✉️ תזכורת: ${TPL[k].label}${ls ? ` <span class="sentchip">✓ נשלח ${ago(ls.t)}</span>` : ''}</span><div class="row"><button class="btn sm primary" id="ad_mail" data-k="${k}">שליחה מעוצבת</button><a class="btn sm ghost" data-send="${r.id}" data-k="${k}" href="${l.gmail}" target="_blank" rel="noopener">Gmail</a></div></div>`; })() : ''}
+      ${r._corp ? `<div class="msbox"><span class="pl">⚖️ דיני תאגידים: <bdi>${r._corp.units} יחידות נלמדו</bdi> · <bdi>${r._corp.ok}/${r._corp.tried} שאלות נכון</bdi> · <bdi>${r._corp.cases} סעיפי מקרה</bdi> · <bdi>${r._corp.exams} מבחנים</bdi></span><span class="note">עודכן ${when(r._corp.at)}</span></div>` : ''}
       <div class="kpis sm"><div class="kpi"><b class="num">${r.logins || 0}</b><span>כניסות</span></div><div class="kpi"><b>${dur(r.total_seconds)}</b><span>זמן באתר</span></div><div class="kpi"><b class="num">${r._ans}</b><span>שאלות שנפתרו</span></div><div class="kpi"><b>${r._ready === null ? '—' : Math.round(r._ready * 100) + '%'}</b><span>מוכנות למבחן</span></div></div>
       <h4>כניסות אחרונות</h4>
       <ul class="advisits">${ss.map((x, i) => { const live = i === 0 && r._live; const end = x.ended_at || x.last_ping || x.started_at; const span = Math.max(0, (Date.parse(end) - Date.parse(x.started_at)) / 1000);
