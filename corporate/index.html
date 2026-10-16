@@ -916,6 +916,8 @@ a.btn,a.btn:hover{text-decoration:none}
 .panel .field>input:not([type=checkbox]):not([type=radio]){width:100%;box-sizing:border-box;text-align:right}
 input[dir=ltr]:placeholder-shown{direction:rtl;text-align:right}
 .fields>.field:only-child{grid-column:1/-1}
+.mfaqr{background:#fff;border-radius:12px;padding:10px;display:inline-block;margin:6px 0}.mfaqr img{display:block}
+.capbox{min-height:65px;margin:4px 0}
 </style>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
   <linearGradient id="bm-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a3cc2"/><stop offset="1" stop-color="#121a66"/></linearGradient>
@@ -942,7 +944,7 @@ const SUPPORT = {wa: '35795904439', text: 'היי, הגעתי מאתר Silas Aca
 const waLink = (extra = '') => `https://wa.me/${SUPPORT.wa}?text=${encodeURIComponent(SUPPORT.text + extra)}`;
 // Cloud backend (Supabase, free tier). Empty url → accounts live on this device only.
 // The key here is Supabase's public "anon" key: it is meant to be in the page; the database's access rules protect the data.
-const CLOUD = {url: 'https://tsgbbmsqxxhggsmxjqpm.supabase.co', key: 'sb_publishable_lFPddHMR7XYQyNexNji-4g_eiftzZZ7', adminEmail: 'kutaybamusic@gmail.com', adminUser: 'Admin', support: 'support@silasacademy.com'};
+const CLOUD = {url: 'https://tsgbbmsqxxhggsmxjqpm.supabase.co', key: 'sb_publishable_lFPddHMR7XYQyNexNji-4g_eiftzZZ7', captcha: '', support: 'support@silasacademy.com'};
 // Every course is one entry. A course with `open: true` has its own views (the stats & finance course is the app below).
 const COURSES = [
   {id: 'stats-finance', open: true, title: 'סטטיסטיקה ומימון', tag: 'רשות ניירות ערך',
@@ -957,12 +959,36 @@ const COURSES = [
 const ACC = (() => {
   const LEGACY = 'fs-prep-v1', idOf = email => 'u' + [...norm(email)].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7).toString(36);
   function norm(e) { return String(e || '').trim().toLowerCase(); }
-  const asEmail = ident => { const v = String(ident || '').trim(); return CLOUD.adminEmail && v.toLowerCase() === CLOUD.adminUser.toLowerCase() ? CLOUD.adminEmail : v; };
   const check = (name, email, pw, signup) => {
     if (signup && !String(name || '').trim()) throw new Error('צריך למלא שם.');
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(norm(email))) throw new Error('כתובת האימייל לא תקינה.');
-    if (String(pw || '').length < 6) throw new Error('הסיסמה צריכה להיות באורך 6 תווים לפחות.');
+    if (signup) { const nm = nameProblem(name); if (nm) throw new Error(nm); const pp = pwProblem(pw, email); if (pp) throw new Error(pp); }
+    else if (!String(pw || '')) throw new Error('צריך למלא סיסמה.');
   };
+  // a password nobody guesses quickly: 8+ characters, a letter and a digit, not a famous one, not the email itself
+  const COMMON = ['12345678', '123456789', '1234567890', '87654321', '11111111', '00000000', '12341234', '11223344', 'password', 'password1', 'password123', 'qwerty12', 'qwerty123', 'qwertyui', 'abc12345', 'abcd1234', 'a1234567', 'aa123456', '1q2w3e4r', '1qaz2wsx', 'asdf1234', 'zxcvbnm1', 'iloveyou', 'iloveyou1', 'admin123', 'admin1234', 'welcome1', 'shalom123', 'israel123'];
+  function pwProblem(pw, email) {
+    pw = String(pw || ''); const low = pw.toLowerCase(), user = norm(email).split('@')[0];
+    if (pw.length < 8) return 'הסיסמה צריכה להיות באורך 8 תווים לפחות.';
+    if (!/[A-Za-z\u05D0-\u05EA]/.test(pw) || !/\d/.test(pw)) return 'הסיסמה צריכה לכלול לפחות אות אחת ומספר אחד.';
+    if (COMMON.includes(low) || /^(.)\1+$/.test(pw) || /^(0123456789|1234567890)/.test(pw)) return 'זו סיסמה נפוצה שקל לנחש. בחרו סיסמה אחרת.';
+    if (user.length >= 4 && low.includes(user)) return 'הסיסמה לא יכולה לכלול את האימייל שלכם.';
+    return '';
+  }
+  function nameProblem(name) {
+    const n = String(name || '').trim();
+    if (!n) return 'צריך למלא שם.';
+    if (n.length > 30) return 'השם ארוך מדי (עד 30 תווים).';
+    if (/https?:|www\.|[<>@]|\S\.(com|net|org|io|co|il|ru|xyz|info|me|ly)\b/i.test(n)) return 'בשם אפשר לכתוב רק שם, בלי קישורים או כתובות.';
+    return '';
+  }
+  // after 5 wrong passwords in this browser: a short pause that doubles each time (the server has its own limits too)
+  const LOCK = 'silas_lock';
+  const lockGet = () => { try { return JSON.parse(localStorage.getItem(LOCK)) || {n: 0, until: 0}; } catch (e) { return {n: 0, until: 0}; } };
+  const lockLeft = () => Math.max(0, Math.ceil((lockGet().until - Date.now()) / 1000));
+  const lockFail = () => { const l = lockGet(); l.n++; if (l.n >= 5) l.until = Date.now() + 30000 * 2 ** Math.min(5, l.n - 5); try { localStorage.setItem(LOCK, JSON.stringify(l)); } catch (e) {} };
+  const lockOk = () => { try { localStorage.removeItem(LOCK); } catch (e) {} };
+  const lockCheck = () => { const t = lockLeft(); if (t) throw new Error(`יותר מדי ניסיונות כניסה. נסו שוב בעוד ${t > 90 ? Math.ceil(t / 60) + ' דקות' : t + ' שניות'}.`); };
 
   // ----- local backend: accounts on this device -----
   const K = 'silas-accounts-v1';
@@ -987,17 +1013,17 @@ const ACC = (() => {
       db.current = id; store();
     },
     async login(email, pw) {
-      const id = idOf(email), u = db.users[id];
-      if (!u || u.pw !== await hash(String(pw || ''), u.salt)) throw new Error('האימייל או הסיסמה לא נכונים.');
-      db.current = id; store();
+      lockCheck(); const id = idOf(email), u = db.users[id];
+      if (!u || u.pw !== await hash(String(pw || ''), u.salt)) { lockFail(); throw new Error('האימייל או הסיסמה לא נכונים.'); }
+      lockOk(); db.current = id; store();
     },
     async logout() { db.current = null; store(); },
     async rename(name) { const u = db.users[db.current]; if (u && name.trim()) { u.name = name.trim(); store(); } },
     async remove() { const id = db.current; if (!id) return; Object.keys(localStorage).filter(k => k.startsWith(`silas:${id}:`)).forEach(k => localStorage.removeItem(k)); delete db.users[id]; db.current = null; store(); },
     async pullProgress() { return null; }, pushProgress() {},
     async resetPassword() { throw new Error('איפוס סיסמה במייל זמין רק בחשבון מחובר לשרת.'); },
-    async updatePassword(pw) { const u = db.users[db.current]; if (!u) return; if (String(pw || '').length < 6) throw new Error('הסיסמה צריכה להיות באורך 6 תווים לפחות.'); u.salt = Math.random().toString(36).slice(2, 10); u.pw = await hash(pw, u.salt); store(); },
-    recovering: () => false,
+    async updatePassword(pw) { const u = db.users[db.current]; if (!u) return; { const pp = pwProblem(pw, u.email); if (pp) throw new Error(pp); } u.salt = Math.random().toString(36).slice(2, 10); u.pw = await hash(pw, u.salt); store(); },
+    recovering: () => false, mfaNeeded: () => false,
     admin: null
   };
 
@@ -1015,6 +1041,8 @@ const ACC = (() => {
     if (/already registered|already exists/i.test(m)) return 'כבר יש חשבון עם האימייל הזה. אפשר להתחבר.';
     if (/Email not confirmed/i.test(m)) return 'צריך לאשר את האימייל לפני הכניסה (בדקו את תיבת הדואר).';
     if (/rate limit|too many/i.test(m)) return 'יותר מדי ניסיונות. נסו שוב בעוד כמה דקות.';
+    if (/captcha/i.test(m)) return 'בדיקת האבטחה ("אני לא רובוט") לא הושלמה. סמנו אותה ונסו שוב.';
+    if (/weak|password should|at least \d+ char/i.test(m)) return 'הסיסמה חלשה מדי: לפחות 8 תווים, עם אות ומספר.';
     if (/fetch|network|Failed/i.test(m)) return 'אין חיבור לשרת. בדקו את האינטרנט ונסו שוב.';
     return 'משהו השתבש: ' + m;
   };
@@ -1125,7 +1153,9 @@ const ACC = (() => {
     if (!y.ended_at && n.e) y.ended_at = n.e;
     return y;
   });
-  let pending = null;
+  let pending = null, mfaPending = false, capToken = '';
+  const cap = () => capToken || undefined; // Cloudflare Turnstile token, when the bot check is switched on
+  async function needsCode() { try { const {data} = await sb.auth.mfa.getAuthenticatorAssuranceLevel(); return !!data && data.nextLevel === 'aal2' && data.currentLevel !== 'aal2'; } catch (e) { return false; } }
   function flushProgress() {
     clearTimeout(pushT); const w = pending; pending = null;
     if (!w || !me || me.id !== w.uid) return;
@@ -1137,32 +1167,58 @@ const ACC = (() => {
     async ready() {
       await loadLib(); sb = window.supabase.createClient(CLOUD.url, CLOUD.key, {auth: {persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: 'implicit'}, global: {fetch: (u, o) => fetch(u, Object.assign({}, o, {keepalive: !(o && typeof o.body === 'string' && o.body.length > 60000)}))}});
       sb.auth.onAuthStateChange(ev => { if (ev === 'PASSWORD_RECOVERY') { recovering = true; if (cloud.onRecovery) cloud.onRecovery(); } });
-      const {data} = await sb.auth.getSession(); await loadMe(data.session && data.session.user); if (me) track();
+      const {data} = await sb.auth.getSession();
+      if (data.session && await needsCode()) { mfaPending = true; return; }
+      await loadMe(data.session && data.session.user); if (me) track();
     },
     user: () => me,
     async signup(name, email, pw) {
       check(name, email, pw, true);
-      const {data, error} = await sb.auth.signUp({email: norm(email), password: pw, options: {data: {name: name.trim()}}});
+      const {data, error} = await sb.auth.signUp({email: norm(email), password: pw, options: {data: {name: name.trim()}, captchaToken: cap()}});
       if (error) throw new Error(he(error));
       if (!data.session) throw new Error('נשלח אליכם אימייל לאישור החשבון. אחרי האישור אפשר להתחבר.');
       await loadMe(data.user); track();
     },
-    async login(ident, pw) {
-      const email = asEmail(ident);
+    async login(email, pw) {
+      lockCheck();
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(norm(email))) throw new Error('כתובת האימייל לא תקינה.');
-      const {data, error} = await sb.auth.signInWithPassword({email: norm(email), password: pw});
-      if (error) throw new Error(he(error));
+      const {data, error} = await sb.auth.signInWithPassword({email: norm(email), password: pw, options: {captchaToken: cap()}});
+      if (error) { if (/Invalid login credentials/i.test(error.message)) lockFail(); throw new Error(he(error)); }
+      lockOk();
+      if (await needsCode()) { mfaPending = true; const e = new Error('צריך את הקוד מאפליקציית האימות.'); e.mfa = true; throw e; } // admin with 2-step login: password alone is not enough
       await loadMe(data.user); track();
     },
-    async logout() { try { sessionStorage.removeItem(SID_KEY); } catch (e) {} stopTrack(); await flushProgress(); await sb.auth.signOut(); me = null; }, // the last answers are saved before signing out
+    mfaNeeded: () => mfaPending,
+    async mfaState() { // the admin's 2-step login: which authenticator apps are linked
+      const [{data: a}, {data: f}] = await Promise.all([sb.auth.mfa.getAuthenticatorAssuranceLevel(), sb.auth.mfa.listFactors()]);
+      return {level: a && a.currentLevel, factors: ((f && f.all) || []).filter(x => x.factor_type === 'totp')};
+    },
+    async mfaEnroll() {
+      const st = await cloud.mfaState(); for (const x of st.factors) if (x.status !== 'verified') await sb.auth.mfa.unenroll({factorId: x.id}); // a half-finished setup from before
+      const {data, error} = await sb.auth.mfa.enroll({factorType: 'totp', friendlyName: 'Silas Academy ' + new Date().toISOString().slice(0, 16)});
+      if (error) throw new Error(he(error));
+      return {id: data.id, qr: data.totp.qr_code, secret: data.totp.secret};
+    },
+    async mfaVerify(code, factorId) {
+      code = String(code || '').replace(/\D/g, ''); if (code.length !== 6) throw new Error('הקוד הוא 6 ספרות מהאפליקציה.');
+      lockCheck();
+      if (!factorId) { const st = await cloud.mfaState(); const v = st.factors.find(x => x.status === 'verified'); factorId = v && v.id; }
+      if (!factorId) throw new Error('לא נמצא אימות דו־שלבי בחשבון.');
+      const {error} = await sb.auth.mfa.challengeAndVerify({factorId, code});
+      if (error) { lockFail(); throw new Error(/invalid|expired|verif/i.test(error.message) ? 'הקוד לא נכון או שפג תוקפו. הקלידו את הקוד שמופיע עכשיו באפליקציה.' : he(error)); }
+      lockOk(); mfaPending = false;
+      const {data: {user}} = await sb.auth.getUser(); await loadMe(user); if (!sid) track();
+    },
+    async mfaRemove(factorId) { const {error} = await sb.auth.mfa.unenroll({factorId}); if (error) throw new Error(he(error)); },
+    async logout() { try { sessionStorage.removeItem(SID_KEY); } catch (e) {} stopTrack(); await flushProgress(); await sb.auth.signOut(); me = null; mfaPending = false; }, // the last answers are saved before signing out
     async resetPassword(ident) {
-      const email = norm(asEmail(ident));
+      const email = norm(ident);
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error('כתובת האימייל לא תקינה.');
-      const {error} = await sb.auth.resetPasswordForEmail(email, {redirectTo: location.origin + location.pathname});
+      const {error} = await sb.auth.resetPasswordForEmail(email, {redirectTo: location.origin + '/', captchaToken: cap()});
       if (error) throw new Error(he(error));
     },
     async updatePassword(pw) {
-      if (String(pw || '').length < 6) throw new Error('הסיסמה צריכה להיות באורך 6 תווים לפחות.');
+      { const pp = pwProblem(pw, me ? me.email : ''); if (pp) throw new Error(pp); }
       const {error} = await sb.auth.updateUser({password: pw});
       if (error) throw new Error(/different from the old/i.test(error.message) ? 'הסיסמה החדשה צריכה להיות שונה מהקודמת.' : he(error));
       recovering = false;
@@ -1223,6 +1279,8 @@ const ACC = (() => {
     pullProgress: c => B.pullProgress(c), pushProgress: (c, d) => B.pushProgress(c, d),
     saveDoc: (c, d) => B.saveDoc ? B.saveDoc(c, d) : Promise.resolve(),
     resetPassword: e => B.resetPassword(e), updatePassword: p => B.updatePassword(p), recovering: () => B.recovering(),
+    mfaNeeded: () => B.mfaNeeded(), mfaState: () => B.mfaState(), mfaEnroll: () => B.mfaEnroll(), mfaVerify: (c, f) => B.mfaVerify(c, f), mfaRemove: f => B.mfaRemove(f),
+    setCaptcha: t => { if (B === cloud) capToken = t || ''; }, pwProblem, nameProblem,
     set onRecovery(f) { B.onRecovery = f; },
     set onBlocked(f) { B.onBlocked = f; },
     get admin() { return B.admin; }
